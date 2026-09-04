@@ -4,33 +4,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Наставники Наташи Заплатиной</title>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: #f9fafb;
-            --text: #111827;
+            --bg: #f5f0eb;
+            --text: #2d2a24;
             --card: #ffffff;
-            --border: #e5e7eb;
-            --shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
-            --accent: #4f46e5;
-            --danger: #ef4444;
-            --success: #22c55e;
-            --warning: #facc15;
+            --border: #e0d6cc;
+            --shadow: 0 10px 15px -3px rgba(0,0,0,0.08);
+            --accent: #8b6b4d;
+            --accent-light: #a88466;
+            --danger: #c0392b;
+            --success: #27ae60;
+            --warning: #f39c12;
+            --task-bg: #faf6f0;
+            --task-border: #e8ddd0;
         }
 
         body.dark {
-            --bg: #1f2937;
-            --text: #f9fafb;
-            --card: #374151;
-            --border: #4b5563;
-            --shadow: 0 10px 15px -3px rgba(0,0,0,0.5);
+            --bg: #1a1714;
+            --text: #e8ddd0;
+            --card: #2d2822;
+            --border: #4a4038;
+            --shadow: 0 10px 15px -3px rgba(0,0,0,0.3);
+            --accent: #b8956e;
+            --accent-light: #d4b694;
+            --task-bg: #3a342d;
+            --task-border: #5a4f45;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', 'Georgia', 'Times New Roman', serif;
-            transition: background-color 0.3s, color 0.2s;
+            font-family: 'Oswald', 'Segoe UI', sans-serif;
+            transition: background-color 0.3s, color 0.2s, border-color 0.3s;
         }
 
         body {
@@ -43,12 +51,6 @@
         .container {
             max-width: 1200px;
             margin: 0 auto;
-        }
-
-        .cursive-text {
-            font-family: 'Georgia', 'Times New Roman', serif;
-            font-style: italic;
-            letter-spacing: 0.3px;
         }
 
         .header {
@@ -65,11 +67,16 @@
         }
 
         .user-greeting {
-            font-size: 1.5rem;
-            font-weight: 700;
-            font-family: 'Georgia', 'Times New Roman', serif;
-            font-style: italic;
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            font-size: 1.6rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            background: linear-gradient(135deg, #d4a373, #b5835a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        body.dark .user-greeting {
+            background: linear-gradient(135deg, #e8c9a0, #d4b694);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -77,12 +84,14 @@
         .theme-toggle, .logout-btn {
             background: var(--border);
             border: none;
-            padding: 8px 18px;
+            padding: 8px 20px;
             border-radius: 30px;
             cursor: pointer;
-            font-weight: 600;
+            font-weight: 500;
             color: var(--text);
-            font-family: 'Segoe UI', 'Georgia', serif;
+            font-family: 'Oswald', sans-serif;
+            letter-spacing: 0.3px;
+            font-size: 0.95rem;
         }
 
         .card {
@@ -96,14 +105,14 @@
         .card-title {
             font-size: 1.3rem;
             font-weight: 600;
-            font-family: 'Georgia', 'Times New Roman', serif;
-            font-style: italic;
+            letter-spacing: 0.5px;
             margin-bottom: 16px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
             gap: 10px;
+            color: var(--text);
         }
 
         .tabs {
@@ -114,20 +123,26 @@
         }
 
         .tab-btn {
-            padding: 10px 20px;
+            padding: 10px 24px;
             border: none;
             background: var(--border);
             border-radius: 30px;
-            font-weight: 600;
+            font-weight: 500;
             cursor: pointer;
             color: var(--text);
-            font-family: 'Georgia', 'Times New Roman', serif;
-            font-style: italic;
+            font-family: 'Oswald', sans-serif;
+            letter-spacing: 0.3px;
+            font-size: 0.95rem;
         }
 
         .tab-btn.active {
             background: var(--accent);
             color: white;
+        }
+
+        body.dark .tab-btn.active {
+            background: var(--accent);
+            color: #1a1714;
         }
 
         .tab-content {
@@ -145,23 +160,22 @@
 
         .calendar-day {
             background: var(--bg);
-            padding: 12px 4px;
+            padding: 10px 4px;
             text-align: center;
             border-radius: 12px;
-            font-weight: 500;
             min-height: 70px;
             display: flex;
             flex-direction: column;
             align-items: center;
             border: 1px solid var(--border);
             cursor: pointer;
-            font-family: 'Georgia', 'Times New Roman', serif;
+            position: relative;
         }
 
         .calendar-day .day-number {
             font-size: 1.1rem;
-            font-weight: 700;
-            font-family: 'Georgia', 'Times New Roman', serif;
+            font-weight: 600;
+            letter-spacing: 0.3px;
         }
 
         .calendar-day .icon-group {
@@ -173,9 +187,32 @@
             justify-content: center;
         }
 
+        .calendar-day .event-dot {
+            font-size: 0.7rem;
+        }
+
         .calendar-day.done {
             opacity: 0.5;
             text-decoration: line-through;
+        }
+
+        .calendar-day.has-task {
+            border-color: var(--accent);
+            border-width: 2px;
+        }
+
+        .calendar-day .task-indicator {
+            font-size: 0.6rem;
+            background: var(--accent);
+            color: white;
+            padding: 1px 8px;
+            border-radius: 10px;
+            margin-top: 2px;
+            font-weight: 400;
+        }
+
+        body.dark .calendar-day .task-indicator {
+            color: #1a1714;
         }
 
         .calendar-nav {
@@ -199,16 +236,15 @@
             display: flex;
             align-items: center;
             gap: 12px;
-            font-family: 'Georgia', 'Times New Roman', serif;
         }
 
         .vok-item.late {
             border-left-color: var(--warning);
-            background: #fef3c7;
+            background: #fef9f0;
         }
 
         body.dark .vok-item.late {
-            background: #78350f;
+            background: #3d3228;
         }
 
         .vok-item input[type="checkbox"] {
@@ -237,10 +273,10 @@
             color: var(--text);
             font-size: 1rem;
             margin-bottom: 10px;
-            font-family: 'Georgia', 'Times New Roman', serif;
+            font-family: 'Oswald', sans-serif;
+            letter-spacing: 0.2px;
         }
 
-        /* ===== НОВЫЙ СТИЛЬ ДЛЯ ВЫБОРА НЕСКОЛЬКИХ ===== */
         .multi-select-container {
             display: flex;
             flex-wrap: wrap;
@@ -259,10 +295,11 @@
             border: 2px solid var(--border);
             border-radius: 20px;
             cursor: pointer;
-            font-family: 'Georgia', 'Times New Roman', serif;
+            font-family: 'Oswald', sans-serif;
             font-size: 0.95rem;
             transition: all 0.2s;
             user-select: none;
+            letter-spacing: 0.3px;
         }
 
         .multi-select-item:hover {
@@ -276,20 +313,19 @@
             border-color: var(--accent);
         }
 
+        body.dark .multi-select-item.selected {
+            color: #1a1714;
+        }
+
         .multi-select-item.selected::after {
             content: " ✓";
         }
 
         .multi-select-hint {
             font-size: 0.8rem;
-            opacity: 0.6;
+            opacity: 0.7;
             margin-bottom: 6px;
-            font-family: 'Georgia', 'Times New Roman', serif;
-            font-style: italic;
-        }
-
-        select[multiple] {
-            display: none;
+            letter-spacing: 0.3px;
         }
 
         button {
@@ -298,20 +334,26 @@
             border: none;
             padding: 10px 24px;
             border-radius: 30px;
-            font-weight: 600;
+            font-weight: 500;
             cursor: pointer;
             transition: 0.2s;
-            font-family: 'Georgia', 'Times New Roman', serif;
-            font-style: italic;
+            font-family: 'Oswald', sans-serif;
+            letter-spacing: 0.5px;
+            font-size: 0.95rem;
+        }
+
+        body.dark button {
+            color: #1a1714;
         }
 
         button:hover {
-            opacity: 0.8;
+            opacity: 0.85;
+            transform: translateY(-1px);
         }
 
-        .btn-danger { background: var(--danger); }
-        .btn-success { background: var(--success); }
-        .btn-sm { padding: 4px 12px; font-size: 0.75rem; }
+        .btn-danger { background: var(--danger); color: white !important; }
+        .btn-success { background: var(--success); color: white !important; }
+        .btn-sm { padding: 4px 14px; font-size: 0.75rem; }
 
         .flex-row {
             display: flex;
@@ -333,7 +375,6 @@
             padding: 8px 12px;
             background: var(--bg);
             border-radius: 10px;
-            font-family: 'Georgia', 'Times New Roman', serif;
         }
 
         .user-row .user-actions {
@@ -355,7 +396,6 @@
             background: var(--bg);
             border-radius: 10px;
             margin-bottom: 4px;
-            font-family: 'Georgia', 'Times New Roman', serif;
         }
 
         .heal-item input[type="checkbox"] {
@@ -377,20 +417,20 @@
             background: var(--bg);
             padding: 12px 16px;
             border-radius: 10px;
-            font-family: 'Georgia', 'Times New Roman', serif;
-            font-style: italic;
             font-size: 0.9rem;
             opacity: 0.8;
             margin-bottom: 10px;
             white-space: pre-wrap;
             border: 1px dashed var(--border);
+            letter-spacing: 0.2px;
         }
 
         .task-item {
-            background: var(--bg);
+            background: var(--task-bg);
             border-radius: 12px;
             padding: 14px;
             margin-bottom: 12px;
+            border: 1px solid var(--task-border);
         }
 
         .task-item.done {
@@ -407,28 +447,24 @@
         }
 
         .task-title {
-            font-family: 'Georgia', 'Times New Roman', serif;
-            font-weight: 700;
+            font-weight: 600;
             font-size: 1.05rem;
+            letter-spacing: 0.3px;
         }
 
         .task-priority {
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             background: var(--border);
             padding: 2px 12px;
             border-radius: 20px;
+            font-weight: 400;
         }
 
         .task-meta {
             font-size: 0.9rem;
             opacity: 0.8;
             margin-top: 4px;
-        }
-
-        .task-comments {
-            margin-top: 10px;
-            padding-top: 10px;
-            border-top: 1px solid var(--border);
+            letter-spacing: 0.2px;
         }
 
         .task-comment {
@@ -451,6 +487,7 @@
         .task-comment .comment-meta {
             font-size: 0.7rem;
             opacity: 0.6;
+            letter-spacing: 0.2px;
         }
 
         .task-comment .comment-actions {
@@ -502,6 +539,9 @@
             .multi-select-item {
                 padding: 4px 10px;
                 font-size: 0.8rem;
+            }
+            .user-greeting {
+                font-size: 1.1rem;
             }
         }
     </style>
@@ -598,18 +638,7 @@
 <code>AD24LK 1 Бортникова Алёна Алексеевна</code><br>
 <code>AWWJJ4 1 Сердюк Александр Владимирович</code>
             </div>
-            <textarea id="vokRawInput" rows="8" placeholder="Вставьте данные скопом:&#10;1 сентября 2026&#10;AD24LK 1 Бортникова Алёна Алексеевна&#10;AWWJJ4 1 Сердюк Александр Владимирович">1 сентября 2026
-AD24LK 1 Бортникова Алёна Алексеевна
-AWWJJ4 1 Сердюк Александр Владимирович
-AQX55E 1 Маркин Владислав Алексеевич
-BFQFPG 1 Фазылгаянов Рустам Радикович
-AX89EX 1 Новакова Оксана Михайловна
-BQOFZT 1 Федулова Дарья Витальевна
-H19964 3 Шанина Любовь Александровна
-BBM81L 1 Шанина Любовь Александровна
-AD4QRD 1 Рощектаева Юлия Алексеевна
-ATYM68 1 Прокопенко Оксана Игоревна
-AQ5IPS 1 Овчинникова Юлия Витальевна</textarea>
+            <textarea id="vokRawInput" rows="8" placeholder="Вставьте данные скопом:&#10;1 сентября 2026&#10;AD24LK 1 Бортникова Алёна Алексеевна&#10;AWWJJ4 1 Сердюк Александр Владимирович"></textarea>
             <button onclick="parseVok()">🔍 Распарсить и сохранить</button>
         </div>
 
@@ -726,7 +755,6 @@ AQ5IPS 1 Овчинникова Юлия Витальевна</textarea>
         lastId: 0
     };
 
-    // Хранилище для выбранных значений в мультиселектах
     let selectedAssignees = [];
     let selectedEventAssignees = [];
 
@@ -767,9 +795,6 @@ AQ5IPS 1 Овчинникова Юлия Витальевна</textarea>
         showLogin();
     }
 
-    // ================================================================
-    // 3. ПОИСК ПОЛЬЗОВАТЕЛЯ ПО ИМЕНИ
-    // ================================================================
     function findUserByName(users, inputName) {
         const normalizedInput = normalizeName(inputName);
         const inputParts = normalizedInput.split(' ').filter(p => p);
@@ -786,9 +811,6 @@ AQ5IPS 1 Овчинникова Юлия Витальевна</textarea>
         return name.toLowerCase().replace(/ё/g, 'е').replace(/\s+/g, ' ').trim();
     }
 
-    // ================================================================
-    // 4. АВТОРИЗАЦИЯ
-    // ================================================================
     function showLogin() {
         const name = prompt('Введите ваше имя (как в списке):');
         if (!name) return;
@@ -811,7 +833,7 @@ AQ5IPS 1 Овчинникова Юлия Витальевна</textarea>
     }
 
     // ================================================================
-    // 5. ФУНКЦИИ ДЛЯ МУЛЬТИСЕЛЕКТА (клик-выбор)
+    // 3. МУЛЬТИСЕЛЕКТ
     // ================================================================
     function renderMultiSelect(containerId, options, selected, onChange) {
         const container = document.getElementById(containerId);
@@ -837,16 +859,8 @@ AQ5IPS 1 Овчинникова Юлия Витальевна</textarea>
         });
     }
 
-    function getSelectedAssignees() {
-        return selectedAssignees;
-    }
-
-    function getSelectedEventAssignees() {
-        return selectedEventAssignees;
-    }
-
     // ================================================================
-    // 6. РЕНДЕР ПОСЛЕ ВХОДА
+    // 4. РЕНДЕР ПОСЛЕ ВХОДА
     // ================================================================
     function renderApp() {
         const greeting = document.getElementById('greetingText');
@@ -854,7 +868,54 @@ AQ5IPS 1 Овчинникова Юлия Витальевна</textarea>
         const firstName = nameParts[0] || 'Друг';
         const isMale = currentUser.gender === 'male';
         
-        const bracingPhrasesFemale = [
+        const phrases = isMale ? [
+            'ты просто огонь! 🔥', 'ты мощь! 💪', 'ты суперзвезда! ⭐',
+            'ты невероятен! ✨', 'ты лучший! 🏆', 'ты круче всех! 👑',
+            'ты машина! 🚀', 'ты гений! 🧠', 'ты легенда! 🌟',
+            'ты чемпион! 🥇', 'ты топ! 📈', 'ты бог! 👑',
+            'ты вдохновляешь! 💫', 'ты творишь магию! 🪄', 'ты сила! ⚡',
+            'ты прорыв! 💥', 'ты шедевр! 🎨', 'ты космос! 🚀',
+            'ты алмаз! 💎', 'ты сокровище! 🏴‍☠️', 'ты ураган! 🌪️',
+            'ты океан! 🌊', 'ты солнце! ☀️', 'ты звезда! 🌠',
+            'ты победитель! 🏅', 'ты герой! 🦸‍♂️', 'ты титан! 🗿',
+            'ты великолепен! 🌺', 'ты очарователен! 🌹', 'ты удивительный! 🌈',
+            'ты талантлив! 🎭', 'ты уникален! 🦄', 'ты неповторим! 🌸',
+            'ты солнечный лучик! ☀️', 'ты нежность! 🕊️', 'ты грация! 🦢',
+            'ты гармония! 🎵', 'ты вдохновение! 🎨', 'ты мечта! 🌙',
+            'ты звёздочка! ✨', 'ты совершенство! 💎', 'ты искренность! 💝',
+            'ты доброта! 🌷', 'ты мудрость! 📚', 'ты красота! 🌹',
+            'ты изящество! 🦋', 'ты шарм! ✨', 'ты обаяние! 😊',
+            'ты свежесть! 🌿', 'ты энергия! ⚡', 'ты страсть! ❤️‍🔥',
+            'ты тепло! ☀️', 'ты свет! 💡', 'ты цветок! 🌺',
+            'у тебя всё получится! 🤞', 'ты справишься с любыми задачами! 🎯',
+            'мы в тебя верим! 🙌', 'ты можешь всё! 💫',
+            'никто не справится лучше тебя! 🌟', 'ты на верном пути! 🛤️',
+            'ты делаешь мир лучше! 🌍', 'ты пример для подражания! 👏',
+            'ты создан для великих дел! 🏔️', 'ты преодолеешь всё! 🏋️‍♂️',
+            'ты сильнее, чем думаешь! 💪', 'ты умница! 🧠', 'ты молодец! 👍',
+            'ты на высоте! 📈', 'ты двигаешь прогресс! 🚀', 'ты меняешь мир! 🌎',
+            'ты вдохновляешь команду! 👥', 'ты делаешь крутые вещи! 🎪',
+            'ты профессионал! 👨‍💼', 'ты эксперт! 🎓', 'ты ас своего дела! ✈️',
+            'ты мастер! 🏺', 'ты виртуоз! 🎻', 'ты гранд! 🎩',
+            'ты король! 👑', 'ты центр вселенной! 🌌',
+            'ты луч света в тёмном царстве! 💡', 'ты бриллиант! 💎',
+            'ты жемчужина! 🦪', 'ты сокровище нации! 🏛️',
+            'ты способен на всё! 🌟', 'твой потенциал бесконечен! ♾️',
+            'ты открываешь новые горизонты! 🌅', 'ты создаёшь будущее! 🔮',
+            'ты пишешь свою историю! 📖', 'ты строишь империю! 🏰',
+            'ты воспаряешь выше облаков! ☁️', 'ты покоряешь вершины! 🏔️',
+            'ты пересекаешь океаны! ⛵', 'ты летишь к звёздам! 🚀',
+            'ты творишь чудеса! 🪄', 'ты исполняешь мечты! 🌠',
+            'ты приносишь радость! 😊', 'ты даришь надежду! 🕊️',
+            'ты заряжаешь энергией! 🔋', 'ты объединяешь людей! 🤝',
+            'ты ведёшь к успеху! 🏆', 'ты прокладываешь путь! 🛤️',
+            'ты зажигаешь огонь! 🔥', 'ты расцветаешь каждый день! 🌸',
+            'ты растёшь над собой! 🌱', 'ты становишься лучше! 📈',
+            'ты достигаешь целей! 🎯', 'ты превосходишь ожидания! 🚀',
+            'ты удивляешь всех! 😲', 'ты вдохновляешь на подвиги! 🦸‍♂️',
+            'ты заставляешь мечтать! 🌙', 'ты даришь веру! 🙏',
+            'ты излучаешь свет! 💫', 'ты — чудо! 🌟'
+        ] : [
             'ты просто огонь! 🔥', 'ты мощь! 💪', 'ты суперзвезда! ⭐',
             'ты невероятна! ✨', 'ты лучшая! 🏆', 'ты круче всех! 👑',
             'ты машина! 🚀', 'ты гений! 🧠', 'ты легенда! 🌟',
@@ -903,56 +964,6 @@ AQ5IPS 1 Овчинникова Юлия Витальевна</textarea>
             'ты излучаешь свет! 💫', 'ты — чудо! 🌟'
         ];
 
-        const bracingPhrasesMale = [
-            'ты просто огонь! 🔥', 'ты мощь! 💪', 'ты суперзвезда! ⭐',
-            'ты невероятен! ✨', 'ты лучший! 🏆', 'ты круче всех! 👑',
-            'ты машина! 🚀', 'ты гений! 🧠', 'ты легенда! 🌟',
-            'ты чемпион! 🥇', 'ты топ! 📈', 'ты бог! 👑',
-            'ты вдохновляешь! 💫', 'ты творишь магию! 🪄', 'ты сила! ⚡',
-            'ты прорыв! 💥', 'ты шедевр! 🎨', 'ты космос! 🚀',
-            'ты алмаз! 💎', 'ты сокровище! 🏴‍☠️', 'ты ураган! 🌪️',
-            'ты океан! 🌊', 'ты солнце! ☀️', 'ты звезда! 🌠',
-            'ты победитель! 🏅', 'ты герой! 🦸‍♂️', 'ты титан! 🗿',
-            'ты великолепен! 🌺', 'ты очарователен! 🌹', 'ты удивительный! 🌈',
-            'ты талантлив! 🎭', 'ты уникален! 🦄', 'ты неповторим! 🌸',
-            'ты солнечный лучик! ☀️', 'ты нежность! 🕊️', 'ты грация! 🦢',
-            'ты гармония! 🎵', 'ты вдохновение! 🎨', 'ты мечта! 🌙',
-            'ты звёздочка! ✨', 'ты совершенство! 💎', 'ты искренность! 💝',
-            'ты доброта! 🌷', 'ты мудрость! 📚', 'ты красота! 🌹',
-            'ты изящество! 🦋', 'ты шарм! ✨', 'ты обаяние! 😊',
-            'ты свежесть! 🌿', 'ты энергия! ⚡', 'ты страсть! ❤️‍🔥',
-            'ты тепло! ☀️', 'ты свет! 💡', 'ты цветок! 🌺',
-            'у тебя всё получится! 🤞', 'ты справишься с любыми задачами! 🎯',
-            'мы в тебя верим! 🙌', 'ты можешь всё! 💫',
-            'никто не справится лучше тебя! 🌟', 'ты на верном пути! 🛤️',
-            'ты делаешь мир лучше! 🌍', 'ты пример для подражания! 👏',
-            'ты создан для великих дел! 🏔️', 'ты преодолеешь всё! 🏋️‍♂️',
-            'ты сильнее, чем думаешь! 💪', 'ты умница! 🧠', 'ты молодец! 👍',
-            'ты на высоте! 📈', 'ты двигаешь прогресс! 🚀', 'ты меняешь мир! 🌎',
-            'ты вдохновляешь команду! 👥', 'ты делаешь крутые вещи! 🎪',
-            'ты профессионал! 👨‍💼', 'ты эксперт! 🎓', 'ты ас своего дела! ✈️',
-            'ты мастер! 🏺', 'ты виртуоз! 🎻', 'ты гранд! 🎩',
-            'ты король! 👑', 'ты центр вселенной! 🌌',
-            'ты луч света в тёмном царстве! 💡', 'ты бриллиант! 💎',
-            'ты жемчужина! 🦪', 'ты сокровище нации! 🏛️',
-            'ты способен на всё! 🌟', 'твой потенциал бесконечен! ♾️',
-            'ты открываешь новые горизонты! 🌅', 'ты создаёшь будущее! 🔮',
-            'ты пишешь свою историю! 📖', 'ты строишь империю! 🏰',
-            'ты воспаряешь выше облаков! ☁️', 'ты покоряешь вершины! 🏔️',
-            'ты пересекаешь океаны! ⛵', 'ты летишь к звёздам! 🚀',
-            'ты творишь чудеса! 🪄', 'ты исполняешь мечты! 🌠',
-            'ты приносишь радость! 😊', 'ты даришь надежду! 🕊️',
-            'ты заряжаешь энергией! 🔋', 'ты объединяешь людей! 🤝',
-            'ты ведёшь к успеху! 🏆', 'ты прокладываешь путь! 🛤️',
-            'ты зажигаешь огонь! 🔥', 'ты расцветаешь каждый день! 🌸',
-            'ты растёшь над собой! 🌱', 'ты становишься лучше! 📈',
-            'ты достигаешь целей! 🎯', 'ты превосходишь ожидания! 🚀',
-            'ты удивляешь всех! 😲', 'ты вдохновляешь на подвиги! 🦸‍♂️',
-            'ты заставляешь мечтать! 🌙', 'ты даришь веру! 🙏',
-            'ты излучаешь свет! 💫', 'ты — чудо! 🌟'
-        ];
-
-        const phrases = isMale ? bracingPhrasesMale : bracingPhrasesFemale;
         const phrase = phrases[Math.floor(Math.random() * phrases.length)];
         greeting.textContent = `Привет, ${firstName}, ${phrase}`;
 
@@ -963,7 +974,6 @@ AQ5IPS 1 Овчинникова Юлия Витальевна</textarea>
         const users = JSON.parse(localStorage.getItem(USERS_KEY));
         const mentorNames = users.filter(u => u.role === 'mentor' || u.role === 'admin').map(u => u.name);
 
-        // Заполняем обычные селекты
         const antitopSelect = document.getElementById('antitopMentor');
         if (antitopSelect) {
             antitopSelect.innerHTML = '';
@@ -975,7 +985,6 @@ AQ5IPS 1 Овчинникова Юлия Витальевна</textarea>
             });
         }
 
-        // Заполняем мультиселекты
         selectedAssignees = [];
         selectedEventAssignees = [];
         renderMultiSelect('taskAssigneesContainer', mentorNames, selectedAssignees);
@@ -1024,7 +1033,7 @@ AQ5IPS 1 Овчинникова Юлия Витальевна</textarea>
     }
 
     // ================================================================
-    // 7. КАЛЕНДАРЬ
+    // 5. КАЛЕНДАРЬ
     // ================================================================
     let currentMonth = 8;
     let currentYear = 2026;
@@ -1042,10 +1051,10 @@ AQ5IPS 1 Овчинникова Юлия Витальевна</textarea>
         const weekDays = ['Пн','Вт','Ср','Чт','Пт','Сб','Вс'];
         weekDays.forEach(d => {
             const div = document.createElement('div');
-            div.style.fontWeight = '700';
+            div.style.fontWeight = '600';
             div.style.textAlign = 'center';
             div.style.padding = '4px';
-            div.style.fontFamily = 'Georgia, Times New Roman, serif';
+            div.style.letterSpacing = '0.5px';
             grid.appendChild(div);
         });
 
@@ -1064,6 +1073,17 @@ AQ5IPS 1 Овчинникова Юлия Витальевна</textarea>
             numSpan.textContent = day;
             div.appendChild(numSpan);
 
+            // Проверяем задачи на эту дату
+            const tasksOnDate = appData.tasks.filter(t => t.deadline === dateStr && !t.done);
+            if (tasksOnDate.length > 0) {
+                div.classList.add('has-task');
+                const taskIndicator = document.createElement('div');
+                taskIndicator.className = 'task-indicator';
+                taskIndicator.textContent = `📋 ${tasksOnDate.length}`;
+                div.appendChild(taskIndicator);
+            }
+
+            // События
             const iconGroup = document.createElement('div');
             iconGroup.className = 'icon-group';
             const events = appData.events[dateStr] || [];
@@ -1091,7 +1111,7 @@ AQ5IPS 1 Овчинникова Юлия Витальевна</textarea>
     }
 
     // ================================================================
-    // 8. СОБЫТИЯ В КАЛЕНДАРЕ
+    // 6. СОБЫТИЯ В КАЛЕНДАРЕ
     // ================================================================
     function openDayEvents(dateStr) {
         const card = document.getElementById('dayEventCard');
@@ -1117,12 +1137,12 @@ AQ5IPS 1 Овчинникова Юлия Витальевна</textarea>
         const container = document.getElementById('eventList');
         const events = appData.events[dateStr] || [];
         if (events.length === 0) {
-            container.innerHTML = '<p style="color:var(--text); opacity:0.6; font-family: Georgia, Times New Roman, serif;">Нет событий на этот день</p>';
+            container.innerHTML = '<p style="color:var(--text); opacity:0.6;">Нет событий на этот день</p>';
             return;
         }
         container.innerHTML = events.map((e, idx) => `
             <div style="display:flex; justify-content:space-between; padding:6px 12px; background:var(--bg); border-radius:8px; margin-bottom:4px; ${e.done ? 'opacity:0.4; text-decoration:line-through;' : ''}">
-                <div style="font-family: Georgia, Times New Roman, serif;"><strong>${e.title}</strong> ${e.comment ? `— ${e.comment}` : ''} ${e.assignee ? `👤 ${e.assignee}` : ''}</div>
+                <div><strong>${e.title}</strong> ${e.comment ? `— ${e.comment}` : ''} ${e.assignee ? `👤 ${e.assignee}` : ''}</div>
                 <div>
                     <button onclick="toggleEventDone('${dateStr}', ${idx})" style="padding:4px 12px; font-size:0.8rem; background:var(--success);">✅</button>
                     <button onclick="deleteEvent('${dateStr}', ${idx})" style="padding:4px 12px; font-size:0.8rem; background:var(--danger);">✖</button>
@@ -1174,7 +1194,7 @@ AQ5IPS 1 Овчинникова Юлия Витальевна</textarea>
     }
 
     // ================================================================
-    // 9. ЗАДАЧИ (с комментариями/апдейтами)
+    // 7. ЗАДАЧИ
     // ================================================================
     function addTask() {
         const title = document.getElementById('taskTitle').value.trim();
@@ -1214,6 +1234,7 @@ AQ5IPS 1 Овчинникова Юлия Витальевна</textarea>
         });
         saveData();
         renderTasks();
+        renderCalendar();
         document.getElementById('taskTitle').value = '';
         document.getElementById('taskComment').value = '';
         document.getElementById('taskFile').value = '';
@@ -1269,7 +1290,7 @@ AQ5IPS 1 Овчинникова Юлия Витальевна</textarea>
         const container = document.getElementById('taskList');
         const tasks = appData.tasks;
         if (tasks.length === 0) {
-            container.innerHTML = '<p style="opacity:0.6; font-family: Georgia, Times New Roman, serif;">Задач пока нет</p>';
+            container.innerHTML = '<p style="opacity:0.6;">Задач пока нет</p>';
             return;
         }
 
@@ -1281,7 +1302,7 @@ AQ5IPS 1 Овчинникова Юлия Витальевна</textarea>
 
         container.innerHTML = sorted.map(t => {
             const isDone = t.done ? 'done' : '';
-            const bgColor = t.priority === 'Срочная' ? '#fecaca' : 'var(--bg)';
+            const bgColor = t.priority === 'Срочная' ? '#f5e6d9' : 'var(--task-bg)';
             
             let updatesHtml = '';
             if (t.updates && t.updates.length > 0) {
@@ -1335,9 +1356,12 @@ AQ5IPS 1 Овчинникова Юлия Витальевна</textarea>
 
     function toggleTaskDone(id) {
         const task = appData.tasks.find(t => t.id === id);
-        if (task) task.done = !task.done;
-        saveData();
-        renderTasks();
+        if (task) {
+            task.done = !task.done;
+            saveData();
+            renderTasks();
+            renderCalendar();
+        }
     }
 
     function deleteTask(id) {
@@ -1345,10 +1369,11 @@ AQ5IPS 1 Овчинникова Юлия Витальевна</textarea>
         appData.tasks = appData.tasks.filter(t => t.id !== id);
         saveData();
         renderTasks();
+        renderCalendar();
     }
 
     // ================================================================
-    // 10-22. ОСТАЛЬНЫЕ ФУНКЦИИ (VOK, HEAL, АНТИТОПЫ, АДМИНКА)
+    // 8. VOK — ПАРСЕР И ОТОБРАЖЕНИЕ
     // ================================================================
     function parseVok() {
         const raw = document.getElementById('vokRawInput').value;
@@ -1436,7 +1461,7 @@ AQ5IPS 1 Овчинникова Юлия Витальевна</textarea>
         const vok = appData.vok;
 
         if (vok.length === 0) {
-            container.innerHTML = '<p style="opacity:0.6; font-family: Georgia, Times New Roman, serif;">Нет данных</p>';
+            container.innerHTML = '<p style="opacity:0.6;">Нет данных</p>';
             return;
         }
 
@@ -1452,7 +1477,7 @@ AQ5IPS 1 Овчинникова Юлия Витальевна</textarea>
         sortedDates.forEach(date => {
             const items = groups[date];
             const dateDisplay = new Date(date + 'T00:00:00').toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
-            html += `<div style="font-weight:700; margin-top:16px; font-size:1.1rem; font-family: Georgia, Times New Roman, serif;">📅 ${dateDisplay}:</div>`;
+            html += `<div style="font-weight:600; margin-top:16px; font-size:1.1rem;">📅 ${dateDisplay}:</div>`;
 
             items.forEach((item, index) => {
                 const isLate = item.resolvedAt && new Date(item.resolvedAt) > new Date(new Date(item.date).setDate(new Date(item.date).getDate() + 1));
@@ -1495,6 +1520,9 @@ AQ5IPS 1 Овчинникова Юлия Витальевна</textarea>
         renderVok();
     }
 
+    // ================================================================
+    // 9. КОПИРОВАНИЕ VOK
+    // ================================================================
     function copyVokByDate() {
         const select = document.getElementById('vokCopyDate');
         let targetDate = select.value;
@@ -1550,6 +1578,9 @@ AQ5IPS 1 Овчинникова Юлия Витальевна</textarea>
         copyToClipboard(text);
     }
 
+    // ================================================================
+    // 10. МАССОВОЕ УДАЛЕНИЕ
+    // ================================================================
     function deleteVokSelected() {
         const checkboxes = document.querySelectorAll('.vok-checkbox:checked');
         if (checkboxes.length === 0) {
@@ -1622,6 +1653,9 @@ AQ5IPS 1 Овчинникова Юлия Витальевна</textarea>
         alert('✅ Все записи удалены');
     }
 
+    // ================================================================
+    // 11. КОПИРОВАНИЕ HEAL
+    // ================================================================
     function copyHealByDate() {
         const select = document.getElementById('healCopyDate');
         let targetDate = select.value;
@@ -1678,6 +1712,9 @@ AQ5IPS 1 Овчинникова Юлия Витальевна</textarea>
         document.getElementById('healCopyContainer').textContent = text;
     }
 
+    // ================================================================
+    // 12. ЭКСПОРТ В EXCEL
+    // ================================================================
     function exportVokExcel() {
         const stats = {};
         
@@ -1751,6 +1788,9 @@ AQ5IPS 1 Овчинникова Юлия Витальевна</textarea>
         document.body.removeChild(textarea);
     }
 
+    // ================================================================
+    // 13. HEAL
+    // ================================================================
     function addHeal() {
         const name = document.getElementById('healName').value.trim();
         const date = document.getElementById('healDate').value;
@@ -1768,7 +1808,7 @@ AQ5IPS 1 Овчинникова Юлия Витальевна</textarea>
         const container = document.getElementById('healList');
         const heal = appData.heal;
         if (heal.length === 0) {
-            container.innerHTML = '<p style="opacity:0.6; font-family: Georgia, Times New Roman, serif;">Нет записей "Лечим ВОК"</p>';
+            container.innerHTML = '<p style="opacity:0.6;">Нет записей "Лечим ВОК"</p>';
             return;
         }
 
@@ -1776,7 +1816,7 @@ AQ5IPS 1 Овчинникова Юлия Витальевна</textarea>
             <div class="heal-item">
                 <input type="checkbox" class="heal-checkbox" data-index="${idx}">
                 <div class="heal-content">
-                    <span style="font-family: Georgia, Times New Roman, serif;">💊 ${h.name} — ${h.date}</span>
+                    <span>💊 ${h.name} — ${h.date}</span>
                     <button onclick="deleteHeal(${idx})" style="padding:2px 12px; background:var(--danger);">✖</button>
                 </div>
             </div>
@@ -1791,6 +1831,9 @@ AQ5IPS 1 Овчинникова Юлия Витальевна</textarea>
         updateDateSelects();
     }
 
+    // ================================================================
+    // 14. АНТИТОПЫ
+    // ================================================================
     function addAntitop() {
         const mentor = document.getElementById('antitopMentor').value;
         const student = document.getElementById('antitopStudent').value.trim();
@@ -1810,14 +1853,14 @@ AQ5IPS 1 Овчинникова Юлия Витальевна</textarea>
         const container = document.getElementById('antitopList');
         const antitop = appData.antitop;
         if (antitop.length === 0) {
-            container.innerHTML = '<p style="opacity:0.6; font-family: Georgia, Times New Roman, serif;">Нет связей</p>';
+            container.innerHTML = '<p style="opacity:0.6;">Нет связей</p>';
             return;
         }
 
         container.innerHTML = antitop.map((a, idx) => `
             <div style="background:var(--bg); border-radius:12px; padding:12px; margin-bottom:8px;">
                 <div style="display:flex; justify-content:space-between;">
-                    <span style="font-family: Georgia, Times New Roman, serif;"><strong>👨‍🏫 ${a.mentor}</strong> → 🧑‍🎓 ${a.student}</span>
+                    <span><strong>👨‍🏫 ${a.mentor}</strong> → 🧑‍🎓 ${a.student}</span>
                     <button onclick="deleteAntitop(${idx})" style="padding:2px 12px; background:var(--danger);">✖</button>
                 </div>
                 <div style="margin-top:8px;">
@@ -1825,7 +1868,7 @@ AQ5IPS 1 Овчинникова Юлия Витальевна</textarea>
                         <input type="text" id="noteInput_${idx}" placeholder="Заметка о прогрессе" style="flex:2;">
                         <button onclick="addAntitopNote(${idx})" style="padding:4px 16px;">➕</button>
                     </div>
-                    <div style="margin-top:6px; font-size:0.9rem; opacity:0.7; font-family: Georgia, Times New Roman, serif;">
+                    <div style="margin-top:6px; font-size:0.9rem; opacity:0.7;">
                         ${a.notes.map(n => `📝 ${n.text} (${n.date})`).join('<br>')}
                     </div>
                 </div>
@@ -1852,6 +1895,9 @@ AQ5IPS 1 Овчинникова Юлия Витальевна</textarea>
         renderAntitop();
     }
 
+    // ================================================================
+    // 15. АДМИНКА
+    // ================================================================
     function renderUserList() {
         const container = document.getElementById('userListAdmin');
         const users = JSON.parse(localStorage.getItem(USERS_KEY));
@@ -1933,6 +1979,9 @@ AQ5IPS 1 Овчинникова Юлия Витальевна</textarea>
         updateMentorSelects();
     }
 
+    // ================================================================
+    // 16. ТЕМА И СОХРАНЕНИЕ
+    // ================================================================
     function toggleTheme() {
         document.body.classList.toggle('dark');
     }

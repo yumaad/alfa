@@ -6,645 +6,122 @@
     <title>Наставники Наташи Заплатиной</title>
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Oswald', sans-serif; }
         :root {
-            --bg: #f5f0eb;
-            --text: #2d2a24;
-            --card: #ffffff;
-            --border: #e0d6cc;
-            --shadow: 0 10px 15px -3px rgba(0,0,0,0.08);
-            --accent: #8b6b4d;
-            --accent-light: #a88466;
-            --danger: #c0392b;
-            --success: #27ae60;
-            --warning: #f39c12;
-            --task-bg: #faf6f0;
-            --task-border: #e8ddd0;
-            --task-text: #2d2a24;
-            --task-highlight: #fff3e0;
+            --bg: #f5f0eb; --text: #2d2a24; --card: #fff; --border: #d6cbc0;
+            --shadow: 0 4px 12px rgba(0,0,0,0.06); --accent: #8b6b4d;
+            --danger: #b33c2b; --success: #2d7d46; --task-highlight: #f6ede4;
         }
-
         body.dark {
-            --bg: #1a1714;
-            --text: #e8ddd0;
-            --card: #2d2822;
-            --border: #4a4038;
-            --shadow: 0 10px 15px -3px rgba(0,0,0,0.3);
-            --accent: #b8956e;
-            --accent-light: #d4b694;
-            --task-bg: #3d342b;
-            --task-border: #5a4f45;
-            --task-text: #c4a88a;
-            --task-highlight: #4a3a2a;
+            --bg: #1e1a16; --text: #e8ddd0; --card: #2d2822;
+            --border: #4a4038; --accent: #b8956e; --task-highlight: #3d342b;
         }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Oswald', 'Segoe UI', sans-serif;
-            transition: background-color 0.3s, color 0.2s, border-color 0.3s;
-        }
-
-        body {
-            background: var(--bg);
-            color: var(--text);
-            padding: 20px;
-            min-height: 100vh;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
+        body { background: var(--bg); color: var(--text); padding: 16px; }
+        .container { max-width: 1200px; margin: 0 auto; }
 
         .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 16px 24px;
-            background: var(--card);
-            border-radius: 16px;
-            box-shadow: var(--shadow);
-            margin-bottom: 24px;
-            flex-wrap: wrap;
-            gap: 12px;
+            display: flex; justify-content: space-between; align-items: center;
+            background: var(--card); padding: 12px 20px; border-radius: 40px;
+            box-shadow: var(--shadow); margin-bottom: 20px; flex-wrap: wrap; gap: 8px;
         }
-
         .user-greeting {
-            font-size: 1.6rem;
-            font-weight: 600;
-            letter-spacing: 0.5px;
+            font-size: 1.5rem; font-weight: 500;
             background: linear-gradient(135deg, #d4a373, #b5835a);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
-
-        body.dark .user-greeting {
-            background: linear-gradient(135deg, #e8c9a0, #d4b694);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        .header-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+        .header-actions button {
+            background: var(--border); border: none; padding: 6px 16px;
+            border-radius: 30px; font-weight: 400; cursor: pointer;
+            color: var(--text); font-size: 0.9rem;
         }
+        .sync-btn { background: var(--accent); color: #fff; }
+        .sync-status { font-size: 0.8rem; padding: 4px 12px; border-radius: 20px; display: none; }
+        .sync-status.ok { background: #d4edda; color: #155724; display: inline-block; }
+        .sync-status.err { background: #f8d7da; color: #721c24; display: inline-block; }
+        .sync-status.loading { background: #fff3cd; color: #856404; display: inline-block; }
 
-        .theme-toggle, .logout-btn, .sync-btn {
-            background: var(--border);
-            border: none;
-            padding: 8px 20px;
-            border-radius: 30px;
-            cursor: pointer;
-            font-weight: 500;
-            color: var(--text);
-            font-family: 'Oswald', sans-serif;
-            letter-spacing: 0.3px;
-            font-size: 0.95rem;
-        }
-
-        .sync-btn {
-            background: var(--accent);
-            color: white;
-        }
-
-        body.dark .sync-btn {
-            color: #1a1714;
-        }
-
-        .card {
-            background: var(--card);
-            padding: 20px;
-            border-radius: 16px;
-            box-shadow: var(--shadow);
-            margin-bottom: 24px;
-        }
-
-        .card-title {
-            font-size: 1.3rem;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-            margin-bottom: 16px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 10px;
-            color: var(--text);
-        }
-
-        .tabs {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-            margin-bottom: 24px;
-        }
-
+        .tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 16px; }
         .tab-btn {
-            padding: 10px 24px;
-            border: none;
-            background: var(--border);
-            border-radius: 30px;
-            font-weight: 500;
-            cursor: pointer;
-            color: var(--text);
-            font-family: 'Oswald', sans-serif;
-            letter-spacing: 0.3px;
-            font-size: 0.95rem;
+            padding: 8px 20px; border: none; border-radius: 30px;
+            background: var(--border); cursor: pointer; font-weight: 400;
+            color: var(--text); font-size: 0.95rem;
         }
+        .tab-btn.active { background: var(--accent); color: #fff; }
 
-        .tab-btn.active {
-            background: var(--accent);
-            color: white;
-        }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
 
-        body.dark .tab-btn.active {
-            background: var(--accent);
-            color: #1a1714;
-        }
+        .card { background: var(--card); padding: 16px; border-radius: 20px; box-shadow: var(--shadow); margin-bottom: 20px; }
+        .card-title { font-size: 1.2rem; font-weight: 500; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
 
-        .tab-content {
-            display: none;
-        }
-        .tab-content.active {
-            display: block;
-        }
-
-        .calendar-grid {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 6px;
-        }
-
+        .calendar-grid { display: grid; grid-template-columns: repeat(7,1fr); gap: 4px; }
         .calendar-day {
-            background: var(--bg);
-            padding: 10px 4px;
-            text-align: center;
-            border-radius: 12px;
-            min-height: 70px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            border: 1px solid var(--border);
-            cursor: pointer;
-            position: relative;
+            background: var(--bg); padding: 8px 2px; border-radius: 12px;
+            text-align: center; border: 1px solid var(--border); cursor: pointer;
+            min-height: 60px; display: flex; flex-direction: column; align-items: center;
         }
+        .calendar-day .day-num { font-weight: 500; font-size: 1rem; }
+        .calendar-day .task-badge { font-size: 0.6rem; background: var(--accent); color: #fff; padding: 0 6px; border-radius: 10px; margin-top: 2px; }
+        .calendar-day.has-task { border-color: var(--accent); border-width: 2px; }
+        .calendar-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
 
-        .calendar-day .day-number {
-            font-size: 1.1rem;
-            font-weight: 600;
-            letter-spacing: 0.3px;
-        }
-
-        .calendar-day .icon-group {
-            display: flex;
-            gap: 4px;
-            font-size: 0.8rem;
-            margin-top: 4px;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
-        .calendar-day.done {
-            opacity: 0.5;
-            text-decoration: line-through;
-        }
-
-        .calendar-day.has-task {
-            border-color: var(--accent);
-            border-width: 2px;
-        }
-
-        .calendar-day .task-indicator {
-            font-size: 0.6rem;
-            background: var(--accent);
-            color: white;
-            padding: 1px 8px;
-            border-radius: 10px;
-            margin-top: 2px;
-            font-weight: 400;
-        }
-
-        body.dark .calendar-day .task-indicator {
-            color: #1a1714;
-        }
-
-        .calendar-nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 16px;
-        }
-
-        .vok-list {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .vok-item {
-            padding: 10px 16px;
-            background: var(--bg);
-            border-radius: 10px;
-            border-left: 4px solid var(--accent);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .vok-item.late {
-            border-left-color: var(--warning);
-            background: #fef9f0;
-        }
-
-        body.dark .vok-item.late {
-            background: #3d3228;
-        }
-
-        .vok-item input[type="checkbox"] {
-            width: 18px;
-            height: 18px;
-            cursor: pointer;
-            flex-shrink: 0;
-            margin-bottom: 0;
-        }
-
-        .vok-item .vok-content {
-            flex: 1;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-
-        input, textarea, select {
-            width: 100%;
-            padding: 10px 14px;
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            background: var(--bg);
-            color: var(--text);
-            font-size: 1rem;
-            margin-bottom: 10px;
-            font-family: 'Oswald', sans-serif;
-            letter-spacing: 0.2px;
-        }
-
-        .multi-select-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            padding: 10px;
-            background: var(--bg);
-            border-radius: 12px;
-            border: 1px solid var(--border);
-            margin-bottom: 10px;
-            min-height: 50px;
-        }
-
+        .multi-select-container { display: flex; flex-wrap: wrap; gap: 6px; padding: 8px; background: var(--bg); border-radius: 12px; border: 1px solid var(--border); min-height: 44px; }
         .multi-select-item {
-            padding: 6px 16px;
-            background: var(--card);
-            border: 2px solid var(--border);
-            border-radius: 20px;
-            cursor: pointer;
-            font-family: 'Oswald', sans-serif;
-            font-size: 0.95rem;
-            transition: all 0.2s;
-            user-select: none;
-            letter-spacing: 0.3px;
-            color: var(--text);
+            padding: 4px 14px; border-radius: 20px; border: 1px solid var(--border);
+            cursor: pointer; background: var(--card); font-size: 0.9rem;
         }
+        .multi-select-item.selected { background: var(--accent); color: #fff; border-color: var(--accent); }
+        .multi-select-item.selected::after { content: " ✓"; }
 
-        .multi-select-item:hover {
-            border-color: var(--accent);
-            transform: scale(1.02);
-        }
+        input, textarea, select { width: 100%; padding: 8px 12px; border: 1px solid var(--border); border-radius: 12px; background: var(--bg); color: var(--text); margin-bottom: 8px; }
+        button { background: var(--accent); color: #fff; border: none; padding: 8px 20px; border-radius: 30px; cursor: pointer; font-weight: 400; }
+        button:hover { opacity: 0.8; }
+        .btn-danger { background: var(--danger); }
+        .btn-success { background: var(--success); }
+        .btn-sm { padding: 4px 12px; font-size: 0.8rem; }
 
-        .multi-select-item.selected {
-            background: var(--accent);
-            color: white;
-            border-color: var(--accent);
-        }
-
-        body.dark .multi-select-item.selected {
-            color: #1a1714;
-        }
-
-        .multi-select-item.selected::after {
-            content: " ✓";
-        }
-
-        .multi-select-hint {
-            font-size: 0.8rem;
-            opacity: 0.7;
-            margin-bottom: 6px;
-            letter-spacing: 0.3px;
-        }
-
-        button {
-            background: var(--accent);
-            color: white;
-            border: none;
-            padding: 10px 24px;
-            border-radius: 30px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: 0.2s;
-            font-family: 'Oswald', sans-serif;
-            letter-spacing: 0.5px;
-            font-size: 0.95rem;
-        }
-
-        body.dark button {
-            color: #1a1714;
-        }
-
-        button:hover {
-            opacity: 0.85;
-            transform: translateY(-1px);
-        }
-
-        .btn-danger { background: var(--danger); color: white !important; }
-        .btn-success { background: var(--success); color: white !important; }
-        .btn-sm { padding: 4px 14px; font-size: 0.75rem; }
-
-        .flex-row {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            align-items: center;
-        }
-
-        .user-list {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .user-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 8px 12px;
-            background: var(--bg);
-            border-radius: 10px;
-        }
-
-        .user-row .user-actions {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-
-        .user-row .user-actions button {
-            padding: 4px 12px;
-            font-size: 0.8rem;
-        }
-
-        .heal-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 8px 16px;
-            background: var(--bg);
-            border-radius: 10px;
-            margin-bottom: 4px;
-        }
-
-        .heal-item input[type="checkbox"] {
-            width: 18px;
-            height: 18px;
-            cursor: pointer;
-            flex-shrink: 0;
-            margin-bottom: 0;
-        }
-
-        .heal-item .heal-content {
-            flex: 1;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .example-text {
-            background: var(--bg);
-            padding: 12px 16px;
-            border-radius: 10px;
-            font-size: 0.9rem;
-            opacity: 0.8;
-            margin-bottom: 10px;
-            white-space: pre-wrap;
-            border: 1px dashed var(--border);
-            letter-spacing: 0.2px;
-        }
+        .flex-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
 
         .task-item {
-            background: var(--task-bg);
-            border-radius: 12px;
-            padding: 14px;
-            margin-bottom: 12px;
-            border: 1px solid var(--task-border);
-            color: var(--task-text);
+            background: var(--bg); border-radius: 12px; padding: 12px;
+            margin-bottom: 10px; border-left: 4px solid var(--accent);
         }
+        .task-item.done { opacity: 0.5; text-decoration: line-through; }
+        .task-item.my-task { background: var(--task-highlight); border-color: var(--accent); border-width: 2px; }
+        .task-meta { font-size: 0.85rem; opacity: 0.7; margin-top: 4px; }
+        .task-comment {
+            background: var(--card); padding: 6px 10px; border-radius: 8px;
+            margin-top: 6px; border-left: 2px solid var(--accent);
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .task-comment .meta { font-size: 0.7rem; opacity: 0.6; }
 
-        .task-item.done {
-            opacity: 0.5;
-            text-decoration: line-through;
-        }
+        .filter-row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; }
+        .filter-row select, .filter-row input { width: auto; margin-bottom: 0; }
 
-        .task-item.my-task {
-            background: var(--task-highlight);
-            border-color: var(--accent);
-            border-width: 2px;
-        }
+        .vok-item.late { border-left-color: var(--danger); background: #fdf0ed; }
+        body.dark .vok-item.late { background: #3d2420; }
 
-        .task-item .task-title,
-        .task-item .task-priority,
-        .task-item .task-meta,
-        .task-item .task-header div,
-        .task-item .task-comment .comment-text,
-        .task-item .task-comment .comment-meta,
-        .task-item .task-comment .comment-text div {
-            color: var(--task-text);
-        }
-
-        body.dark .task-item .task-title,
-        body.dark .task-item .task-priority,
-        body.dark .task-item .task-meta,
-        body.dark .task-item .task-header div,
-        body.dark .task-item .task-comment .comment-text,
-        body.dark .task-item .task-comment .comment-meta,
-        body.dark .task-item .task-comment .comment-text div {
-            color: #c4a88a;
-        }
-
-        .task-item .task-comment {
-            background: var(--card);
-            padding: 8px 12px;
-            border-radius: 8px;
-            margin-bottom: 6px;
-            font-size: 0.9rem;
-            border-left: 3px solid var(--accent);
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            gap: 8px;
-        }
-
-        .task-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-
-        .task-title {
-            font-weight: 600;
-            font-size: 1.05rem;
-            letter-spacing: 0.3px;
-        }
-
-        .task-priority {
-            font-size: 0.75rem;
-            background: var(--border);
-            padding: 2px 12px;
-            border-radius: 20px;
-            font-weight: 400;
-        }
-
-        .task-meta {
-            font-size: 0.9rem;
-            opacity: 0.8;
-            margin-top: 4px;
-            letter-spacing: 0.2px;
-        }
-
-        .task-comment .comment-text {
-            flex: 1;
-        }
-
-        .task-comment .comment-meta {
-            font-size: 0.7rem;
-            opacity: 0.6;
-            letter-spacing: 0.2px;
-        }
-
-        .task-comment .comment-actions {
-            display: flex;
-            gap: 4px;
-            flex-shrink: 0;
-        }
-
-        .task-comment .comment-actions button {
-            padding: 2px 8px;
-            font-size: 0.65rem;
-            border-radius: 12px;
-        }
-
-        .add-comment-form {
-            display: flex;
-            gap: 8px;
-            margin-top: 8px;
-            flex-wrap: wrap;
-        }
-
-        .add-comment-form input {
-            flex: 1;
-            min-width: 150px;
-            margin-bottom: 0;
-        }
-
-        .add-comment-form button {
-            padding: 8px 16px;
-            font-size: 0.85rem;
-        }
-
-        .sync-status {
-            padding: 8px 16px;
-            border-radius: 8px;
-            font-size: 0.85rem;
-            margin-bottom: 12px;
-            background: var(--bg);
-            border: 1px solid var(--border);
-        }
-
-        .sync-status.success {
-            border-color: var(--success);
-            color: var(--success);
-        }
-
-        .sync-status.error {
-            border-color: var(--danger);
-            color: var(--danger);
-        }
-
-        .sync-status.loading {
-            border-color: var(--warning);
-            color: var(--warning);
-        }
-
-        .filter-row {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin-bottom: 12px;
-            align-items: center;
-        }
-
-        .filter-row select, .filter-row input {
-            width: auto;
-            margin-bottom: 0;
-        }
-
-        @media (max-width: 600px) {
-            .calendar-day {
-                min-height: 50px;
-                padding: 6px 2px;
-                font-size: 0.75rem;
-            }
-            .add-comment-form {
-                flex-direction: column;
-            }
-            .add-comment-form input {
-                width: 100%;
-            }
-            .multi-select-container {
-                gap: 4px;
-                padding: 6px;
-            }
-            .multi-select-item {
-                padding: 4px 10px;
-                font-size: 0.8rem;
-            }
-            .user-greeting {
-                font-size: 1.1rem;
-            }
-            .filter-row {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            .filter-row select, .filter-row input {
-                width: 100%;
-            }
-        }
+        @media (max-width:600px){ .calendar-day { min-height: 44px; font-size: 0.7rem; } }
     </style>
 </head>
 <body>
 
 <div class="container" id="app">
 
+    <!-- HEADER -->
     <div class="header">
-        <div>
-            <span style="font-weight:300;">👋</span>
-            <span class="user-greeting" id="greetingText">Привет, Алёна, ты крутая!</span>
-        </div>
-        <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
-            <button class="sync-btn" onclick="syncData()" title="Синхронизировать с облаком">☁️ Синхронизировать</button>
-            <button class="theme-toggle" onclick="toggleTheme()">🌓 Тема</button>
-            <button class="logout-btn" onclick="logout()">🚪 Выйти</button>
+        <span class="user-greeting" id="greetingText">👋 Привет!</span>
+        <div class="header-actions">
+            <button class="sync-btn" onclick="syncData()">☁️ Синхронизировать</button>
+            <span id="syncStatus" class="sync-status"></span>
+            <button onclick="toggleTheme()">🌓 Тема</button>
+            <button onclick="logout()">🚪 Выйти</button>
         </div>
     </div>
 
-    <div id="syncStatus" class="sync-status" style="display:none;"></div>
-
+    <!-- TABS -->
     <div class="tabs" id="tabsContainer">
         <button class="tab-btn active" data-tab="tabCalendar">📅 Календарь</button>
         <button class="tab-btn" data-tab="tabTasks">📋 Задачи</button>
@@ -654,13 +131,11 @@
         <button class="tab-btn" data-tab="tabAdmin" id="adminTab" style="display:none;">⚙️ Админ</button>
     </div>
 
-    <!-- ========================= -->
-    <!-- ТАБ 1: КАЛЕНДАРЬ -->
-    <!-- ========================= -->
+    <!-- ========== КАЛЕНДАРЬ ========== -->
     <div id="tabCalendar" class="tab-content active">
         <div class="card">
             <div class="card-title">
-                <span>Календарь встреч и событий</span>
+                <span>📅 Календарь</span>
                 <span id="monthYearLabel">Сентябрь 2026</span>
             </div>
             <div class="calendar-nav">
@@ -669,32 +144,13 @@
             </div>
             <div class="calendar-grid" id="calendarGrid"></div>
         </div>
-
-        <div class="card" id="dayEventCard" style="display:none;">
-            <div class="card-title">📌 Событие на <span id="selectedDayLabel"></span>
-                <button onclick="closeEventForm()">✖</button>
-            </div>
-            <input type="text" id="eventTitle" placeholder="Название (например: Встреча по ВОК)">
-            <textarea id="eventComment" placeholder="Комментарий"></textarea>
-            <div class="multi-select-hint">👥 Выберите ответственных (клик для выбора нескольких)</div>
-            <div class="multi-select-container" id="eventAssigneeContainer"></div>
-            <div class="flex-row">
-                <button onclick="addEvent()">➕ Добавить</button>
-                <button onclick="markEventDone()" class="btn-success">✅ Выполнено (серая)</button>
-            </div>
-            <div id="eventList" style="margin-top:12px;"></div>
-            <div id="dayTaskList" style="margin-top:12px;"></div>
-        </div>
     </div>
 
-    <!-- ========================= -->
-    <!-- ТАБ 2: ЗАДАЧИ -->
-    <!-- ========================= -->
+    <!-- ========== ЗАДАЧИ ========== -->
     <div id="tabTasks" class="tab-content">
         <div class="card">
-            <div class="card-title">📋 Задачи (срочные / обычные)</div>
+            <div class="card-title">📋 Задачи</div>
 
-            <!-- ФИЛЬТРЫ -->
             <div class="filter-row">
                 <select id="filterPriority" onchange="renderTasks()">
                     <option value="all">Все приоритеты</option>
@@ -707,123 +163,93 @@
                 <button onclick="clearFilters()" class="btn-sm">Сбросить</button>
             </div>
 
-            <!-- ФОРМА СОЗДАНИЯ -->
             <div class="flex-row" style="margin-bottom:8px;">
-                <input type="text" id="taskTitle" placeholder="Название задачи" style="flex:2;">
+                <input type="text" id="taskTitle" placeholder="Название" style="flex:2;">
                 <select id="taskPriority" style="flex:1;">
                     <option value="Срочная">🚨 Срочная</option>
                     <option value="Обычная">📌 Обычная</option>
                 </select>
             </div>
             <div class="flex-row">
-                <input type="date" id="taskDateFrom" placeholder="Дата от">
-                <input type="date" id="taskDateTo" placeholder="Дата до">
+                <input type="date" id="taskDateFrom" placeholder="От">
+                <input type="date" id="taskDateTo" placeholder="До">
                 <span style="font-size:0.8rem; opacity:0.6;">или</span>
                 <input type="text" id="taskCustomDays" placeholder="дни: 2026-09-10,2026-09-12" style="flex:1.5;">
             </div>
-            <textarea id="taskComment" placeholder="Комментарий к задаче"></textarea>
-            <div class="multi-select-hint">👥 Выберите ответственных (клик для выбора нескольких)</div>
+            <textarea id="taskComment" placeholder="Комментарий"></textarea>
             <div class="multi-select-container" id="taskAssigneesContainer"></div>
             <input type="file" id="taskFile" accept="image/*">
             <button onclick="addTask()">➕ Добавить задачу</button>
 
-            <div id="taskList" style="margin-top:20px;"></div>
+            <div id="taskList" style="margin-top:16px;"></div>
         </div>
     </div>
 
-    <!-- ========================= -->
-    <!-- ТАБ 3: НЕ СДЕЛАЛИ ВОК -->
-    <!-- ========================= -->
+    <!-- ========== НЕ СДЕЛАЛИ ВОК ========== -->
     <div id="tabVok" class="tab-content">
         <div class="card">
-            <div class="card-title">📥 Загрузить данные "Не сделали ВОК"</div>
-            <div class="example-text">
-📌 Вставьте данные в формате:<br>
-<code>1 сентября 2026</code> (или <code>1.09.2026</code> или <code>01.09.2026</code>)<br>
-<code>AD24LK 1 Бортникова Алёна Алексеевна</code><br>
-<code>AWWJJ4 1 Сердюк Александр Владимирович</code>
-            </div>
-            <textarea id="vokRawInput" rows="8" placeholder="Вставьте данные скопом:&#10;1 сентября 2026&#10;AD24LK 1 Бортникова Алёна Алексеевна&#10;AWWJJ4 1 Сердюк Александр Владимирович"></textarea>
-            <button onclick="parseVok()">🔍 Распарсить и сохранить</button>
+            <div class="card-title">📥 Загрузить данные</div>
+            <textarea id="vokRawInput" rows="6" placeholder="1 сентября 2026&#10;AD24LK 1 Бортникова Алёна Алексеевна"></textarea>
+            <button onclick="parseVok()">🔍 Распарсить</button>
         </div>
-
         <div class="card">
             <div class="card-title">
-                <span>📊 Не сделали разбор ВОК</span>
-                <div style="display:flex; gap:8px; flex-wrap:wrap;">
-                    <select id="vokCopyDate" style="width:auto; margin-bottom:0;">
-                        <option value="today">📅 Сегодня</option>
-                    </select>
-                    <button onclick="copyVokByDate()" class="btn-success" style="font-size:0.9rem;">📋 Копировать за дату</button>
-                    <button onclick="copyVokAll()" class="btn-success" style="font-size:0.9rem;">📋 Копировать всё время</button>
-                    <button onclick="exportVokExcel()" style="font-size:0.9rem;">📤 Выгрузить Excel</button>
-                    <button onclick="deleteVokSelected()" class="btn-danger" style="font-size:0.9rem;">🗑️ Удалить выбранные</button>
-                    <button onclick="deleteVokAll()" class="btn-danger" style="font-size:0.9rem;">🗑️ Удалить всё</button>
+                <span>📊 Не сделали разбор</span>
+                <div class="flex-row">
+                    <select id="vokCopyDate"><option value="today">Сегодня</option></select>
+                    <button onclick="copyVokByDate()" class="btn-success btn-sm">📋 Копировать за дату</button>
+                    <button onclick="copyVokAll()" class="btn-success btn-sm">📋 Всё время</button>
+                    <button onclick="exportVokExcel()" class="btn-sm">📤 Excel</button>
                 </div>
             </div>
-            <div id="vokListContainer" class="vok-list"></div>
+            <div id="vokListContainer"></div>
         </div>
     </div>
 
-    <!-- ========================= -->
-    <!-- ТАБ 4: ЛЕЧИМ ВОК -->
-    <!-- ========================= -->
+    <!-- ========== ЛЕЧИМ ВОК ========== -->
     <div id="tabHeal" class="tab-content">
         <div class="card">
-            <div class="card-title">💊 Добавить "Лечим ВОК"</div>
+            <div class="card-title">💊 Добавить</div>
             <div class="flex-row">
-                <input type="text" id="healName" placeholder="Фамилия Имя сотрудника">
+                <input type="text" id="healName" placeholder="ФИО сотрудника">
                 <input type="date" id="healDate">
             </div>
             <button onclick="addHeal()">➕ Добавить</button>
-            <div id="healList" style="margin-top:20px;"></div>
-            <div style="margin-top:12px;">
-                <button onclick="deleteHealSelected()" class="btn-danger">🗑️ Удалить выбранные</button>
-                <button onclick="deleteHealAll()" class="btn-danger" style="margin-left:8px;">🗑️ Удалить всё</button>
-            </div>
+            <div id="healList" style="margin-top:12px;"></div>
         </div>
-
         <div class="card">
-            <div class="card-title">
-                <span>📋 Копировать "Лечим ВОК"</span>
-                <div style="display:flex; gap:8px; flex-wrap:wrap;">
-                    <select id="healCopyDate" style="width:auto; margin-bottom:0;">
-                        <option value="today">📅 Сегодня</option>
-                    </select>
-                    <button onclick="copyHealByDate()" class="btn-success" style="font-size:0.9rem;">📋 Копировать за дату</button>
-                    <button onclick="copyHealAll()" class="btn-success" style="font-size:0.9rem;">📋 Копировать всё время</button>
-                </div>
+            <div class="card-title">📋 Копировать</div>
+            <div class="flex-row">
+                <select id="healCopyDate"><option value="today">Сегодня</option></select>
+                <button onclick="copyHealByDate()" class="btn-success btn-sm">📋 За дату</button>
+                <button onclick="copyHealAll()" class="btn-success btn-sm">📋 Всё время</button>
             </div>
-            <div id="healCopyContainer" style="margin-top:12px; background:var(--bg); border-radius:12px; padding:16px; min-height:50px; white-space:pre-wrap; font-family:monospace; font-size:0.9rem;"></div>
+            <pre id="healCopyContainer" style="background:var(--bg); padding:12px; border-radius:12px; margin-top:8px; white-space:pre-wrap;"></pre>
         </div>
     </div>
 
-    <!-- ========================= -->
-    <!-- ТАБ 5: АНТИТОПЫ -->
-    <!-- ========================= -->
+    <!-- ========== АНТИТОПЫ ========== -->
     <div id="tabAntitop" class="tab-content">
         <div class="card">
-            <div class="card-title">🔻 Антитопы (кто кого ведет + заметки)</div>
+            <div class="card-title">🔻 Антитопы</div>
             <div class="flex-row">
                 <select id="antitopMentor"></select>
-                <input type="text" id="antitopStudent" placeholder="Имя ведомого">
-                <button onclick="addAntitop()">➕ Добавить связь</button>
+                <input type="text" id="antitopStudent" placeholder="Ведомый">
+                <button onclick="addAntitop()">➕ Добавить</button>
             </div>
-            <div id="antitopList" style="margin-top:20px;"></div>
+            <div id="antitopList"></div>
         </div>
     </div>
 
-    <!-- ========================= -->
-    <!-- ТАБ 6: АДМИНКА -->
-    <!-- ========================= -->
+    <!-- ========== АДМИН ========== -->
     <div id="tabAdmin" class="tab-content">
         <div class="card">
-            <div class="card-title">👥 Управление пользователями</div>
+            <div class="card-title">👥 Пользователи</div>
             <div class="flex-row">
-                <input type="text" id="newUserName" placeholder="Имя нового участника (например: Паша Охохонин)">
+                <input type="text" id="newUserName" placeholder="Имя нового участника">
                 <button onclick="addUser()">➕ Добавить</button>
             </div>
-            <div class="user-list" id="userListAdmin"></div>
+            <div id="userListAdmin"></div>
         </div>
     </div>
 
@@ -831,15 +257,12 @@
 
 <script>
     // ================================================================
-    // 1. НАСТРОЙКИ ОБЛАЧНОЙ СИНХРОНИЗАЦИИ (JSONBin.io)
+    // 1. НАСТРОЙКИ ОБЛАЧНОЙ СИНХРОНИЗАЦИИ
     // ================================================================
     const BIN_ID = '6a9b3886f5f4af5e296ba9a6';
     const API_KEY = '$2a$10$QsjJeNvs9y6R3W6/gjJRuBezUXlZVeivmfBw6nWbZPnqTt/cr07wK';
-    const USE_CLOUD = true;  // Облачная синхронизация включена
+    const USE_CLOUD = true;
 
-    // ================================================================
-    // 2. БАЗОВЫЕ ДАННЫЕ
-    // ================================================================
     const USERS_KEY = 'nz_users';
     const DATA_KEY = 'nz_data';
 
@@ -857,317 +280,135 @@
     ];
 
     let currentUser = null;
-
-    let appData = {
-        events: {},
-        tasks: [],
-        vok: [],
-        heal: [],
-        antitop: [],
-        lastId: 0
-    };
-
+    let appData = { events: {}, tasks: [], vok: [], heal: [], antitop: [], lastId: 0 };
     let selectedAssignees = [];
     let selectedEventAssignees = [];
+    let currentMonth = 8, currentYear = 2026;
 
     // ================================================================
-    // 3. ИНИЦИАЛИЗАЦИЯ
+    // 2. ЗАПУСК
     // ================================================================
     async function init() {
         let users = JSON.parse(localStorage.getItem(USERS_KEY));
-        if (!users) {
-            users = defaultUsers;
-            localStorage.setItem(USERS_KEY, JSON.stringify(users));
-        } else {
-            const hasPasha = users.some(u => u.name === 'Паша Охохонин');
-            if (!hasPasha) {
-                users = users.filter(u => u.name !== 'Охохонин Павел');
-                users.push({ name: 'Паша Охохонин', role: 'mentor', gender: 'male' });
-                localStorage.setItem(USERS_KEY, JSON.stringify(users));
-            }
-        }
+        if (!users) { users = defaultUsers; localStorage.setItem(USERS_KEY, JSON.stringify(users)); }
 
         let stored = JSON.parse(localStorage.getItem(DATA_KEY));
-        if (stored) {
-            appData = stored;
-        } else {
-            localStorage.setItem(DATA_KEY, JSON.stringify(appData));
-        }
+        if (stored) appData = stored;
+        else localStorage.setItem(DATA_KEY, JSON.stringify(appData));
 
-        if (USE_CLOUD) {
-            await loadFromCloud();
-        }
+        if (USE_CLOUD) await loadFromCloud();
 
-        const savedUser = sessionStorage.getItem('nz_current_user');
-        if (savedUser) {
-            const found = findUserByName(users, savedUser);
-            if (found) {
-                currentUser = found;
-                renderApp();
-                return;
-            }
-        }
-
+        // ВСЕГДА показываем логин, НЕ запоминаем пользователя
         showLogin();
     }
 
-    // ================================================================
-    // 4. ОБЛАЧНАЯ СИНХРОНИЗАЦИЯ
-    // ================================================================
-    async function syncData() {
-        const status = document.getElementById('syncStatus');
-        status.style.display = 'block';
-        status.className = 'sync-status loading';
-        status.textContent = '☁️ Синхронизация...';
-
-        try {
-            await saveToCloud();
-            await loadFromCloud();
-            status.className = 'sync-status success';
-            status.textContent = '✅ Данные успешно синхронизированы!';
-            renderApp();
-            setTimeout(() => { status.style.display = 'none'; }, 3000);
-        } catch (e) {
-            status.className = 'sync-status error';
-            status.textContent = '❌ Ошибка синхронизации: ' + e.message;
-            console.error('Sync error:', e);
-        }
-    }
-
-    async function saveToCloud() {
-        if (!USE_CLOUD) return;
-        const data = {
-            users: JSON.parse(localStorage.getItem(USERS_KEY)),
-            appData: appData
-        };
-        const response = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-Master-Key': API_KEY
-            },
-            body: JSON.stringify(data)
-        });
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-    }
-
-    async function loadFromCloud() {
-        if (!USE_CLOUD) return;
-        const response = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
-            headers: { 'X-Master-Key': API_KEY }
-        });
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        const result = await response.json();
-        const data = result.record;
-        if (data.users) {
-            localStorage.setItem(USERS_KEY, JSON.stringify(data.users));
-        }
-        if (data.appData) {
-            appData = data.appData;
-            localStorage.setItem(DATA_KEY, JSON.stringify(appData));
-        }
-    }
-
-    // ================================================================
-    // 5. ПОИСК ПОЛЬЗОВАТЕЛЯ (имя/фамилия в любом порядке)
-    // ================================================================
-    function findUserByName(users, inputName) {
-        const normalizedInput = normalizeName(inputName);
-        const inputParts = normalizedInput.split(' ').filter(p => p);
-        return users.find(user => {
-            const normalizedUser = normalizeName(user.name);
-            const userParts = normalizedUser.split(' ').filter(p => p);
-            const userPartsLower = userParts.map(p => p.toLowerCase());
-            return inputParts.every(part => userPartsLower.includes(part.toLowerCase()));
+    function findUserByName(users, input) {
+        const parts = input.toLowerCase().replace(/ё/g,'е').split(' ').filter(p=>p);
+        return users.find(u => {
+            const uparts = u.name.toLowerCase().replace(/ё/g,'е').split(' ').filter(p=>p);
+            return parts.every(p => uparts.includes(p));
         });
     }
 
-    function normalizeName(name) {
-        return name.toLowerCase().replace(/ё/g, 'е').replace(/\s+/g, ' ').trim();
-    }
-
-    // ================================================================
-    // 6. АВТОРИЗАЦИЯ
-    // ================================================================
     function showLogin() {
-        const name = prompt('Введите ваше имя (в любом формате, например: "Алёна Бортникова" или "Бортникова Алёна"):');
-        if (!name) return;
+        const name = prompt('Введите имя (например: Алёна Бортникова или Бортникова Алёна):');
+        if (!name) { showLogin(); return; }
         const users = JSON.parse(localStorage.getItem(USERS_KEY));
         const found = findUserByName(users, name);
         if (found) {
             currentUser = found;
-            sessionStorage.setItem('nz_current_user', found.name);
             renderApp();
         } else {
-            alert('Пользователь не найден. Проверьте имя или обратитесь к админу.');
+            alert('❌ Пользователь не найден. Попробуйте ещё раз.');
             showLogin();
         }
     }
 
     function logout() {
-        sessionStorage.removeItem('nz_current_user');
         currentUser = null;
         location.reload();
     }
 
     // ================================================================
-    // 7. МУЛЬТИСЕЛЕКТ
+    // 3. ОБЛАЧНАЯ СИНХРОНИЗАЦИЯ
     // ================================================================
-    function renderMultiSelect(containerId, options, selected, onChange) {
-        const container = document.getElementById(containerId);
-        if (!container) return;
-        container.innerHTML = '';
-        options.forEach(opt => {
-            const div = document.createElement('div');
-            div.className = 'multi-select-item' + (selected.includes(opt) ? ' selected' : '');
-            div.textContent = opt;
-            div.onclick = function(e) {
-                e.stopPropagation();
-                const idx = selected.indexOf(opt);
-                if (idx === -1) selected.push(opt);
-                else selected.splice(idx, 1);
-                renderMultiSelect(containerId, options, selected, onChange);
-                if (onChange) onChange(selected);
-            };
-            container.appendChild(div);
+    async function syncData() {
+        const status = document.getElementById('syncStatus');
+        status.className = 'sync-status loading';
+        status.textContent = '☁️ Синхронизация...';
+        try {
+            await saveToCloud();
+            await loadFromCloud();
+            status.className = 'sync-status ok';
+            status.textContent = '✅ Синхронизировано!';
+            renderApp();
+            setTimeout(()=>{ status.className='sync-status'; status.textContent=''; }, 3000);
+        } catch(e) {
+            status.className = 'sync-status err';
+            status.textContent = '❌ Ошибка: ' + e.message;
+            console.error(e);
+        }
+    }
+
+    async function saveToCloud() {
+        if (!USE_CLOUD) return;
+        const data = { users: JSON.parse(localStorage.getItem(USERS_KEY)), appData };
+        const r = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
+            method: 'PUT',
+            headers: { 'Content-Type':'application/json', 'X-Master-Key': API_KEY },
+            body: JSON.stringify(data)
         });
+        if (!r.ok) throw new Error(`HTTP ${r.status}`);
+    }
+
+    async function loadFromCloud() {
+        if (!USE_CLOUD) return;
+        const r = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
+            headers: { 'X-Master-Key': API_KEY }
+        });
+        if (!r.ok) throw new Error(`HTTP ${r.status}`);
+        const result = await r.json();
+        const data = result.record;
+        if (data.users) localStorage.setItem(USERS_KEY, JSON.stringify(data.users));
+        if (data.appData) { appData = data.appData; localStorage.setItem(DATA_KEY, JSON.stringify(appData)); }
+    }
+
+    function saveDataAndSync() {
+        localStorage.setItem(DATA_KEY, JSON.stringify(appData));
+        if (USE_CLOUD) saveToCloud().catch(e => console.warn('Cloud save error:', e));
     }
 
     // ================================================================
-    // 8. РЕНДЕР ПОСЛЕ ВХОДА
+    // 4. РЕНДЕР
     // ================================================================
     function renderApp() {
         const greeting = document.getElementById('greetingText');
-        const nameParts = currentUser.name.split(' ');
-        const firstName = nameParts[0] || 'Друг';
+        const firstName = currentUser.name.split(' ')[0] || 'Друг';
         const isMale = currentUser.gender === 'male';
-        const phrases = isMale ? [
-            'ты просто огонь! 🔥', 'ты мощь! 💪', 'ты суперзвезда! ⭐',
-            'ты невероятен! ✨', 'ты лучший! 🏆', 'ты круче всех! 👑',
-            'ты машина! 🚀', 'ты гений! 🧠', 'ты легенда! 🌟',
-            'ты чемпион! 🥇', 'ты топ! 📈', 'ты бог! 👑',
-            'ты вдохновляешь! 💫', 'ты творишь магию! 🪄', 'ты сила! ⚡',
-            'ты прорыв! 💥', 'ты шедевр! 🎨', 'ты космос! 🚀',
-            'ты алмаз! 💎', 'ты сокровище! 🏴‍☠️', 'ты ураган! 🌪️',
-            'ты океан! 🌊', 'ты солнце! ☀️', 'ты звезда! 🌠',
-            'ты победитель! 🏅', 'ты герой! 🦸‍♂️', 'ты титан! 🗿',
-            'ты великолепен! 🌺', 'ты очарователен! 🌹', 'ты удивительный! 🌈',
-            'ты талантлив! 🎭', 'ты уникален! 🦄', 'ты неповторим! 🌸',
-            'ты солнечный лучик! ☀️', 'ты нежность! 🕊️', 'ты грация! 🦢',
-            'ты гармония! 🎵', 'ты вдохновение! 🎨', 'ты мечта! 🌙',
-            'ты звёздочка! ✨', 'ты совершенство! 💎', 'ты искренность! 💝',
-            'ты доброта! 🌷', 'ты мудрость! 📚', 'ты красота! 🌹',
-            'ты изящество! 🦋', 'ты шарм! ✨', 'ты обаяние! 😊',
-            'ты свежесть! 🌿', 'ты энергия! ⚡', 'ты страсть! ❤️‍🔥',
-            'ты тепло! ☀️', 'ты свет! 💡', 'ты цветок! 🌺',
-            'у тебя всё получится! 🤞', 'ты справишься с любыми задачами! 🎯',
-            'мы в тебя верим! 🙌', 'ты можешь всё! 💫',
-            'никто не справится лучше тебя! 🌟', 'ты на верном пути! 🛤️',
-            'ты делаешь мир лучше! 🌍', 'ты пример для подражания! 👏',
-            'ты создан для великих дел! 🏔️', 'ты преодолеешь всё! 🏋️‍♂️',
-            'ты сильнее, чем думаешь! 💪', 'ты умница! 🧠', 'ты молодец! 👍',
-            'ты на высоте! 📈', 'ты двигаешь прогресс! 🚀', 'ты меняешь мир! 🌎',
-            'ты вдохновляешь команду! 👥', 'ты делаешь крутые вещи! 🎪',
-            'ты профессионал! 👨‍💼', 'ты эксперт! 🎓', 'ты ас своего дела! ✈️',
-            'ты мастер! 🏺', 'ты виртуоз! 🎻', 'ты гранд! 🎩',
-            'ты король! 👑', 'ты центр вселенной! 🌌',
-            'ты луч света в тёмном царстве! 💡', 'ты бриллиант! 💎',
-            'ты жемчужина! 🦪', 'ты сокровище нации! 🏛️',
-            'ты способен на всё! 🌟', 'твой потенциал бесконечен! ♾️',
-            'ты открываешь новые горизонты! 🌅', 'ты создаёшь будущее! 🔮',
-            'ты пишешь свою историю! 📖', 'ты строишь империю! 🏰',
-            'ты воспаряешь выше облаков! ☁️', 'ты покоряешь вершины! 🏔️',
-            'ты пересекаешь океаны! ⛵', 'ты летишь к звёздам! 🚀',
-            'ты творишь чудеса! 🪄', 'ты исполняешь мечты! 🌠',
-            'ты приносишь радость! 😊', 'ты даришь надежду! 🕊️',
-            'ты заряжаешь энергией! 🔋', 'ты объединяешь людей! 🤝',
-            'ты ведёшь к успеху! 🏆', 'ты прокладываешь путь! 🛤️',
-            'ты зажигаешь огонь! 🔥', 'ты расцветаешь каждый день! 🌸',
-            'ты растёшь над собой! 🌱', 'ты становишься лучше! 📈',
-            'ты достигаешь целей! 🎯', 'ты превосходишь ожидания! 🚀',
-            'ты удивляешь всех! 😲', 'ты вдохновляешь на подвиги! 🦸‍♂️',
-            'ты заставляешь мечтать! 🌙', 'ты даришь веру! 🙏',
-            'ты излучаешь свет! 💫', 'ты — чудо! 🌟'
-        ] : [
-            'ты просто огонь! 🔥', 'ты мощь! 💪', 'ты суперзвезда! ⭐',
-            'ты невероятна! ✨', 'ты лучшая! 🏆', 'ты круче всех! 👑',
-            'ты машина! 🚀', 'ты гений! 🧠', 'ты легенда! 🌟',
-            'ты чемпионка! 🥇', 'ты топ! 📈', 'ты богиня! 👸',
-            'ты вдохновляешь! 💫', 'ты творишь магию! 🪄', 'ты сила! ⚡',
-            'ты прорыв! 💥', 'ты шедевр! 🎨', 'ты космос! 🚀',
-            'ты алмаз! 💎', 'ты сокровище! 🏴‍☠️', 'ты ураган! 🌪️',
-            'ты океан! 🌊', 'ты солнце! ☀️', 'ты звезда! 🌠',
-            'ты победительница! 🏅', 'ты героиня! 🦸‍♀️', 'ты титаниха! 🗿',
-            'ты великолепна! 🌺', 'ты очаровательна! 🌹', 'ты удивительная! 🌈',
-            'ты талантлива! 🎭', 'ты уникальна! 🦄', 'ты неповторима! 🌸',
-            'ты солнечный лучик! ☀️', 'ты нежность! 🕊️', 'ты грация! 🦢',
-            'ты гармония! 🎵', 'ты вдохновение! 🎨', 'ты мечта! 🌙',
-            'ты звёздочка! ✨', 'ты совершенство! 💎', 'ты искренность! 💝',
-            'ты доброта! 🌷', 'ты мудрость! 📚', 'ты красота! 🌹',
-            'ты изящество! 🦋', 'ты шарм! ✨', 'ты обаяние! 😊',
-            'ты свежесть! 🌿', 'ты энергия! ⚡', 'ты страсть! ❤️‍🔥',
-            'ты тепло! ☀️', 'ты свет! 💡', 'ты цветок! 🌺',
-            'у тебя всё получится! 🤞', 'ты справишься с любыми задачами! 🎯',
-            'мы в тебя верим! 🙌', 'ты можешь всё! 💫',
-            'никто не справится лучше тебя! 🌟', 'ты на верном пути! 🛤️',
-            'ты делаешь мир лучше! 🌍', 'ты пример для подражания! 👏',
-            'ты создана для великих дел! 🏔️', 'ты преодолеешь всё! 🏋️‍♀️',
-            'ты сильнее, чем думаешь! 💪', 'ты умница! 🧠', 'ты молодец! 👍',
-            'ты на высоте! 📈', 'ты двигаешь прогресс! 🚀', 'ты меняешь мир! 🌎',
-            'ты вдохновляешь команду! 👥', 'ты делаешь крутые вещи! 🎪',
-            'ты профессионал! 👩‍💼', 'ты эксперт! 🎓', 'ты ас своего дела! ✈️',
-            'ты мастер! 🏺', 'ты виртуоз! 🎻', 'ты гранд! 🎩',
-            'ты королева! 👑', 'ты центр вселенной! 🌌',
-            'ты луч света в тёмном царстве! 💡', 'ты бриллиант! 💎',
-            'ты жемчужина! 🦪', 'ты сокровище нации! 🏛️',
-            'ты способна на всё! 🌟', 'твой потенциал бесконечен! ♾️',
-            'ты открываешь новые горизонты! 🌅', 'ты создаёшь будущее! 🔮',
-            'ты пишешь свою историю! 📖', 'ты строишь империю! 🏰',
-            'ты воспаряешь выше облаков! ☁️', 'ты покоряешь вершины! 🏔️',
-            'ты пересекаешь океаны! ⛵', 'ты летишь к звёздам! 🚀',
-            'ты творишь чудеса! 🪄', 'ты исполняешь мечты! 🌠',
-            'ты приносишь радость! 😊', 'ты даришь надежду! 🕊️',
-            'ты заряжаешь энергией! 🔋', 'ты объединяешь людей! 🤝',
-            'ты ведёшь к успеху! 🏆', 'ты прокладываешь путь! 🛤️',
-            'ты зажигаешь огонь! 🔥', 'ты расцветаешь каждый день! 🌸',
-            'ты растёшь над собой! 🌱', 'ты становишься лучше! 📈',
-            'ты достигаешь целей! 🎯', 'ты превосходишь ожидания! 🚀',
-            'ты удивляешь всех! 😲', 'ты вдохновляешь на подвиги! 🦸‍♀️',
-            'ты заставляешь мечтать! 🌙', 'ты даришь веру! 🙏',
-            'ты излучаешь свет! 💫', 'ты — чудо! 🌟'
-        ];
-        const phrase = phrases[Math.floor(Math.random() * phrases.length)];
-        greeting.textContent = `Привет, ${firstName}, ${phrase}`;
+        const phrases = isMale ? ['ты крутой! 💪','ты мощь! 🔥','ты лучший! 🏆'] : ['ты крутая! 💪','ты мощь! 🔥','ты лучшая! 🏆'];
+        greeting.textContent = `👋 Привет, ${firstName}, ${phrases[Math.floor(Math.random()*phrases.length)]}`;
 
         if (currentUser.role === 'admin') {
             document.getElementById('adminTab').style.display = 'inline-block';
+        } else {
+            document.getElementById('adminTab').style.display = 'none';
         }
 
         const users = JSON.parse(localStorage.getItem(USERS_KEY));
         const mentorNames = users.filter(u => u.role === 'mentor' || u.role === 'admin').map(u => u.name);
 
-        const antitopSelect = document.getElementById('antitopMentor');
-        if (antitopSelect) {
-            antitopSelect.innerHTML = '';
-            mentorNames.forEach(name => {
-                const opt = document.createElement('option');
-                opt.value = name;
-                opt.textContent = name;
-                antitopSelect.appendChild(opt);
+        // Заполняем селекты
+        ['antitopMentor', 'filterAssignee'].forEach(id => {
+            const sel = document.getElementById(id);
+            if (!sel) return;
+            sel.innerHTML = '<option value="all">Все</option>';
+            mentorNames.forEach(n => {
+                const o = document.createElement('option');
+                o.value = n;
+                o.textContent = n;
+                sel.appendChild(o);
             });
-        }
-
-        // Заполняем фильтр по сотрудникам
-        const filterAssignee = document.getElementById('filterAssignee');
-        if (filterAssignee) {
-            filterAssignee.innerHTML = '<option value="all">Все сотрудники</option>';
-            mentorNames.forEach(name => {
-                const opt = document.createElement('option');
-                opt.value = name;
-                opt.textContent = name;
-                filterAssignee.appendChild(opt);
-            });
-        }
+        });
 
         selectedAssignees = [];
         selectedEventAssignees = [];
@@ -1175,7 +416,6 @@
         renderMultiSelect('eventAssigneeContainer', mentorNames, selectedEventAssignees);
 
         updateDateSelects();
-
         renderCalendar();
         renderTasks();
         renderVok();
@@ -1183,220 +423,110 @@
         renderAntitop();
         renderUserList();
 
+        // ВКЛАДКИ — ПРОСТАЯ И НАДЁЖНАЯ ЛОГИКА
         document.querySelectorAll('.tab-btn').forEach(btn => {
-            btn.onclick = () => {
+            btn.onclick = function(e) {
+                e.preventDefault();
                 document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
+                this.classList.add('active');
                 document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-                document.getElementById(btn.dataset.tab).classList.add('active');
+                const target = document.getElementById(this.dataset.tab);
+                if (target) target.classList.add('active');
             };
+        });
+    }
+
+    function renderMultiSelect(containerId, options, selected) {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+        container.innerHTML = '';
+        options.forEach(opt => {
+            const div = document.createElement('div');
+            div.className = 'multi-select-item' + (selected.includes(opt) ? ' selected' : '');
+            div.textContent = opt;
+            div.onclick = () => {
+                const idx = selected.indexOf(opt);
+                idx === -1 ? selected.push(opt) : selected.splice(idx, 1);
+                renderMultiSelect(containerId, options, selected);
+            };
+            container.appendChild(div);
         });
     }
 
     function updateDateSelects() {
         const dates = [...new Set(appData.vok.map(v => v.date))].sort();
-        const vokSelect = document.getElementById('vokCopyDate');
-        const healSelect = document.getElementById('healCopyDate');
-        [vokSelect, healSelect].forEach(sel => {
+        ['vokCopyDate', 'healCopyDate'].forEach(id => {
+            const sel = document.getElementById(id);
             if (!sel) return;
-            const currentVal = sel.value;
-            sel.innerHTML = '<option value="today">📅 Сегодня</option>';
-            dates.forEach(date => {
-                const display = new Date(date + 'T00:00:00').toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
-                const opt = document.createElement('option');
-                opt.value = date;
-                opt.textContent = display;
-                sel.appendChild(opt);
+            const val = sel.value;
+            sel.innerHTML = '<option value="today">Сегодня</option>';
+            dates.forEach(d => {
+                const o = document.createElement('option');
+                o.value = d;
+                o.textContent = new Date(d + 'T00:00:00').toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
+                sel.appendChild(o);
             });
-            if (currentVal && [...sel.options].some(o => o.value === currentVal)) {
-                sel.value = currentVal;
-            }
+            if (val && [...sel.options].some(o => o.value === val)) sel.value = val;
         });
     }
 
     // ================================================================
-    // 9. КАЛЕНДАРЬ
+    // 5. КАЛЕНДАРЬ
     // ================================================================
-    let currentMonth = 8;
-    let currentYear = 2026;
-
     function renderCalendar() {
         const grid = document.getElementById('calendarGrid');
         const label = document.getElementById('monthYearLabel');
         const months = ['Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'];
         label.textContent = `${months[currentMonth]} ${currentYear}`;
 
-        const firstDay = new Date(currentYear, currentMonth, 1).getDay();
-        const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
-
+        const first = new Date(currentYear, currentMonth, 1).getDay();
+        const days = new Date(currentYear, currentMonth + 1, 0).getDate();
         grid.innerHTML = '';
-        const weekDays = ['Пн','Вт','Ср','Чт','Пт','Сб','Вс'];
-        weekDays.forEach(d => {
+        ['Пн','Вт','Ср','Чт','Пт','Сб','Вс'].forEach(d => {
             const div = document.createElement('div');
-            div.style.fontWeight = '600';
+            div.style.fontWeight = '500';
             div.style.textAlign = 'center';
-            div.style.padding = '4px';
-            div.style.letterSpacing = '0.5px';
+            div.textContent = d;
             grid.appendChild(div);
         });
+        for (let i = 0; i < (first === 0 ? 6 : first - 1); i++) grid.appendChild(document.createElement('div'));
 
-        for (let i = 0; i < (firstDay === 0 ? 6 : firstDay - 1); i++) {
-            const empty = document.createElement('div');
-            grid.appendChild(empty);
-        }
-
-        for (let day = 1; day <= daysInMonth; day++) {
+        for (let d = 1; d <= days; d++) {
+            const dateStr = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
             const div = document.createElement('div');
             div.className = 'calendar-day';
-            const dateStr = `${currentYear}-${String(currentMonth+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+            div.innerHTML = `<span class="day-num">${d}</span>`;
 
-            const numSpan = document.createElement('span');
-            numSpan.className = 'day-number';
-            numSpan.textContent = day;
-            div.appendChild(numSpan);
-
-            const tasksOnDate = appData.tasks.filter(t => t.deadline === dateStr && !t.done);
-            if (tasksOnDate.length > 0) {
+            const tasks = appData.tasks.filter(t => t.deadline === dateStr && !t.done);
+            if (tasks.length) {
                 div.classList.add('has-task');
-                const taskIndicator = document.createElement('div');
-                taskIndicator.className = 'task-indicator';
-                taskIndicator.textContent = `📋 ${tasksOnDate.length}`;
-                div.appendChild(taskIndicator);
+                const badge = document.createElement('div');
+                badge.className = 'task-badge';
+                badge.textContent = `📋 ${tasks.length}`;
+                div.appendChild(badge);
             }
-
-            const iconGroup = document.createElement('div');
-            iconGroup.className = 'icon-group';
-            const events = appData.events[dateStr] || [];
-            const doneCount = events.filter(e => e.done).length;
-            if (events.length > 0) {
-                const icon = events.some(e => e.title.toLowerCase().includes('встреча')) ? '👥' : '📌';
-                iconGroup.textContent = `${icon} ${events.length}`;
-                if (doneCount === events.length) {
-                    div.classList.add('done');
-                }
+            const evs = appData.events[dateStr] || [];
+            if (evs.length) {
+                const icon = document.createElement('div');
+                icon.style.fontSize = '0.7rem';
+                icon.textContent = evs.some(e => e.title.toLowerCase().includes('встреча')) ? '👥' : '📌';
+                div.appendChild(icon);
             }
-            div.appendChild(iconGroup);
-
-            div.onclick = () => openDayEvents(dateStr);
             grid.appendChild(div);
         }
     }
 
     function changeMonth(delta) {
         currentMonth += delta;
-        if (currentMonth < 0) { currentMonth = 11; currentYear--; }
-        if (currentMonth > 11) { currentMonth = 0; currentYear++; }
-        renderCalendar();
-        document.getElementById('dayEventCard').style.display = 'none';
-    }
-
-    // ================================================================
-    // 10. СОБЫТИЯ В КАЛЕНДАРЕ
-    // ================================================================
-    function openDayEvents(dateStr) {
-        const card = document.getElementById('dayEventCard');
-        card.style.display = 'block';
-        document.getElementById('selectedDayLabel').textContent = dateStr;
-        document.getElementById('selectedDayLabel').dataset.date = dateStr;
-
-        document.getElementById('eventTitle').value = '';
-        document.getElementById('eventComment').value = '';
-        selectedEventAssignees = [];
-        const users = JSON.parse(localStorage.getItem(USERS_KEY));
-        const mentorNames = users.filter(u => u.role === 'mentor' || u.role === 'admin').map(u => u.name);
-        renderMultiSelect('eventAssigneeContainer', mentorNames, selectedEventAssignees);
-
-        renderDayEvents(dateStr);
-        renderDayTasks(dateStr);
-    }
-
-    function closeEventForm() {
-        document.getElementById('dayEventCard').style.display = 'none';
-    }
-
-    function renderDayEvents(dateStr) {
-        const container = document.getElementById('eventList');
-        const events = appData.events[dateStr] || [];
-        if (events.length === 0) {
-            container.innerHTML = '<p style="color:var(--text); opacity:0.6;">Нет событий на этот день</p>';
-            return;
-        }
-        container.innerHTML = events.map((e, idx) => `
-            <div style="display:flex; justify-content:space-between; padding:6px 12px; background:var(--bg); border-radius:8px; margin-bottom:4px; ${e.done ? 'opacity:0.4; text-decoration:line-through;' : ''}">
-                <div><strong>${e.title}</strong> ${e.comment ? `— ${e.comment}` : ''} ${e.assignee ? `👤 ${e.assignee}` : ''}</div>
-                <div>
-                    <button onclick="toggleEventDone('${dateStr}', ${idx})" style="padding:4px 12px; font-size:0.8rem; background:var(--success);">✅</button>
-                    <button onclick="deleteEvent('${dateStr}', ${idx})" style="padding:4px 12px; font-size:0.8rem; background:var(--danger);">✖</button>
-                </div>
-            </div>
-        `).join('');
-    }
-
-    function renderDayTasks(dateStr) {
-        const container = document.getElementById('dayTaskList');
-        const tasks = appData.tasks.filter(t => t.deadline === dateStr);
-        if (tasks.length === 0) {
-            container.innerHTML = '<p style="color:var(--text); opacity:0.6; margin-top:8px;">📋 Нет задач на этот день</p>';
-            return;
-        }
-        container.innerHTML = `
-            <div style="margin-top:12px; padding-top:12px; border-top:1px solid var(--border);">
-                <div style="font-weight:600; margin-bottom:8px;">📋 Задачи на этот день:</div>
-                ${tasks.map(t => `
-                    <div style="padding:6px 12px; background:var(--bg); border-radius:8px; margin-bottom:4px; ${t.done ? 'opacity:0.5; text-decoration:line-through;' : ''}">
-                        <strong>${t.title}</strong> 
-                        <span style="font-size:0.75rem; background:var(--border); padding:0 8px; border-radius:10px;">${t.priority}</span>
-                        ${t.assignees && t.assignees.length ? `👤 ${t.assignees.join(', ')}` : ''}
-                    </div>
-                `).join('')}
-            </div>
-        `;
-    }
-
-    function addEvent() {
-        const dateStr = document.getElementById('selectedDayLabel').dataset.date;
-        const title = document.getElementById('eventTitle').value.trim();
-        const comment = document.getElementById('eventComment').value.trim();
-        const assignee = selectedEventAssignees.join(', ');
-
-        if (!title) { alert('Введите название события'); return; }
-
-        if (!appData.events[dateStr]) appData.events[dateStr] = [];
-        appData.events[dateStr].push({ title, comment, assignee, done: false });
-
-        saveDataAndSync();
-        renderDayEvents(dateStr);
-        renderCalendar();
-    }
-
-    function toggleEventDone(dateStr, idx) {
-        if (!appData.events[dateStr]) return;
-        appData.events[dateStr][idx].done = !appData.events[dateStr][idx].done;
-        saveDataAndSync();
-        renderDayEvents(dateStr);
-        renderCalendar();
-    }
-
-    function deleteEvent(dateStr, idx) {
-        if (!confirm('Удалить событие?')) return;
-        appData.events[dateStr].splice(idx, 1);
-        if (appData.events[dateStr].length === 0) delete appData.events[dateStr];
-        saveDataAndSync();
-        renderDayEvents(dateStr);
-        renderCalendar();
-    }
-
-    function markEventDone() {
-        const dateStr = document.getElementById('selectedDayLabel').dataset.date;
-        if (!appData.events[dateStr]) return;
-        appData.events[dateStr].forEach(e => e.done = true);
-        saveDataAndSync();
-        renderDayEvents(dateStr);
+        if (currentMonth < 0) { currentMonth = 11;
+            currentYear--; }
+        if (currentMonth > 11) { currentMonth = 0;
+            currentYear++; }
         renderCalendar();
     }
 
     // ================================================================
-    // 11. ЗАДАЧИ (с фильтрацией и периодами)
+    // 6. ЗАДАЧИ
     // ================================================================
     function addTask() {
         const title = document.getElementById('taskTitle').value.trim();
@@ -1407,9 +537,7 @@
         const customDays = document.getElementById('taskCustomDays').value.trim();
         const assignees = [...selectedAssignees];
         const fileInput = document.getElementById('taskFile');
-        let fileData = null;
-
-        if (!title) { alert('Введите название задачи'); return; }
+        if (!title) return alert('Введите название');
 
         let dates = [];
         if (customDays) {
@@ -1424,10 +552,10 @@
         } else if (dateFrom) {
             dates = [dateFrom];
         } else {
-            alert('Укажите дату (от–до, конкретную или через запятую)');
-            return;
+            return alert('Укажите дату (от–до, конкретную или через запятую)');
         }
 
+        let fileData = null;
         if (fileInput.files && fileInput.files[0]) {
             const reader = new FileReader();
             reader.onload = function(e) {
@@ -1438,7 +566,6 @@
         } else {
             dates.forEach(d => saveSingleTask(title, comment, priority, d, assignees, null));
         }
-
         document.getElementById('taskTitle').value = '';
         document.getElementById('taskComment').value = '';
         document.getElementById('taskDateFrom').value = '';
@@ -1478,39 +605,30 @@
         if (priorityFilter !== 'all') tasks = tasks.filter(t => t.priority === priorityFilter);
         if (assigneeFilter !== 'all') tasks = tasks.filter(t => t.assignees && t.assignees.includes(assigneeFilter));
 
-        if (tasks.length === 0) {
-            container.innerHTML = '<p style="opacity:0.6; color:var(--text);">Задач пока нет</p>';
-            return;
-        }
+        if (!tasks.length) { container.innerHTML = '<p style="opacity:0.6;">Задач пока нет</p>'; return; }
 
-        const sorted = [...tasks].sort((a, b) => {
+        container.innerHTML = tasks.sort((a, b) => {
             if (a.priority === 'Срочная' && b.priority !== 'Срочная') return -1;
             if (a.priority !== 'Срочная' && b.priority === 'Срочная') return 1;
             return (a.deadline || '').localeCompare(b.deadline || '');
-        });
-
-        container.innerHTML = sorted.map(t => {
+        }).map(t => {
+            const isMy = t.assignees && t.assignees.some(a => findUserByName([currentUser], a));
             const isDone = t.done ? 'done' : '';
-            const bgColor = t.priority === 'Срочная' ? '#f5e6d9' : 'var(--task-bg)';
-            
-            const isMyTask = t.assignees && t.assignees.some(a => 
-                findUserByName([currentUser], a)
-            );
-            const myTaskClass = isMyTask && !t.done ? 'my-task' : '';
-            
+            const myClass = isMy && !t.done ? 'my-task' : '';
+
             let updatesHtml = '';
-            if (t.updates && t.updates.length > 0) {
-                updatesHtml = '<div style="margin-top:8px; padding-top:8px; border-top:1px solid var(--border);"><div style="font-size:0.8rem; opacity:0.6; margin-bottom:4px; color:var(--task-text);">📝 Апдейты:</div>';
-                t.updates.forEach((u, idx) => {
+            if (t.updates && t.updates.length) {
+                updatesHtml = '<div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--border);"><div style="font-size:0.8rem;opacity:0.6;">📝 Апдейты:</div>';
+                t.updates.forEach((u, i) => {
                     updatesHtml += `
                         <div class="task-comment">
-                            <div class="comment-text">
-                                <div style="color:var(--task-text);">${u.text}</div>
-                                <div class="comment-meta" style="color:var(--task-text);">👤 ${u.author} • ${u.date}${u.edited ? ' ✏️ ред.' : ''}</div>
+                            <div>
+                                <div>${u.text}</div>
+                                <div class="meta">👤 ${u.author} • ${u.date}${u.edited ? ' ✏️ ред.' : ''}</div>
                             </div>
-                            <div class="comment-actions">
-                                <button onclick="editTaskUpdate(${t.id}, ${idx})" class="btn-sm" style="background:var(--accent);">✏️</button>
-                                <button onclick="deleteTaskUpdate(${t.id}, ${idx})" class="btn-sm" style="background:var(--danger);">🗑️</button>
+                            <div>
+                                <button onclick="editTaskUpdate(${t.id},${i})" class="btn-sm" style="background:var(--accent);">✏️</button>
+                                <button onclick="deleteTaskUpdate(${t.id},${i})" class="btn-sm btn-danger">🗑️</button>
                             </div>
                         </div>
                     `;
@@ -1518,40 +636,39 @@
                 updatesHtml += '</div>';
             }
 
-            // Управление ответственными (удаление)
             let assigneesHtml = '';
             if (t.assignees && t.assignees.length) {
-                assigneesHtml = `<div class="task-meta" style="color:var(--task-text);">👤 ${t.assignees.map(a =>
+                assigneesHtml = `<div class="task-meta">👤 ${t.assignees.map(a =>
                     `<span style="display:inline-block;background:var(--border);padding:0 8px;border-radius:12px;margin:2px;">
-                        ${a} <button onclick="removeAssignee(${t.id},'${a}')" style="background:none;border:none;color:var(--danger);cursor:pointer;padding:0 4px;" title="Удалить ответственного">✖</button>
+                        ${a} <button onclick="removeAssignee(${t.id},'${a}')" style="background:none;border:none;color:var(--danger);cursor:pointer;padding:0 4px;">✖</button>
                      </span>`
                 ).join(' ')}</div>`;
             }
 
             const updateForm = `
-                <div class="add-comment-form">
-                    <input type="text" id="updateInput_${t.id}" placeholder="Новый апдейт по задаче..." style="color:var(--text);">
-                    <button onclick="addTaskUpdate(${t.id})" style="padding:6px 16px; font-size:0.8rem;">➕ Добавить апдейт</button>
+                <div class="flex-row" style="margin-top:6px;">
+                    <input type="text" id="updateInput_${t.id}" placeholder="Новый апдейт..." style="flex:1;margin-bottom:0;">
+                    <button onclick="addTaskUpdate(${t.id})" class="btn-sm">➕</button>
                 </div>
             `;
 
             return `
-                <div class="task-item ${isDone} ${myTaskClass}" style="background:${bgColor}; border-color:var(--task-border);">
-                    <div class="task-header">
+                <div class="task-item ${isDone} ${myClass}">
+                    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:4px;">
                         <div>
-                            <span class="task-title" style="color:var(--task-text);">${t.title}</span>
-                            <span class="task-priority" style="color:var(--task-text);">${t.priority}</span>
-                            ${t.deadline ? `<span style="color:var(--task-text);">📅 ${t.deadline}</span>` : ''}
-                            ${isMyTask && !t.done ? ' <span style="color:var(--accent);">⭐ Моя задача</span>' : ''}
+                            <strong>${t.title}</strong>
+                            <span style="font-size:0.75rem;background:var(--border);padding:0 10px;border-radius:12px;">${t.priority}</span>
+                            ${t.deadline ? `📅 ${t.deadline}` : ''}
+                            ${isMy && !t.done ? ' ⭐ Моя' : ''}
                         </div>
                         <div>
-                            <button onclick="toggleTaskDone(${t.id})" class="btn-sm" style="background:var(--success);">✅</button>
-                            <button onclick="deleteTask(${t.id})" class="btn-sm" style="background:var(--danger);">🗑️</button>
+                            <button onclick="toggleTaskDone(${t.id})" class="btn-sm btn-success">✅</button>
+                            <button onclick="deleteTask(${t.id})" class="btn-sm btn-danger">🗑️</button>
                         </div>
                     </div>
-                    ${t.comment ? `<div class="task-meta" style="color:var(--task-text);">💬 ${t.comment}</div>` : ''}
+                    ${t.comment ? `<div class="task-meta">💬 ${t.comment}</div>` : ''}
                     ${assigneesHtml}
-                    ${t.file ? `<div style="margin-top:6px;"><img src="${t.file}" style="max-width:100px; max-height:100px; border-radius:8px;"/></div>` : ''}
+                    ${t.file ? `<div style="margin-top:4px;"><img src="${t.file}" style="max-width:80px;max-height:80px;border-radius:8px;"/></div>` : ''}
                     ${updatesHtml}
                     ${updateForm}
                 </div>
@@ -1567,20 +684,12 @@
         renderTasks();
     }
 
-    function clearFilters() {
-        document.getElementById('filterPriority').value = 'all';
-        document.getElementById('filterAssignee').value = 'all';
-        renderTasks();
-    }
-
     function toggleTaskDone(id) {
         const task = appData.tasks.find(t => t.id === id);
-        if (task) {
-            task.done = !task.done;
+        if (task) { task.done = !task.done;
             saveDataAndSync();
             renderTasks();
-            renderCalendar();
-        }
+            renderCalendar(); }
     }
 
     function deleteTask(id) {
@@ -1591,101 +700,71 @@
         renderCalendar();
     }
 
-    function addTaskUpdate(taskId) {
-        const input = document.getElementById(`updateInput_${taskId}`);
+    function addTaskUpdate(id) {
+        const input = document.getElementById(`updateInput_${id}`);
         const text = input.value.trim();
-        if (!text) { alert('Введите текст апдейта'); return; }
-
-        const task = appData.tasks.find(t => t.id === taskId);
+        if (!text) return alert('Введите текст');
+        const task = appData.tasks.find(t => t.id === id);
         if (!task) return;
-
         if (!task.updates) task.updates = [];
-        task.updates.push({
-            text: text,
-            author: currentUser.name,
-            date: new Date().toLocaleString('ru-RU')
-        });
-
+        task.updates.push({ text, author: currentUser.name, date: new Date().toLocaleString('ru-RU') });
         saveDataAndSync();
         renderTasks();
     }
 
-    function deleteTaskUpdate(taskId, updateIdx) {
-        if (!confirm('Удалить этот апдейт?')) return;
-        const task = appData.tasks.find(t => t.id === taskId);
+    function deleteTaskUpdate(id, idx) {
+        if (!confirm('Удалить апдейт?')) return;
+        const task = appData.tasks.find(t => t.id === id);
         if (!task || !task.updates) return;
-        task.updates.splice(updateIdx, 1);
+        task.updates.splice(idx, 1);
         saveDataAndSync();
         renderTasks();
     }
 
-    function editTaskUpdate(taskId, updateIdx) {
-        const task = appData.tasks.find(t => t.id === taskId);
+    function editTaskUpdate(id, idx) {
+        const task = appData.tasks.find(t => t.id === id);
         if (!task || !task.updates) return;
-        const update = task.updates[updateIdx];
-        const newText = prompt('Редактировать апдейт:', update.text);
-        if (newText !== null && newText.trim() !== '') {
-            update.text = newText.trim();
-            update.edited = true;
-            update.editedDate = new Date().toLocaleString('ru-RU');
+        const upd = task.updates[idx];
+        const newText = prompt('Редактировать:', upd.text);
+        if (newText !== null && newText.trim()) {
+            upd.text = newText.trim();
+            upd.edited = true;
             saveDataAndSync();
             renderTasks();
         }
     }
 
-    // ================================================================
-    // 12. СОХРАНЕНИЕ + СИНХРОНИЗАЦИЯ
-    // ================================================================
-    function saveDataAndSync() {
-        localStorage.setItem(DATA_KEY, JSON.stringify(appData));
-        if (USE_CLOUD) {
-            saveToCloud().catch(e => console.warn('Cloud save error:', e));
-        }
+    function clearFilters() {
+        document.getElementById('filterPriority').value = 'all';
+        document.getElementById('filterAssignee').value = 'all';
+        renderTasks();
     }
 
     // ================================================================
-    // 13. VOK
+    // 7. ВОК
     // ================================================================
     function parseVok() {
         const raw = document.getElementById('vokRawInput').value;
-        const lines = raw.split('\n').filter(line => line.trim() !== '');
-        let added = 0;
-        let currentDate = null;
-
+        const lines = raw.split('\n').filter(l => l.trim());
+        let added = 0,
+            currentDate = null;
         lines.forEach(line => {
             const trimmed = line.trim();
-
-            const parsedDate = parseDate(trimmed);
-            if (parsedDate) {
-                currentDate = parsedDate;
-                return;
-            }
-
+            const parsed = parseDate(trimmed);
+            if (parsed) { currentDate = parsed; return; }
             if (currentDate) {
-                const parts = trimmed.split(/\t+|\s{2,}/).filter(p => p.trim() !== '');
+                const parts = trimmed.split(/\t+|\s{2,}/).filter(p => p.trim());
                 if (parts.length >= 3) {
                     const id = parts[0].trim();
                     const count = parseInt(parts[1]) || 1;
                     const fio = parts.slice(2).join(' ').trim();
-
-                    if (id && fio) {
-                        const exists = appData.vok.some(v => v.id === id && v.date === currentDate);
-                        if (!exists) {
-                            appData.vok.push({
-                                date: currentDate,
-                                id: id,
-                                count: count,
-                                fio: fio,
-                                addedAt: new Date().toISOString().split('T')[0],
-                                resolvedAt: null
-                            });
-                            added++;
-                        }
+                    if (id && fio && !appData.vok.some(v => v.id === id && v.date === currentDate)) {
+                        appData.vok.push({ date: currentDate, id, count, fio, addedAt: new Date().toISOString().split('T')[0], resolvedAt: null });
+                        added++;
                     }
                 }
             }
         });
-
         saveDataAndSync();
         renderVok();
         updateDateSelects();
@@ -1694,306 +773,167 @@
     }
 
     function parseDate(str) {
-        const monthMap = {
-            'января': '01', 'февраля': '02', 'марта': '03', 'апреля': '04',
-            'мая': '05', 'июня': '06', 'июля': '07', 'августа': '08',
-            'сентября': '09', 'октября': '10', 'ноября': '11', 'декабря': '12'
-        };
-        
-        const matchText = str.match(/^(\d{1,2})\s+([а-я]+)\s+(\d{4})$/i);
-        if (matchText) {
-            const day = matchText[1].padStart(2, '0');
-            const month = monthMap[matchText[2].toLowerCase()];
-            const year = matchText[3];
-            if (month) return `${year}-${month}-${day}`;
-        }
-
-        const matchDots = str.match(/^(\d{1,2})\.(\d{1,2})\.(\d{4})$/);
-        if (matchDots) {
-            const day = matchDots[1].padStart(2, '0');
-            const month = matchDots[2].padStart(2, '0');
-            const year = matchDots[3];
-            return `${year}-${month}-${day}`;
-        }
-
-        const matchDashes = str.match(/^(\d{1,2})-(\d{1,2})-(\d{4})$/);
-        if (matchDashes) {
-            const day = matchDashes[1].padStart(2, '0');
-            const month = matchDashes[2].padStart(2, '0');
-            const year = matchDashes[3];
-            return `${year}-${month}-${day}`;
-        }
-
+        const mm = { 'января': '01', 'февраля': '02', 'марта': '03', 'апреля': '04', 'мая': '05', 'июня': '06', 'июля': '07', 'августа': '08', 'сентября': '09', 'октября': '10', 'ноября': '11', 'декабря': '12' };
+        let m = str.match(/^(\d{1,2})\s+([а-я]+)\s+(\d{4})$/i);
+        if (m) { const month = mm[m[2].toLowerCase()]; if (month) return `${m[3]}-${month}-${m[1].padStart(2, '0')}`; }
+        m = str.match(/^(\d{1,2})\.(\d{1,2})\.(\d{4})$/);
+        if (m) return `${m[3]}-${m[2].padStart(2, '0')}-${m[1].padStart(2, '0')}`;
+        m = str.match(/^(\d{1,2})-(\d{1,2})-(\d{4})$/);
+        if (m) return `${m[3]}-${m[2].padStart(2, '0')}-${m[1].padStart(2, '0')}`;
         return null;
     }
 
     function renderVok() {
         const container = document.getElementById('vokListContainer');
         const vok = appData.vok;
-
-        if (vok.length === 0) {
-            container.innerHTML = '<p style="opacity:0.6; color:var(--text);">Нет данных</p>';
-            return;
-        }
-
+        if (!vok.length) { container.innerHTML = '<p style="opacity:0.6;">Нет данных</p>'; return; }
         const groups = {};
-        vok.forEach(item => {
-            if (!groups[item.date]) groups[item.date] = [];
-            groups[item.date].push(item);
-        });
-
-        const sortedDates = Object.keys(groups).sort();
-
+        vok.forEach(v => { if (!groups[v.date]) groups[v.date] = [];
+            groups[v.date].push(v); });
         let html = '';
-        sortedDates.forEach(date => {
+        Object.keys(groups).sort().forEach(date => {
             const items = groups[date];
-            const dateDisplay = new Date(date + 'T00:00:00').toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
-            html += `<div style="font-weight:600; margin-top:16px; font-size:1.1rem; color:var(--text);">📅 ${dateDisplay}:</div>`;
-
-            items.forEach((item, index) => {
+            html += `<div style="font-weight:500;margin-top:12px;">📅 ${new Date(date + 'T00:00:00').toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' })}</div>`;
+            items.forEach(item => {
                 const isLate = item.resolvedAt && new Date(item.resolvedAt) > new Date(new Date(item.date).setDate(new Date(item.date).getDate() + 1));
-                const lateClass = isLate ? 'late' : '';
-                const globalIdx = vok.indexOf(item);
                 html += `
-                    <div class="vok-item ${lateClass}" style="color:var(--text);">
-                        <input type="checkbox" class="vok-checkbox" data-index="${globalIdx}">
-                        <div class="vok-content">
-                            <span style="color:var(--text);">@${item.fio} (${item.id}) — оценка: ${item.count}</span>
-                            <span style="font-size:0.8rem; color:var(--text);">
-                                ${item.resolvedAt ? `✅ Разбор: ${item.resolvedAt}` : '❌ Не разобрано'}
-                                <button onclick="resolveVok('${item.id}', '${item.date}')" style="padding:2px 12px; font-size:0.7rem; background:var(--success); margin-left:8px;">📅 Дата разбора</button>
-                                <button onclick="deleteVok('${item.id}', '${item.date}')" style="padding:2px 12px; font-size:0.7rem; background:var(--danger);">✖</button>
-                            </span>
-                        </div>
+                    <div class="vok-item ${isLate ? 'late' : ''}" style="display:flex;justify-content:space-between;align-items:center;padding:6px 12px;background:var(--bg);border-radius:8px;margin-bottom:4px;">
+                        <span>@${item.fio} (${item.id}) — ${item.count}</span>
+                        <span>
+                            ${item.resolvedAt ? `✅ ${item.resolvedAt}` : '❌'}
+                            <button onclick="resolveVok('${item.id}','${item.date}')" class="btn-sm btn-success">📅</button>
+                            <button onclick="deleteVok('${item.id}','${item.date}')" class="btn-sm btn-danger">✖</button>
+                        </span>
                     </div>
                 `;
             });
         });
-
         container.innerHTML = html;
     }
 
     function resolveVok(id, date) {
-        const newDate = prompt('Введите дату разбора (ГГГГ-ММ-ДД):', new Date().toISOString().split('T')[0]);
-        if (!newDate) return;
+        const d = prompt('Дата разбора (ГГГГ-ММ-ДД):', new Date().toISOString().split('T')[0]);
+        if (!d) return;
         const item = appData.vok.find(v => v.id === id && v.date === date);
-        if (item) {
-            item.resolvedAt = newDate;
+        if (item) { item.resolvedAt = d;
             saveDataAndSync();
-            renderVok();
-        }
+            renderVok(); }
     }
 
     function deleteVok(id, date) {
-        if (!confirm('Удалить запись?')) return;
+        if (!confirm('Удалить?')) return;
         appData.vok = appData.vok.filter(v => !(v.id === id && v.date === date));
         saveDataAndSync();
         renderVok();
     }
 
     function copyVokByDate() {
-        const select = document.getElementById('vokCopyDate');
-        let targetDate = select.value;
-        if (targetDate === 'today') targetDate = new Date().toISOString().split('T')[0];
-
-        const unresolved = appData.vok.filter(v => v.date === targetDate && !v.resolvedAt);
-        if (unresolved.length === 0) {
-            alert(`✅ За ${new Date(targetDate + 'T00:00:00').toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' })} все сделали разбор ВОК!`);
-            return;
-        }
-
-        const dateDisplay = new Date(targetDate + 'T00:00:00').toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
-        let text = `🚨 НЕ СДЕЛАЛИ РАЗБОР ВОК за ${dateDisplay}:\n\n`;
-        unresolved.forEach(v => {
-            text += `@${v.fio} (${v.id}) — оценка: ${v.count}\n`;
-        });
-        text += `\n📌 Всего: ${unresolved.length} человек(а)`;
-        copyToClipboard(text);
+        const sel = document.getElementById('vokCopyDate');
+        let target = sel.value === 'today' ? new Date().toISOString().split('T')[0] : sel.value;
+        const items = appData.vok.filter(v => v.date === target && !v.resolvedAt);
+        if (!items.length) return alert('✅ Все сделали разбор');
+        let text = `🚨 НЕ СДЕЛАЛИ РАЗБОР ВОК за ${new Date(target + 'T00:00:00').toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' })}:\n`;
+        items.forEach(v => text += `@${v.fio} (${v.id})\n`);
+        copyText(text);
     }
 
     function copyVokAll() {
-        const unresolved = appData.vok.filter(v => !v.resolvedAt);
-        if (unresolved.length === 0) {
-            alert('✅ Все разборы ВОК сделаны!');
-            return;
-        }
-
+        const items = appData.vok.filter(v => !v.resolvedAt);
+        if (!items.length) return alert('✅ Все сделали разбор');
+        let text = `🚨 НЕ СДЕЛАЛИ РАЗБОР ВОК (всего ${items.length}):\n`;
         const groups = {};
-        unresolved.forEach(v => {
-            if (!groups[v.date]) groups[v.date] = [];
-            groups[v.date].push(v);
+        items.forEach(v => { if (!groups[v.date]) groups[v.date] = [];
+            groups[v.date].push(v); });
+        Object.keys(groups).sort().forEach(date => {
+            text += `\n📅 ${new Date(date + 'T00:00:00').toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' })}:\n`;
+            groups[date].forEach(v => text += `  @${v.fio} (${v.id})\n`);
         });
-
-        const sortedDates = Object.keys(groups).sort();
-        let text = `🚨 НЕ СДЕЛАЛИ РАЗБОР ВОК (всего ${unresolved.length} записей):\n\n`;
-        sortedDates.forEach(date => {
-            const items = groups[date];
-            const dateDisplay = new Date(date + 'T00:00:00').toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
-            text += `📅 ${dateDisplay} (${items.length} чел.):\n`;
-            items.forEach(v => {
-                text += `  @${v.fio} (${v.id}) — оценка: ${v.count}\n`;
-            });
-            text += '\n';
-        });
-        copyToClipboard(text);
+        copyText(text);
     }
 
-    function deleteVokSelected() {
-        const checkboxes = document.querySelectorAll('.vok-checkbox:checked');
-        if (checkboxes.length === 0) {
-            alert('❌ Выберите хотя бы одну запись для удаления');
-            return;
-        }
-        if (!confirm(`🗑️ Удалить ${checkboxes.length} записей?`)) return;
-        const indices = Array.from(checkboxes).map(cb => parseInt(cb.dataset.index));
-        indices.sort((a, b) => b - a);
-        indices.forEach(idx => {
-            appData.vok.splice(idx, 1);
+    function exportVokExcel() {
+        const stats = {};
+        appData.vok.forEach(v => {
+            if (!stats[v.fio]) stats[v.fio] = { notDone: 0, late: 0, ids: [] };
+            if (!v.resolvedAt) { stats[v.fio].notDone++;
+                stats[v.fio].ids.push(v.id); } else if (new Date(v.resolvedAt) > new Date(new Date(v.date).setDate(new Date(v.date).getDate() + 1))) {
+                stats[v.fio].late++;
+                stats[v.fio].ids.push(v.id); }
         });
-        saveDataAndSync();
-        renderVok();
-        updateDateSelects();
-        alert(`✅ Удалено ${indices.length} записей`);
-    }
-
-    function deleteVokAll() {
-        if (appData.vok.length === 0) {
-            alert('❌ Нет записей для удаления');
-            return;
-        }
-        if (!confirm(`🗑️ Удалить ВСЕ записи (${appData.vok.length} шт.)? Это действие необратимо!`)) return;
-        appData.vok = [];
-        saveDataAndSync();
-        renderVok();
-        updateDateSelects();
-        alert('✅ Все записи удалены');
+        let csv = '\uFEFFФИО,Не сделано,Просрочено,ID\n';
+        Object.keys(stats).sort().forEach(fio => {
+            const s = stats[fio];
+            csv += `"${fio}",${s.notDone},${s.late},"${s.ids.join('; ')}"\n`;
+        });
+        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = `vok_stats_${new Date().toISOString().split('T')[0]}.csv`;
+        link.click();
     }
 
     // ================================================================
-    // 14. HEAL
+    // 8. HEAL
     // ================================================================
     function addHeal() {
         const name = document.getElementById('healName').value.trim();
         const date = document.getElementById('healDate').value;
-        if (!name || !date) { alert('Заполните все поля'); return; }
-
+        if (!name || !date) return alert('Заполните поля');
         appData.heal.push({ name, date });
         saveDataAndSync();
         renderHeal();
-        updateDateSelects();
         document.getElementById('healName').value = '';
         document.getElementById('healDate').value = '';
     }
 
     function renderHeal() {
         const container = document.getElementById('healList');
-        const heal = appData.heal;
-        if (heal.length === 0) {
-            container.innerHTML = '<p style="opacity:0.6; color:var(--text);">Нет записей "Лечим ВОК"</p>';
-            return;
-        }
-        container.innerHTML = heal.map((h, idx) => `
-            <div class="heal-item" style="color:var(--text);">
-                <input type="checkbox" class="heal-checkbox" data-index="${idx}">
-                <div class="heal-content">
-                    <span style="color:var(--text);">💊 ${h.name} — ${h.date}</span>
-                    <button onclick="deleteHeal(${idx})" style="padding:2px 12px; background:var(--danger);">✖</button>
-                </div>
+        if (!appData.heal.length) { container.innerHTML = '<p style="opacity:0.6;">Нет записей</p>'; return; }
+        container.innerHTML = appData.heal.map((h, i) => `
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:4px 12px;background:var(--bg);border-radius:8px;margin-bottom:4px;">
+                <span>💊 ${h.name} — ${h.date}</span>
+                <button onclick="deleteHeal(${i})" class="btn-sm btn-danger">✖</button>
             </div>
         `).join('');
     }
 
-    function deleteHeal(idx) {
-        if (!confirm('Удалить?')) return;
-        appData.heal.splice(idx, 1);
+    function deleteHeal(i) { if (!confirm('Удалить?')) return;
+        appData.heal.splice(i, 1);
         saveDataAndSync();
-        renderHeal();
-        updateDateSelects();
-    }
-
-    function deleteHealSelected() {
-        const checkboxes = document.querySelectorAll('.heal-checkbox:checked');
-        if (checkboxes.length === 0) {
-            alert('❌ Выберите хотя бы одну запись для удаления');
-            return;
-        }
-        if (!confirm(`🗑️ Удалить ${checkboxes.length} записей?`)) return;
-        const indices = Array.from(checkboxes).map(cb => parseInt(cb.dataset.index));
-        indices.sort((a, b) => b - a);
-        indices.forEach(idx => {
-            appData.heal.splice(idx, 1);
-        });
-        saveDataAndSync();
-        renderHeal();
-        updateDateSelects();
-        alert(`✅ Удалено ${indices.length} записей`);
-    }
-
-    function deleteHealAll() {
-        if (appData.heal.length === 0) {
-            alert('❌ Нет записей для удаления');
-            return;
-        }
-        if (!confirm(`🗑️ Удалить ВСЕ записи (${appData.heal.length} шт.)? Это действие необратимо!`)) return;
-        appData.heal = [];
-        saveDataAndSync();
-        renderHeal();
-        updateDateSelects();
-        alert('✅ Все записи удалены');
-    }
+        renderHeal(); }
 
     function copyHealByDate() {
-        const select = document.getElementById('healCopyDate');
-        let targetDate = select.value;
-        if (targetDate === 'today') targetDate = new Date().toISOString().split('T')[0];
-        const items = appData.heal.filter(h => h.date === targetDate);
-        if (items.length === 0) {
-            alert(`✅ За ${new Date(targetDate + 'T00:00:00').toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' })} нет записей "Лечим ВОК"`);
-            return;
-        }
-        const dateDisplay = new Date(targetDate + 'T00:00:00').toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
-        let text = `💊 ЛЕЧИМ ВОК за ${dateDisplay}:\n\n`;
-        items.forEach(h => {
-            text += `@${h.name}\n`;
-        });
-        text += `\n📌 Всего: ${items.length} человек(а)`;
-        copyToClipboard(text);
+        const sel = document.getElementById('healCopyDate');
+        let target = sel.value === 'today' ? new Date().toISOString().split('T')[0] : sel.value;
+        const items = appData.heal.filter(h => h.date === target);
+        if (!items.length) return alert('Нет записей');
+        let text = `💊 ЛЕЧИМ ВОК за ${new Date(target + 'T00:00:00').toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' })}:\n`;
+        items.forEach(h => text += `@${h.name}\n`);
+        copyText(text);
         document.getElementById('healCopyContainer').textContent = text;
     }
 
     function copyHealAll() {
-        const items = appData.heal;
-        if (items.length === 0) {
-            alert('✅ Нет записей "Лечим ВОК"');
-            return;
-        }
+        if (!appData.heal.length) return alert('Нет записей');
+        let text = `💊 ЛЕЧИМ ВОК (всего ${appData.heal.length}):\n`;
         const groups = {};
-        items.forEach(h => {
-            if (!groups[h.date]) groups[h.date] = [];
-            groups[h.date].push(h);
+        appData.heal.forEach(h => { if (!groups[h.date]) groups[h.date] = [];
+            groups[h.date].push(h); });
+        Object.keys(groups).sort().forEach(date => {
+            text += `\n📅 ${new Date(date + 'T00:00:00').toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' })}:\n`;
+            groups[date].forEach(h => text += `  @${h.name}\n`);
         });
-        const sortedDates = Object.keys(groups).sort();
-        let text = `💊 ЛЕЧИМ ВОК (всего ${items.length} записей):\n\n`;
-        sortedDates.forEach(date => {
-            const dateDisplay = new Date(date + 'T00:00:00').toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
-            text += `📅 ${dateDisplay}:\n`;
-            groups[date].forEach(h => {
-                text += `  @${h.name}\n`;
-            });
-            text += '\n';
-        });
-        copyToClipboard(text);
+        copyText(text);
         document.getElementById('healCopyContainer').textContent = text;
     }
 
     // ================================================================
-    // 15. ANТИТОПЫ
+    // 9. АНТИТОПЫ
     // ================================================================
     function addAntitop() {
         const mentor = document.getElementById('antitopMentor').value;
         const student = document.getElementById('antitopStudent').value.trim();
-        if (!mentor || !student) { alert('Выберите наставника и введите ведомого'); return; }
-
+        if (!mentor || !student) return alert('Выберите наставника и введите ведомого');
         appData.antitop.push({ mentor, student, notes: [] });
         saveDataAndSync();
         renderAntitop();
@@ -2002,23 +942,19 @@
 
     function renderAntitop() {
         const container = document.getElementById('antitopList');
-        const antitop = appData.antitop;
-        if (antitop.length === 0) {
-            container.innerHTML = '<p style="opacity:0.6; color:var(--text);">Нет связей</p>';
-            return;
-        }
-        container.innerHTML = antitop.map((a, idx) => `
-            <div style="background:var(--bg); border-radius:12px; padding:12px; margin-bottom:8px; color:var(--text);">
-                <div style="display:flex; justify-content:space-between;">
-                    <span style="color:var(--text);"><strong>👨‍🏫 ${a.mentor}</strong> → 🧑‍🎓 ${a.student}</span>
-                    <button onclick="deleteAntitop(${idx})" style="padding:2px 12px; background:var(--danger);">✖</button>
+        if (!appData.antitop.length) { container.innerHTML = '<p style="opacity:0.6;">Нет связей</p>'; return; }
+        container.innerHTML = appData.antitop.map((a, i) => `
+            <div style="background:var(--bg);border-radius:12px;padding:10px;margin-bottom:8px;">
+                <div style="display:flex;justify-content:space-between;">
+                    <span><strong>👨‍🏫 ${a.mentor}</strong> → 🧑‍🎓 ${a.student}</span>
+                    <button onclick="deleteAntitop(${i})" class="btn-sm btn-danger">✖</button>
                 </div>
-                <div style="margin-top:8px;">
+                <div style="margin-top:6px;">
                     <div class="flex-row">
-                        <input type="text" id="noteInput_${idx}" placeholder="Заметка о прогрессе" style="flex:2; color:var(--text);">
-                        <button onclick="addAntitopNote(${idx})" style="padding:4px 16px;">➕</button>
+                        <input type="text" id="noteInput_${i}" placeholder="Заметка" style="flex:1;margin-bottom:0;">
+                        <button onclick="addAntitopNote(${i})" class="btn-sm">➕</button>
                     </div>
-                    <div style="margin-top:6px; font-size:0.9rem; opacity:0.7; color:var(--text);">
+                    <div style="font-size:0.85rem;opacity:0.7;margin-top:4px;">
                         ${a.notes.map(n => `📝 ${n.text} (${n.date})`).join('<br>')}
                     </div>
                 </div>
@@ -2026,98 +962,44 @@
         `).join('');
     }
 
-    function addAntitopNote(idx) {
-        const input = document.getElementById(`noteInput_${idx}`);
+    function addAntitopNote(i) {
+        const input = document.getElementById(`noteInput_${i}`);
         const text = input.value.trim();
         if (!text) return;
-        appData.antitop[idx].notes.push({ text, date: new Date().toLocaleDateString('ru-RU') });
+        appData.antitop[i].notes.push({ text, date: new Date().toLocaleDateString('ru-RU') });
         saveDataAndSync();
         renderAntitop();
     }
 
-    function deleteAntitop(idx) {
-        if (!confirm('Удалить связь?')) return;
-        appData.antitop.splice(idx, 1);
+    function deleteAntitop(i) { if (!confirm('Удалить связь?')) return;
+        appData.antitop.splice(i, 1);
         saveDataAndSync();
-        renderAntitop();
-    }
+        renderAntitop(); }
 
     // ================================================================
-    // 16. АДМИНКА
+    // 10. АДМИНКА
     // ================================================================
     function renderUserList() {
         const container = document.getElementById('userListAdmin');
         const users = JSON.parse(localStorage.getItem(USERS_KEY));
-        container.innerHTML = users.map((u, idx) => `
-            <div class="user-row" style="color:var(--text);">
-                <span style="color:var(--text);">${u.name} ${u.role === 'admin' ? '👑' : ''}</span>
-                <div class="user-actions">
-                    ${u.role !== 'admin' ? `<button onclick="makeAdmin(${idx})" style="background:var(--accent); padding:4px 12px; font-size:0.8rem;">👑 Назначить админом</button>` : ''}
-                    ${u.role === 'admin' && u.name !== 'Наташа Заплатина' && u.name !== 'Юма Доржиева' ? `<button onclick="removeAdmin(${idx})" style="background:var(--warning); padding:4px 12px; font-size:0.8rem;">⬇️ Снять админа</button>` : ''}
-                    ${u.role !== 'admin' ? `<button onclick="deleteUser(${idx})" style="padding:4px 12px; background:var(--danger); font-size:0.8rem;">Удалить</button>` : ''}
+        container.innerHTML = users.map((u, i) => `
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:4px 12px;background:var(--bg);border-radius:8px;margin-bottom:4px;">
+                <span>${u.name} ${u.role === 'admin' ? '👑' : ''}</span>
+                <div>
+                    ${u.role !== 'admin' ? `<button onclick="makeAdmin(${i})" class="btn-sm">👑</button>` : ''}
+                    ${u.role === 'admin' && u.name !== 'Наташа Заплатина' && u.name !== 'Юма Доржиева' ? `<button onclick="removeAdmin(${i})" class="btn-sm">⬇️</button>` : ''}
+                    ${u.role !== 'admin' ? `<button onclick="deleteUser(${i})" class="btn-sm btn-danger">✖</button>` : ''}
                 </div>
             </div>
         `).join('');
-    }
-
-    function makeAdmin(idx) {
-        if (!confirm('Назначить этого пользователя администратором?')) return;
-        const users = JSON.parse(localStorage.getItem(USERS_KEY));
-        users[idx].role = 'admin';
-        localStorage.setItem(USERS_KEY, JSON.stringify(users));
-        renderUserList();
-        updateMentorSelects();
-        saveDataAndSync();
-    }
-
-    function removeAdmin(idx) {
-        if (!confirm('Снять статус администратора?')) return;
-        const users = JSON.parse(localStorage.getItem(USERS_KEY));
-        users[idx].role = 'mentor';
-        localStorage.setItem(USERS_KEY, JSON.stringify(users));
-        renderUserList();
-        updateMentorSelects();
-        saveDataAndSync();
-    }
-
-    function updateMentorSelects() {
-        const users = JSON.parse(localStorage.getItem(USERS_KEY));
-        const mentorNames = users.filter(u => u.role === 'mentor' || u.role === 'admin').map(u => u.name);
-        const antitopSelect = document.getElementById('antitopMentor');
-        if (antitopSelect) {
-            antitopSelect.innerHTML = '';
-            mentorNames.forEach(name => {
-                const opt = document.createElement('option');
-                opt.value = name;
-                opt.textContent = name;
-                antitopSelect.appendChild(opt);
-            });
-        }
-        // Обновляем фильтр
-        const filterAssignee = document.getElementById('filterAssignee');
-        if (filterAssignee) {
-            filterAssignee.innerHTML = '<option value="all">Все сотрудники</option>';
-            mentorNames.forEach(name => {
-                const opt = document.createElement('option');
-                opt.value = name;
-                opt.textContent = name;
-                filterAssignee.appendChild(opt);
-            });
-        }
-        renderMultiSelect('taskAssigneesContainer', mentorNames, selectedAssignees);
-        renderMultiSelect('eventAssigneeContainer', mentorNames, selectedEventAssignees);
     }
 
     function addUser() {
         const name = document.getElementById('newUserName').value.trim();
         if (!name) return;
         const users = JSON.parse(localStorage.getItem(USERS_KEY));
-        if (findUserByName(users, name)) {
-            alert('Такой пользователь уже есть');
-            return;
-        }
-        const gender = name.match(/[ая]$/i) ? 'female' : 'male';
-        users.push({ name, role: 'mentor', gender });
+        if (findUserByName(users, name)) return alert('Уже есть');
+        users.push({ name, role: 'mentor', gender: name.match(/[ая]$/i) ? 'female' : 'male' });
         localStorage.setItem(USERS_KEY, JSON.stringify(users));
         document.getElementById('newUserName').value = '';
         renderUserList();
@@ -2125,88 +1007,65 @@
         saveDataAndSync();
     }
 
-    function deleteUser(idx) {
-        if (!confirm('Удалить пользователя?')) return;
+    function makeAdmin(i) { if (!confirm('Назначить админом?')) return;
         const users = JSON.parse(localStorage.getItem(USERS_KEY));
-        if (users[idx].role === 'admin' && (users[idx].name === 'Наташа Заплатина' || users[idx].name === 'Юма Доржиева')) {
-            alert('Нельзя удалить главного администратора');
-            return;
-        }
-        users.splice(idx, 1);
+        users[i].role = 'admin';
         localStorage.setItem(USERS_KEY, JSON.stringify(users));
         renderUserList();
         updateMentorSelects();
-        saveDataAndSync();
+        saveDataAndSync(); }
+
+    function removeAdmin(i) { if (!confirm('Снять админа?')) return;
+        const users = JSON.parse(localStorage.getItem(USERS_KEY));
+        users[i].role = 'mentor';
+        localStorage.setItem(USERS_KEY, JSON.stringify(users));
+        renderUserList();
+        updateMentorSelects();
+        saveDataAndSync(); }
+
+    function deleteUser(i) { if (!confirm('Удалить пользователя?')) return;
+        const users = JSON.parse(localStorage.getItem(USERS_KEY));
+        if (users[i].name === 'Наташа Заплатина' || users[i].name === 'Юма Доржиева') return alert('Нельзя удалить главного админа');
+        users.splice(i, 1);
+        localStorage.setItem(USERS_KEY, JSON.stringify(users));
+        renderUserList();
+        updateMentorSelects();
+        saveDataAndSync(); }
+
+    function updateMentorSelects() {
+        const users = JSON.parse(localStorage.getItem(USERS_KEY));
+        const names = users.filter(u => u.role === 'mentor' || u.role === 'admin').map(u => u.name);
+        ['antitopMentor', 'filterAssignee'].forEach(id => {
+            const sel = document.getElementById(id);
+            if (!sel) return;
+            sel.innerHTML = '<option value="all">Все</option>';
+            names.forEach(n => { const o = document.createElement('option');
+                o.value = n;
+                o.textContent = n;
+                sel.appendChild(o); });
+        });
+        renderMultiSelect('taskAssigneesContainer', names, selectedAssignees);
+        renderMultiSelect('eventAssigneeContainer', names, selectedEventAssignees);
     }
 
     // ================================================================
-    // 17. ВСПОМОГАТЕЛЬНЫЕ
+    // 11. ВСПОМОГАТЕЛЬНЫЕ
     // ================================================================
-    function toggleTheme() {
-        document.body.classList.toggle('dark');
-    }
+    function toggleTheme() { document.body.classList.toggle('dark'); }
 
-    function copyToClipboard(text) {
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-            navigator.clipboard.writeText(text).then(() => {
-                alert('✅ Скопировано в буфер обмена!');
-            }).catch(() => {
-                fallbackCopy(text);
-            });
-        } else {
-            fallbackCopy(text);
-        }
+    function copyText(text) {
+        if (navigator.clipboard) navigator.clipboard.writeText(text).then(() => alert('✅ Скопировано')).catch(() => fallbackCopy(text));
+        else fallbackCopy(text);
     }
 
     function fallbackCopy(text) {
-        const textarea = document.createElement('textarea');
-        textarea.value = text;
-        textarea.style.position = 'fixed';
-        textarea.style.left = '-9999px';
-        textarea.style.top = '-9999px';
-        document.body.appendChild(textarea);
-        textarea.select();
-        try {
-            document.execCommand('copy');
-            alert('✅ Скопировано в буфер обмена!');
-        } catch (err) {
-            alert('❌ Не удалось скопировать. Выделите текст вручную.');
-            console.error('Copy failed:', err);
-        }
-        document.body.removeChild(textarea);
-    }
-
-    function exportVokExcel() {
-        const stats = {};
-        appData.vok.forEach(v => {
-            if (!stats[v.fio]) {
-                stats[v.fio] = { notDone: 0, late: 0, notDoneIds: [], lateIds: [] };
-            }
-            if (!v.resolvedAt) {
-                stats[v.fio].notDone++;
-                stats[v.fio].notDoneIds.push(v.id);
-            } else {
-                const isLate = new Date(v.resolvedAt) > new Date(new Date(v.date).setDate(new Date(v.date).getDate() + 1));
-                if (isLate) {
-                    stats[v.fio].late++;
-                    stats[v.fio].lateIds.push(v.id);
-                }
-            }
-        });
-
-        let csv = '\uFEFFФИО сотрудника,Не сделано разборов,Просрочено разборов,ID просроченных,ID не сделанных\n';
-        Object.keys(stats).sort().forEach(fio => {
-            const s = stats[fio];
-            csv += `"${fio}",${s.notDone},${s.late},"${s.lateIds.join('; ')}","${s.notDoneIds.join('; ')}"\n`;
-        });
-        const totalNotDone = appData.vok.filter(v => !v.resolvedAt).length;
-        const totalLate = appData.vok.filter(v => v.resolvedAt && new Date(v.resolvedAt) > new Date(new Date(v.date).setDate(new Date(v.date).getDate() + 1))).length;
-        csv += `"ИТОГО",${totalNotDone},${totalLate},"",""\n`;
-        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-        const link = document.createElement('a');
-        link.href = URL.createObjectURL(blob);
-        link.download = `vok_stats_${new Date().toISOString().split('T')[0]}.csv`;
-        link.click();
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        alert('✅ Скопировано');
     }
 
     document.addEventListener('DOMContentLoaded', init);

@@ -240,18 +240,56 @@
             font-family: 'Georgia', 'Times New Roman', serif;
         }
 
-        select[multiple] {
-            height: 100px;
+        /* ===== НОВЫЙ СТИЛЬ ДЛЯ ВЫБОРА НЕСКОЛЬКИХ ===== */
+        .multi-select-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            padding: 10px;
+            background: var(--bg);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            margin-bottom: 10px;
+            min-height: 50px;
         }
 
-        select[multiple] option {
-            padding: 6px 10px;
-            border-bottom: 1px solid var(--border);
+        .multi-select-item {
+            padding: 6px 16px;
+            background: var(--card);
+            border: 2px solid var(--border);
+            border-radius: 20px;
+            cursor: pointer;
+            font-family: 'Georgia', 'Times New Roman', serif;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+            user-select: none;
         }
 
-        select[multiple] option:checked {
+        .multi-select-item:hover {
+            border-color: var(--accent);
+            transform: scale(1.02);
+        }
+
+        .multi-select-item.selected {
             background: var(--accent);
             color: white;
+            border-color: var(--accent);
+        }
+
+        .multi-select-item.selected::after {
+            content: " ✓";
+        }
+
+        .multi-select-hint {
+            font-size: 0.8rem;
+            opacity: 0.6;
+            margin-bottom: 6px;
+            font-family: 'Georgia', 'Times New Roman', serif;
+            font-style: italic;
+        }
+
+        select[multiple] {
+            display: none;
         }
 
         button {
@@ -348,7 +386,6 @@
             border: 1px dashed var(--border);
         }
 
-        /* === Стили для задач и комментариев === */
         .task-item {
             background: var(--bg);
             border-radius: 12px;
@@ -458,6 +495,14 @@
             .add-comment-form input {
                 width: 100%;
             }
+            .multi-select-container {
+                gap: 4px;
+                padding: 6px;
+            }
+            .multi-select-item {
+                padding: 4px 10px;
+                font-size: 0.8rem;
+            }
         }
     </style>
 </head>
@@ -507,7 +552,8 @@
             </div>
             <input type="text" id="eventTitle" placeholder="Название (например: Встреча по ВОК)">
             <textarea id="eventComment" placeholder="Комментарий"></textarea>
-            <select id="eventAssignee" multiple></select>
+            <div class="multi-select-hint">👥 Выберите ответственных (клик для выбора нескольких)</div>
+            <div class="multi-select-container" id="eventAssigneeContainer"></div>
             <div class="flex-row">
                 <button onclick="addEvent()">➕ Добавить</button>
                 <button onclick="markEventDone()" class="btn-success">✅ Выполнено (серая)</button>
@@ -531,8 +577,8 @@
                 <input type="date" id="taskDeadline">
             </div>
             <textarea id="taskComment" placeholder="Комментарий к задаче"></textarea>
-            <p style="font-size:0.85rem; opacity:0.7; margin-bottom:6px;">👥 Выберите ответственных (зажмите Ctrl для выбора нескольких)</p>
-            <select id="taskAssignees" multiple></select>
+            <div class="multi-select-hint">👥 Выберите ответственных (клик для выбора нескольких)</div>
+            <div class="multi-select-container" id="taskAssigneesContainer"></div>
             <input type="file" id="taskFile" accept="image/*">
             <button onclick="addTask()">➕ Добавить задачу</button>
 
@@ -680,6 +726,10 @@ AQ5IPS 1 Овчинникова Юлия Витальевна</textarea>
         lastId: 0
     };
 
+    // Хранилище для выбранных значений в мультиселектах
+    let selectedAssignees = [];
+    let selectedEventAssignees = [];
+
     // ================================================================
     // 2. ИНИЦИАЛИЗАЦИЯ
     // ================================================================
@@ -761,7 +811,42 @@ AQ5IPS 1 Овчинникова Юлия Витальевна</textarea>
     }
 
     // ================================================================
-    // 5. РЕНДЕР ПОСЛЕ ВХОДА
+    // 5. ФУНКЦИИ ДЛЯ МУЛЬТИСЕЛЕКТА (клик-выбор)
+    // ================================================================
+    function renderMultiSelect(containerId, options, selected, onChange) {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+        
+        container.innerHTML = '';
+        options.forEach(opt => {
+            const div = document.createElement('div');
+            div.className = 'multi-select-item' + (selected.includes(opt) ? ' selected' : '');
+            div.textContent = opt;
+            div.onclick = function(e) {
+                e.stopPropagation();
+                const idx = selected.indexOf(opt);
+                if (idx === -1) {
+                    selected.push(opt);
+                } else {
+                    selected.splice(idx, 1);
+                }
+                renderMultiSelect(containerId, options, selected, onChange);
+                if (onChange) onChange(selected);
+            };
+            container.appendChild(div);
+        });
+    }
+
+    function getSelectedAssignees() {
+        return selectedAssignees;
+    }
+
+    function getSelectedEventAssignees() {
+        return selectedEventAssignees;
+    }
+
+    // ================================================================
+    // 6. РЕНДЕР ПОСЛЕ ВХОДА
     // ================================================================
     function renderApp() {
         const greeting = document.getElementById('greetingText');
@@ -878,21 +963,23 @@ AQ5IPS 1 Овчинникова Юлия Витальевна</textarea>
         const users = JSON.parse(localStorage.getItem(USERS_KEY));
         const mentorNames = users.filter(u => u.role === 'mentor' || u.role === 'admin').map(u => u.name);
 
-        const selects = ['eventAssignee', 'taskAssignees', 'antitopMentor'];
-        selects.forEach(id => {
-            const sel = document.getElementById(id);
-            if (!sel) return;
-            sel.innerHTML = '';
+        // Заполняем обычные селекты
+        const antitopSelect = document.getElementById('antitopMentor');
+        if (antitopSelect) {
+            antitopSelect.innerHTML = '';
             mentorNames.forEach(name => {
                 const opt = document.createElement('option');
                 opt.value = name;
                 opt.textContent = name;
-                sel.appendChild(opt);
+                antitopSelect.appendChild(opt);
             });
-            if (id === 'eventAssignee' || id === 'taskAssignees') {
-                sel.multiple = true;
-            }
-        });
+        }
+
+        // Заполняем мультиселекты
+        selectedAssignees = [];
+        selectedEventAssignees = [];
+        renderMultiSelect('taskAssigneesContainer', mentorNames, selectedAssignees);
+        renderMultiSelect('eventAssigneeContainer', mentorNames, selectedEventAssignees);
 
         updateDateSelects();
 
@@ -937,7 +1024,7 @@ AQ5IPS 1 Овчинникова Юлия Витальевна</textarea>
     }
 
     // ================================================================
-    // 6. КАЛЕНДАРЬ
+    // 7. КАЛЕНДАРЬ
     // ================================================================
     let currentMonth = 8;
     let currentYear = 2026;
@@ -1004,7 +1091,7 @@ AQ5IPS 1 Овчинникова Юлия Витальевна</textarea>
     }
 
     // ================================================================
-    // 7. СОБЫТИЯ В КАЛЕНДАРЕ
+    // 8. СОБЫТИЯ В КАЛЕНДАРЕ
     // ================================================================
     function openDayEvents(dateStr) {
         const card = document.getElementById('dayEventCard');
@@ -1014,6 +1101,10 @@ AQ5IPS 1 Овчинникова Юлия Витальевна</textarea>
 
         document.getElementById('eventTitle').value = '';
         document.getElementById('eventComment').value = '';
+        selectedEventAssignees = [];
+        const users = JSON.parse(localStorage.getItem(USERS_KEY));
+        const mentorNames = users.filter(u => u.role === 'mentor' || u.role === 'admin').map(u => u.name);
+        renderMultiSelect('eventAssigneeContainer', mentorNames, selectedEventAssignees);
 
         renderDayEvents(dateStr);
     }
@@ -1044,8 +1135,7 @@ AQ5IPS 1 Овчинникова Юлия Витальевна</textarea>
         const dateStr = document.getElementById('selectedDayLabel').dataset.date;
         const title = document.getElementById('eventTitle').value.trim();
         const comment = document.getElementById('eventComment').value.trim();
-        const assigneeSel = document.getElementById('eventAssignee');
-        const assignee = assigneeSel.selectedOptions.length > 0 ? assigneeSel.selectedOptions[0].value : '';
+        const assignee = selectedEventAssignees.join(', ');
 
         if (!title) { alert('Введите название события'); return; }
 
@@ -1084,15 +1174,14 @@ AQ5IPS 1 Овчинникова Юлия Витальевна</textarea>
     }
 
     // ================================================================
-    // 8. ЗАДАЧИ (с комментариями/апдейтами)
+    // 9. ЗАДАЧИ (с комментариями/апдейтами)
     // ================================================================
     function addTask() {
         const title = document.getElementById('taskTitle').value.trim();
         const comment = document.getElementById('taskComment').value.trim();
         const priority = document.getElementById('taskPriority').value;
         const deadline = document.getElementById('taskDeadline').value;
-        const assigneesSel = document.getElementById('taskAssignees');
-        const assignees = Array.from(assigneesSel.selectedOptions).map(o => o.value);
+        const assignees = [...selectedAssignees];
         const fileInput = document.getElementById('taskFile');
         let fileData = null;
 
@@ -1121,16 +1210,19 @@ AQ5IPS 1 Овчинникова Юлия Витальевна</textarea>
             assignees,
             file: fileData,
             done: false,
-            updates: [] // массив апдейтов { text, author, date }
+            updates: []
         });
         saveData();
         renderTasks();
         document.getElementById('taskTitle').value = '';
         document.getElementById('taskComment').value = '';
         document.getElementById('taskFile').value = '';
+        selectedAssignees = [];
+        const users = JSON.parse(localStorage.getItem(USERS_KEY));
+        const mentorNames = users.filter(u => u.role === 'mentor' || u.role === 'admin').map(u => u.name);
+        renderMultiSelect('taskAssigneesContainer', mentorNames, selectedAssignees);
     }
 
-    // Добавление апдейта к задаче
     function addTaskUpdate(taskId) {
         const input = document.getElementById(`updateInput_${taskId}`);
         const text = input.value.trim();
@@ -1150,7 +1242,6 @@ AQ5IPS 1 Овчинникова Юлия Витальевна</textarea>
         renderTasks();
     }
 
-    // Удаление апдейта
     function deleteTaskUpdate(taskId, updateIdx) {
         if (!confirm('Удалить этот апдейт?')) return;
         const task = appData.tasks.find(t => t.id === taskId);
@@ -1160,7 +1251,6 @@ AQ5IPS 1 Овчинникова Юлия Витальевна</textarea>
         renderTasks();
     }
 
-    // Редактирование апдейта
     function editTaskUpdate(taskId, updateIdx) {
         const task = appData.tasks.find(t => t.id === taskId);
         if (!task || !task.updates) return;
@@ -1193,7 +1283,6 @@ AQ5IPS 1 Овчинникова Юлия Витальевна</textarea>
             const isDone = t.done ? 'done' : '';
             const bgColor = t.priority === 'Срочная' ? '#fecaca' : 'var(--bg)';
             
-            // Рендерим апдейты
             let updatesHtml = '';
             if (t.updates && t.updates.length > 0) {
                 updatesHtml = '<div style="margin-top:8px; padding-top:8px; border-top:1px solid var(--border);"><div style="font-size:0.8rem; opacity:0.6; margin-bottom:4px;">📝 Апдейты:</div>';
@@ -1214,7 +1303,6 @@ AQ5IPS 1 Овчинникова Юлия Витальевна</textarea>
                 updatesHtml += '</div>';
             }
 
-            // Форма добавления апдейта
             const updateForm = `
                 <div class="add-comment-form">
                     <input type="text" id="updateInput_${t.id}" placeholder="Новый апдейт по задаче...">
@@ -1260,7 +1348,7 @@ AQ5IPS 1 Овчинникова Юлия Витальевна</textarea>
     }
 
     // ================================================================
-    // 9. НЕ СДЕЛАЛИ ВОК — ПАРСЕР
+    // 10-22. ОСТАЛЬНЫЕ ФУНКЦИИ (VOK, HEAL, АНТИТОПЫ, АДМИНКА)
     // ================================================================
     function parseVok() {
         const raw = document.getElementById('vokRawInput').value;
@@ -1343,9 +1431,6 @@ AQ5IPS 1 Овчинникова Юлия Витальевна</textarea>
         return null;
     }
 
-    // ================================================================
-    // 10. ОТОБРАЖЕНИЕ VOK
-    // ================================================================
     function renderVok() {
         const container = document.getElementById('vokListContainer');
         const vok = appData.vok;
@@ -1410,9 +1495,6 @@ AQ5IPS 1 Овчинникова Юлия Витальевна</textarea>
         renderVok();
     }
 
-    // ================================================================
-    // 11. КОПИРОВАНИЕ VOK
-    // ================================================================
     function copyVokByDate() {
         const select = document.getElementById('vokCopyDate');
         let targetDate = select.value;
@@ -1468,9 +1550,6 @@ AQ5IPS 1 Овчинникова Юлия Витальевна</textarea>
         copyToClipboard(text);
     }
 
-    // ================================================================
-    // 12. МАССОВОЕ УДАЛЕНИЕ VOK
-    // ================================================================
     function deleteVokSelected() {
         const checkboxes = document.querySelectorAll('.vok-checkbox:checked');
         if (checkboxes.length === 0) {
@@ -1507,9 +1586,6 @@ AQ5IPS 1 Овчинникова Юлия Витальевна</textarea>
         alert('✅ Все записи удалены');
     }
 
-    // ================================================================
-    // 13. МАССОВОЕ УДАЛЕНИЕ HEAL
-    // ================================================================
     function deleteHealSelected() {
         const checkboxes = document.querySelectorAll('.heal-checkbox:checked');
         if (checkboxes.length === 0) {
@@ -1546,9 +1622,6 @@ AQ5IPS 1 Овчинникова Юлия Витальевна</textarea>
         alert('✅ Все записи удалены');
     }
 
-    // ================================================================
-    // 14. КОПИРОВАНИЕ HEAL
-    // ================================================================
     function copyHealByDate() {
         const select = document.getElementById('healCopyDate');
         let targetDate = select.value;
@@ -1605,9 +1678,6 @@ AQ5IPS 1 Овчинникова Юлия Витальевна</textarea>
         document.getElementById('healCopyContainer').textContent = text;
     }
 
-    // ================================================================
-    // 15. ЭКСПОРТ В EXCEL С РАСШИРЕННОЙ СТАТИСТИКОЙ
-    // ================================================================
     function exportVokExcel() {
         const stats = {};
         
@@ -1651,9 +1721,6 @@ AQ5IPS 1 Овчинникова Юлия Витальевна</textarea>
         link.click();
     }
 
-    // ================================================================
-    // 16. ВСПОМОГАТЕЛЬНАЯ ФУНКЦИЯ ДЛЯ КОПИРОВАНИЯ
-    // ================================================================
     function copyToClipboard(text) {
         if (navigator.clipboard && navigator.clipboard.writeText) {
             navigator.clipboard.writeText(text).then(() => {
@@ -1684,9 +1751,6 @@ AQ5IPS 1 Овчинникова Юлия Витальевна</textarea>
         document.body.removeChild(textarea);
     }
 
-    // ================================================================
-    // 17. ЛЕЧИМ ВОК
-    // ================================================================
     function addHeal() {
         const name = document.getElementById('healName').value.trim();
         const date = document.getElementById('healDate').value;
@@ -1727,9 +1791,6 @@ AQ5IPS 1 Овчинникова Юлия Витальевна</textarea>
         updateDateSelects();
     }
 
-    // ================================================================
-    // 18. АНТИТОПЫ
-    // ================================================================
     function addAntitop() {
         const mentor = document.getElementById('antitopMentor').value;
         const student = document.getElementById('antitopStudent').value.trim();
@@ -1791,9 +1852,6 @@ AQ5IPS 1 Овчинникова Юлия Витальевна</textarea>
         renderAntitop();
     }
 
-    // ================================================================
-    // 19. АДМИНКА
-    // ================================================================
     function renderUserList() {
         const container = document.getElementById('userListAdmin');
         const users = JSON.parse(localStorage.getItem(USERS_KEY));
@@ -1830,18 +1888,20 @@ AQ5IPS 1 Овчинникова Юлия Витальевна</textarea>
     function updateMentorSelects() {
         const users = JSON.parse(localStorage.getItem(USERS_KEY));
         const mentorNames = users.filter(u => u.role === 'mentor' || u.role === 'admin').map(u => u.name);
-        const selects = ['eventAssignee', 'taskAssignees', 'antitopMentor'];
-        selects.forEach(id => {
-            const sel = document.getElementById(id);
-            if (!sel) return;
-            sel.innerHTML = '';
+        
+        const antitopSelect = document.getElementById('antitopMentor');
+        if (antitopSelect) {
+            antitopSelect.innerHTML = '';
             mentorNames.forEach(name => {
                 const opt = document.createElement('option');
                 opt.value = name;
                 opt.textContent = name;
-                sel.appendChild(opt);
+                antitopSelect.appendChild(opt);
             });
-        });
+        }
+        
+        renderMultiSelect('taskAssigneesContainer', mentorNames, selectedAssignees);
+        renderMultiSelect('eventAssigneeContainer', mentorNames, selectedEventAssignees);
     }
 
     function addUser() {
@@ -1873,23 +1933,14 @@ AQ5IPS 1 Овчинникова Юлия Витальевна</textarea>
         updateMentorSelects();
     }
 
-    // ================================================================
-    // 20. ТЕМА
-    // ================================================================
     function toggleTheme() {
         document.body.classList.toggle('dark');
     }
 
-    // ================================================================
-    // 21. СОХРАНЕНИЕ ДАННЫХ
-    // ================================================================
     function saveData() {
         localStorage.setItem(DATA_KEY, JSON.stringify(appData));
     }
 
-    // ================================================================
-    // 22. ЗАПУСК
-    // ================================================================
     document.addEventListener('DOMContentLoaded', init);
 </script>
 </body>

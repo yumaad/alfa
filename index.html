@@ -515,6 +515,15 @@
         if (!users) {
             users = defaultUsers;
             localStorage.setItem(USERS_KEY, JSON.stringify(users));
+        } else {
+            // Проверяем, есть ли Паша Охохонин, если нет — добавляем
+            const hasPasha = users.some(u => u.name === 'Паша Охохонин');
+            if (!hasPasha) {
+                // Удаляем старого Охохонин Павел если есть
+                users = users.filter(u => u.name !== 'Охохонин Павел');
+                users.push({ name: 'Паша Охохонин', role: 'mentor', gender: 'male' });
+                localStorage.setItem(USERS_KEY, JSON.stringify(users));
+            }
         }
 
         let stored = JSON.parse(localStorage.getItem(DATA_KEY));
@@ -538,7 +547,7 @@
     }
 
     // ================================================================
-    // 3. ПОИСК ПОЛЬЗОВАТЕЛЯ ПО ИМЕНИ (регистр и пробелы не важны)
+    // 3. ПОИСК ПОЛЬЗОВАТЕЛЯ ПО ИМЕНИ (улучшенный)
     // ================================================================
     function findUserByName(users, inputName) {
         const normalizedInput = normalizeName(inputName);
@@ -548,13 +557,9 @@
             const normalizedUser = normalizeName(user.name);
             const userParts = normalizedUser.split(' ').filter(p => p);
             
-            // Проверяем, совпадают ли все части (не важно в каком порядке)
-            if (inputParts.length !== userParts.length) return false;
-            
-            const sortedInput = [...inputParts].sort();
-            const sortedUser = [...userParts].sort();
-            
-            return sortedInput.every((part, i) => part === sortedUser[i]);
+            // Проверяем, что все части из input есть в user (не важно в каком порядке)
+            const userPartsLower = userParts.map(p => p.toLowerCase());
+            return inputParts.every(part => userPartsLower.includes(part.toLowerCase()));
         });
     }
 
@@ -599,7 +604,6 @@
         // 150+ ОБОДРЯЮЩИХ СООБЩЕНИЙ (с гендерной адаптацией)
         // ============================================================
         const bracingPhrasesFemale = [
-            // 🔥 Мотивирующие (женский род)
             'ты просто огонь! 🔥',
             'ты мощь! 💪',
             'ты суперзвезда! ⭐',
@@ -722,7 +726,6 @@
         ];
 
         const bracingPhrasesMale = [
-            // 🔥 Мотивирующие (мужской род)
             'ты просто огонь! 🔥',
             'ты мощь! 💪',
             'ты суперзвезда! ⭐',
@@ -1708,7 +1711,6 @@
             alert('Такой пользователь уже есть');
             return;
         }
-        // Определяем пол по имени (если имя заканчивается на а/я — женский, иначе мужской)
         const gender = name.match(/[ая]$/i) ? 'female' : 'male';
         users.push({ name, role: 'mentor', gender });
         localStorage.setItem(USERS_KEY, JSON.stringify(users));

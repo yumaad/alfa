@@ -94,6 +94,8 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
         }
 
         /* === ТАБЫ === */
@@ -366,7 +368,11 @@
         <div class="card">
             <div class="card-title">
                 <span>📊 Не сделали разбор ВОК</span>
-                <button onclick="exportVokExcel()" class="btn-success">📤 Выгрузить CSV</button>
+                <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                    <button onclick="copyVokToday()" class="btn-success" style="font-size:0.9rem;">📋 Копировать за сегодня</button>
+                    <button onclick="copyVokAll()" class="btn-success" style="font-size:0.9rem;">📋 Копировать всё время</button>
+                    <button onclick="exportVokExcel()" style="font-size:0.9rem;">📤 Выгрузить CSV</button>
+                </div>
             </div>
             <div id="vokListContainer" class="vok-list"></div>
         </div>
@@ -820,7 +826,7 @@
     }
 
     // ================================================================
-    // 8. НЕ СДЕЛАЛИ ВОК — ОБНОВЛЕННЫЙ ПАРСЕР
+    // 8. НЕ СДЕЛАЛИ ВОК — ПАРСЕР
     // ================================================================
     function parseVok() {
         const raw = document.getElementById('vokRawInput').value;
@@ -914,7 +920,7 @@
     }
 
     // ================================================================
-    // 9. ОСТАЛЬНЫЕ ФУНКЦИИ (НЕ ИЗМЕНЕНЫ)
+    // 9. ОТОБРАЖЕНИЕ VOK
     // ================================================================
     function renderVok() {
         const container = document.getElementById('vokListContainer');
@@ -980,19 +986,107 @@
     }
 
     function exportVokExcel() {
-        let csv = 'Дата,ID,Оценка,ФИО,Статус\n';
+        let csv = '\uFEFFДата,ID,Оценка,ФИО,Статус\n';
         appData.vok.forEach(v => {
             const status = v.resolvedAt ? (new Date(v.resolvedAt) > new Date(new Date(v.date).setDate(new Date(v.date).getDate() + 1)) ? 'Просрочка' : 'В срок') : 'Не разобрано';
             csv += `${v.date},${v.id},${v.count},${v.fio},${status}\n`;
         });
 
-        const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
+        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
         const link = document.createElement('a');
         link.href = URL.createObjectURL(blob);
         link.download = `vok_export_${new Date().toISOString().split('T')[0]}.csv`;
         link.click();
     }
 
+    // ================================================================
+    // 10. КОПИРОВАНИЕ ТЕХ, КТО НЕ СДЕЛАЛ РАЗБОР ВОК
+    // ================================================================
+    function copyVokToday() {
+        const today = new Date().toISOString().split('T')[0];
+        const unresolved = appData.vok.filter(v => v.date === today && !v.resolvedAt);
+        
+        if (unresolved.length === 0) {
+            alert('✅ За сегодня все сделали разбор ВОК!');
+            return;
+        }
+
+        let text = `🚨 НЕ СДЕЛАЛИ РАЗБОР ВОК за ${new Date().toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' })}:\n\n`;
+        unresolved.forEach(v => {
+            text += `@${v.fio} (${v.id}) — оценка: ${v.count}\n`;
+        });
+        text += `\n📌 Всего: ${unresolved.length} человек(а)`;
+
+        copyToClipboard(text);
+    }
+
+    function copyVokAll() {
+        const unresolved = appData.vok.filter(v => !v.resolvedAt);
+        
+        if (unresolved.length === 0) {
+            alert('✅ Все разборы ВОК сделаны!');
+            return;
+        }
+
+        // Группируем по дате
+        const groups = {};
+        unresolved.forEach(v => {
+            if (!groups[v.date]) groups[v.date] = [];
+            groups[v.date].push(v);
+        });
+
+        const sortedDates = Object.keys(groups).sort();
+
+        let text = `🚨 НЕ СДЕЛАЛИ РАЗБОР ВОК (всего ${unresolved.length} записей):\n\n`;
+        sortedDates.forEach(date => {
+            const items = groups[date];
+            const dateDisplay = new Date(date + 'T00:00:00').toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
+            text += `📅 ${dateDisplay} (${items.length} чел.):\n`;
+            items.forEach(v => {
+                text += `  @${v.fio} (${v.id}) — оценка: ${v.count}\n`;
+            });
+            text += '\n';
+        });
+
+        copyToClipboard(text);
+    }
+
+    // ================================================================
+    // ВСПОМОГАТЕЛЬНАЯ ФУНКЦИЯ ДЛЯ КОПИРОВАНИЯ
+    // ================================================================
+    function copyToClipboard(text) {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert('✅ Скопировано в буфер обмена!');
+            }).catch(() => {
+                fallbackCopy(text);
+            });
+        } else {
+            fallbackCopy(text);
+        }
+    }
+
+    function fallbackCopy(text) {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.left = '-9999px';
+        textarea.style.top = '-9999px';
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+            document.execCommand('copy');
+            alert('✅ Скопировано в буфер обмена!');
+        } catch (err) {
+            alert('❌ Не удалось скопировать. Выделите текст вручную.');
+            console.error('Copy failed:', err);
+        }
+        document.body.removeChild(textarea);
+    }
+
+    // ================================================================
+    // 11. ЛЕЧИМ ВОК
+    // ================================================================
     function addHeal() {
         const name = document.getElementById('healName').value.trim();
         const date = document.getElementById('healDate').value;
@@ -1028,6 +1122,9 @@
         renderHeal();
     }
 
+    // ================================================================
+    // 12. АНТИТОПЫ
+    // ================================================================
     function addAntitop() {
         const mentor = document.getElementById('antitopMentor').value;
         const student = document.getElementById('antitopStudent').value.trim();
@@ -1089,6 +1186,9 @@
         renderAntitop();
     }
 
+    // ================================================================
+    // 13. АДМИНКА
+    // ================================================================
     function renderUserList() {
         const container = document.getElementById('userListAdmin');
         const users = JSON.parse(localStorage.getItem(USERS_KEY));
@@ -1137,14 +1237,23 @@
         renderUserList();
     }
 
+    // ================================================================
+    // 14. ТЕМА
+    // ================================================================
     function toggleTheme() {
         document.body.classList.toggle('dark');
     }
 
+    // ================================================================
+    // 15. СОХРАНЕНИЕ ДАННЫХ
+    // ================================================================
     function saveData() {
         localStorage.setItem(DATA_KEY, JSON.stringify(appData));
     }
 
+    // ================================================================
+    // 16. ЗАПУСК
+    // ================================================================
     document.addEventListener('DOMContentLoaded', init);
 </script>
 </body>

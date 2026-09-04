@@ -29,7 +29,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', 'Inter', system-ui, -apple-system, sans-serif;
+            font-family: 'Segoe UI', 'Georgia', 'Times New Roman', serif;
             transition: background-color 0.3s, color 0.2s;
         }
 
@@ -43,6 +43,12 @@
         .container {
             max-width: 1200px;
             margin: 0 auto;
+        }
+
+        .cursive-text {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            font-style: italic;
+            letter-spacing: 0.3px;
         }
 
         .header {
@@ -61,6 +67,8 @@
         .user-greeting {
             font-size: 1.5rem;
             font-weight: 700;
+            font-family: 'Georgia', 'Times New Roman', serif;
+            font-style: italic;
             background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -74,6 +82,7 @@
             cursor: pointer;
             font-weight: 600;
             color: var(--text);
+            font-family: 'Segoe UI', 'Georgia', serif;
         }
 
         .card {
@@ -87,6 +96,8 @@
         .card-title {
             font-size: 1.3rem;
             font-weight: 600;
+            font-family: 'Georgia', 'Times New Roman', serif;
+            font-style: italic;
             margin-bottom: 16px;
             display: flex;
             justify-content: space-between;
@@ -110,6 +121,8 @@
             font-weight: 600;
             cursor: pointer;
             color: var(--text);
+            font-family: 'Georgia', 'Times New Roman', serif;
+            font-style: italic;
         }
 
         .tab-btn.active {
@@ -142,11 +155,13 @@
             align-items: center;
             border: 1px solid var(--border);
             cursor: pointer;
+            font-family: 'Georgia', 'Times New Roman', serif;
         }
 
         .calendar-day .day-number {
             font-size: 1.1rem;
             font-weight: 700;
+            font-family: 'Georgia', 'Times New Roman', serif;
         }
 
         .calendar-day .icon-group {
@@ -184,6 +199,7 @@
             display: flex;
             align-items: center;
             gap: 12px;
+            font-family: 'Georgia', 'Times New Roman', serif;
         }
 
         .vok-item.late {
@@ -221,10 +237,21 @@
             color: var(--text);
             font-size: 1rem;
             margin-bottom: 10px;
+            font-family: 'Georgia', 'Times New Roman', serif;
         }
 
         select[multiple] {
-            height: 80px;
+            height: 100px;
+        }
+
+        select[multiple] option {
+            padding: 6px 10px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        select[multiple] option:checked {
+            background: var(--accent);
+            color: white;
         }
 
         button {
@@ -236,6 +263,8 @@
             font-weight: 600;
             cursor: pointer;
             transition: 0.2s;
+            font-family: 'Georgia', 'Times New Roman', serif;
+            font-style: italic;
         }
 
         button:hover {
@@ -244,6 +273,7 @@
 
         .btn-danger { background: var(--danger); }
         .btn-success { background: var(--success); }
+        .btn-sm { padding: 4px 12px; font-size: 0.75rem; }
 
         .flex-row {
             display: flex;
@@ -261,9 +291,22 @@
         .user-row {
             display: flex;
             justify-content: space-between;
+            align-items: center;
             padding: 8px 12px;
             background: var(--bg);
             border-radius: 10px;
+            font-family: 'Georgia', 'Times New Roman', serif;
+        }
+
+        .user-row .user-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .user-row .user-actions button {
+            padding: 4px 12px;
+            font-size: 0.8rem;
         }
 
         .heal-item {
@@ -274,6 +317,7 @@
             background: var(--bg);
             border-radius: 10px;
             margin-bottom: 4px;
+            font-family: 'Georgia', 'Times New Roman', serif;
         }
 
         .heal-item input[type="checkbox"] {
@@ -291,11 +335,128 @@
             align-items: center;
         }
 
+        .example-text {
+            background: var(--bg);
+            padding: 12px 16px;
+            border-radius: 10px;
+            font-family: 'Georgia', 'Times New Roman', serif;
+            font-style: italic;
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-bottom: 10px;
+            white-space: pre-wrap;
+            border: 1px dashed var(--border);
+        }
+
+        /* === Стили для задач и комментариев === */
+        .task-item {
+            background: var(--bg);
+            border-radius: 12px;
+            padding: 14px;
+            margin-bottom: 12px;
+        }
+
+        .task-item.done {
+            opacity: 0.5;
+            text-decoration: line-through;
+        }
+
+        .task-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .task-title {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            font-weight: 700;
+            font-size: 1.05rem;
+        }
+
+        .task-priority {
+            font-size: 0.8rem;
+            background: var(--border);
+            padding: 2px 12px;
+            border-radius: 20px;
+        }
+
+        .task-meta {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-top: 4px;
+        }
+
+        .task-comments {
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid var(--border);
+        }
+
+        .task-comment {
+            background: var(--card);
+            padding: 8px 12px;
+            border-radius: 8px;
+            margin-bottom: 6px;
+            font-size: 0.9rem;
+            border-left: 3px solid var(--accent);
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 8px;
+        }
+
+        .task-comment .comment-text {
+            flex: 1;
+        }
+
+        .task-comment .comment-meta {
+            font-size: 0.7rem;
+            opacity: 0.6;
+        }
+
+        .task-comment .comment-actions {
+            display: flex;
+            gap: 4px;
+            flex-shrink: 0;
+        }
+
+        .task-comment .comment-actions button {
+            padding: 2px 8px;
+            font-size: 0.65rem;
+            border-radius: 12px;
+        }
+
+        .add-comment-form {
+            display: flex;
+            gap: 8px;
+            margin-top: 8px;
+            flex-wrap: wrap;
+        }
+
+        .add-comment-form input {
+            flex: 1;
+            min-width: 150px;
+            margin-bottom: 0;
+        }
+
+        .add-comment-form button {
+            padding: 8px 16px;
+            font-size: 0.85rem;
+        }
+
         @media (max-width: 600px) {
             .calendar-day {
                 min-height: 50px;
                 padding: 6px 2px;
                 font-size: 0.75rem;
+            }
+            .add-comment-form {
+                flex-direction: column;
+            }
+            .add-comment-form input {
+                width: 100%;
             }
         }
     </style>
@@ -370,6 +531,7 @@
                 <input type="date" id="taskDeadline">
             </div>
             <textarea id="taskComment" placeholder="Комментарий к задаче"></textarea>
+            <p style="font-size:0.85rem; opacity:0.7; margin-bottom:6px;">👥 Выберите ответственных (зажмите Ctrl для выбора нескольких)</p>
             <select id="taskAssignees" multiple></select>
             <input type="file" id="taskFile" accept="image/*">
             <button onclick="addTask()">➕ Добавить задачу</button>
@@ -384,13 +546,24 @@
     <div id="tabVok" class="tab-content">
         <div class="card">
             <div class="card-title">📥 Загрузить данные "Не сделали ВОК"</div>
-            <p style="font-size:0.9rem; opacity:0.7; margin-bottom:10px;">
-                📌 Вставьте данные в формате:<br>
-                <code>1 сентября 2026</code> (или <code>1.09.2026</code> или <code>01.09.2026</code>)<br>
-                <code>AD24LK	1	Бортникова Алёна Алексеевна</code><br>
-                <code>AWWJJ4	1	Сердюк Александр Владимирович</code>
-            </p>
-            <textarea id="vokRawInput" rows="8" placeholder="Вставьте данные скопом:&#10;1 сентября 2026&#10;AD24LK	1	Бортникова Алёна Алексеевна&#10;AWWJJ4	1	Сердюк Александр Владимирович"></textarea>
+            <div class="example-text">
+📌 Вставьте данные в формате:<br>
+<code>1 сентября 2026</code> (или <code>1.09.2026</code> или <code>01.09.2026</code>)<br>
+<code>AD24LK 1 Бортникова Алёна Алексеевна</code><br>
+<code>AWWJJ4 1 Сердюк Александр Владимирович</code>
+            </div>
+            <textarea id="vokRawInput" rows="8" placeholder="Вставьте данные скопом:&#10;1 сентября 2026&#10;AD24LK 1 Бортникова Алёна Алексеевна&#10;AWWJJ4 1 Сердюк Александр Владимирович">1 сентября 2026
+AD24LK 1 Бортникова Алёна Алексеевна
+AWWJJ4 1 Сердюк Александр Владимирович
+AQX55E 1 Маркин Владислав Алексеевич
+BFQFPG 1 Фазылгаянов Рустам Радикович
+AX89EX 1 Новакова Оксана Михайловна
+BQOFZT 1 Федулова Дарья Витальевна
+H19964 3 Шанина Любовь Александровна
+BBM81L 1 Шанина Любовь Александровна
+AD4QRD 1 Рощектаева Юлия Алексеевна
+ATYM68 1 Прокопенко Оксана Игоревна
+AQ5IPS 1 Овчинникова Юлия Витальевна</textarea>
             <button onclick="parseVok()">🔍 Распарсить и сохранить</button>
         </div>
 
@@ -516,10 +689,8 @@
             users = defaultUsers;
             localStorage.setItem(USERS_KEY, JSON.stringify(users));
         } else {
-            // Проверяем, есть ли Паша Охохонин, если нет — добавляем
             const hasPasha = users.some(u => u.name === 'Паша Охохонин');
             if (!hasPasha) {
-                // Удаляем старого Охохонин Павел если есть
                 users = users.filter(u => u.name !== 'Охохонин Павел');
                 users.push({ name: 'Паша Охохонин', role: 'mentor', gender: 'male' });
                 localStorage.setItem(USERS_KEY, JSON.stringify(users));
@@ -547,7 +718,7 @@
     }
 
     // ================================================================
-    // 3. ПОИСК ПОЛЬЗОВАТЕЛЯ ПО ИМЕНИ (улучшенный)
+    // 3. ПОИСК ПОЛЬЗОВАТЕЛЯ ПО ИМЕНИ
     // ================================================================
     function findUserByName(users, inputName) {
         const normalizedInput = normalizeName(inputName);
@@ -556,8 +727,6 @@
         return users.find(user => {
             const normalizedUser = normalizeName(user.name);
             const userParts = normalizedUser.split(' ').filter(p => p);
-            
-            // Проверяем, что все части из input есть в user (не важно в каком порядке)
             const userPartsLower = userParts.map(p => p.toLowerCase());
             return inputParts.every(part => userPartsLower.includes(part.toLowerCase()));
         });
@@ -600,250 +769,102 @@
         const firstName = nameParts[0] || 'Друг';
         const isMale = currentUser.gender === 'male';
         
-        // ============================================================
-        // 150+ ОБОДРЯЮЩИХ СООБЩЕНИЙ (с гендерной адаптацией)
-        // ============================================================
         const bracingPhrasesFemale = [
-            'ты просто огонь! 🔥',
-            'ты мощь! 💪',
-            'ты суперзвезда! ⭐',
-            'ты невероятна! ✨',
-            'ты лучшая! 🏆',
-            'ты круче всех! 👑',
-            'ты машина! 🚀',
-            'ты гений! 🧠',
-            'ты легенда! 🌟',
-            'ты чемпионка! 🥇',
-            'ты топ! 📈',
-            'ты богиня! 👸',
-            'ты вдохновляешь! 💫',
-            'ты творишь магию! 🪄',
-            'ты сила! ⚡',
-            'ты прорыв! 💥',
-            'ты шедевр! 🎨',
-            'ты космос! 🚀',
-            'ты алмаз! 💎',
-            'ты сокровище! 🏴‍☠️',
-            'ты гроза! ⛈️',
-            'ты ураган! 🌪️',
-            'ты вулкан! 🌋',
-            'ты океан! 🌊',
-            'ты солнце! ☀️',
-            'ты звезда! 🌠',
-            'ты победительница! 🏅',
-            'ты героиня! 🦸‍♀️',
-            'ты титаниха! 🗿',
-            'ты бесценна! 💰',
-            'ты великолепна! 🌺',
-            'ты очаровательна! 🌹',
-            'ты прекрасна, как рассвет! 🌅',
-            'ты удивительная! 🌈',
-            'ты талантлива! 🎭',
-            'ты уникальна! 🦄',
-            'ты неповторима! 🌸',
-            'ты солнечный лучик! ☀️',
-            'ты нежность! 🕊️',
-            'ты грация! 🦢',
-            'ты гармония! 🎵',
-            'ты вдохновение! 🎨',
-            'ты мечта! 🌙',
-            'ты звёздочка! ✨',
-            'ты совершенство! 💎',
-            'ты искренность! 💝',
-            'ты доброта! 🌷',
-            'ты мудрость! 📚',
-            'ты красота! 🌹',
-            'ты изящество! 🦋',
-            'ты шарм! ✨',
-            'ты обаяние! 😊',
-            'ты свежесть! 🌿',
-            'ты энергия! ⚡',
-            'ты страсть! ❤️‍🔥',
-            'ты нежность! 🌸',
-            'ты тепло! ☀️',
-            'ты свет! 💡',
-            'ты цветок! 🌺',
-            'у тебя всё получится! 🤞',
-            'ты справишься с любыми задачами! 🎯',
-            'мы в тебя верим! 🙌',
-            'ты можешь всё! 💫',
-            'никто не справится лучше тебя! 🌟',
-            'ты на верном пути! 🛤️',
-            'ты делаешь мир лучше! 🌍',
-            'ты пример для подражания! 👏',
-            'ты создана для великих дел! 🏔️',
-            'ты преодолеешь всё! 🏋️‍♀️',
-            'ты сильнее, чем думаешь! 💪',
-            'ты умница! 🧠',
-            'ты молодец! 👍',
-            'ты на высоте! 📈',
-            'ты двигаешь прогресс! 🚀',
-            'ты меняешь мир! 🌎',
-            'ты вдохновляешь команду! 👥',
-            'ты делаешь крутые вещи! 🎪',
-            'ты профессионал! 👩‍💼',
-            'ты эксперт! 🎓',
-            'ты ас своего дела! ✈️',
-            'ты мастер! 🏺',
-            'ты виртуоз! 🎻',
-            'ты гранд! 🎩',
-            'ты королева! 👑',
-            'ты центр вселенной! 🌌',
-            'ты луч света в тёмном царстве! 💡',
-            'ты бриллиант! 💎',
-            'ты жемчужина! 🦪',
-            'ты сокровище нации! 🏛️',
-            'ты способна на всё! 🌟',
-            'твой потенциал бесконечен! ♾️',
-            'ты открываешь новые горизонты! 🌅',
-            'ты создаёшь будущее! 🔮',
-            'ты пишешь свою историю! 📖',
-            'ты строишь империю! 🏰',
-            'ты воспаряешь выше облаков! ☁️',
-            'ты покоряешь вершины! 🏔️',
-            'ты пересекаешь океаны! ⛵',
-            'ты летишь к звёздам! 🚀',
-            'ты творишь чудеса! 🪄',
-            'ты исполняешь мечты! 🌠',
-            'ты приносишь радость! 😊',
-            'ты даришь надежду! 🕊️',
-            'ты заряжаешь энергией! 🔋',
-            'ты объединяешь людей! 🤝',
-            'ты ведёшь к успеху! 🏆',
-            'ты прокладываешь путь! 🛤️',
-            'ты зажигаешь огонь! 🔥',
-            'ты расцветаешь каждый день! 🌸',
-            'ты растёшь над собой! 🌱',
-            'ты становишься лучше! 📈',
-            'ты достигаешь целей! 🎯',
-            'ты превосходишь ожидания! 🚀',
-            'ты удивляешь всех! 😲',
-            'ты вдохновляешь на подвиги! 🦸‍♀️',
-            'ты заставляешь мечтать! 🌙',
-            'ты даришь веру! 🙏',
-            'ты излучаешь свет! 💫',
-            'ты — чудо! 🌟'
+            'ты просто огонь! 🔥', 'ты мощь! 💪', 'ты суперзвезда! ⭐',
+            'ты невероятна! ✨', 'ты лучшая! 🏆', 'ты круче всех! 👑',
+            'ты машина! 🚀', 'ты гений! 🧠', 'ты легенда! 🌟',
+            'ты чемпионка! 🥇', 'ты топ! 📈', 'ты богиня! 👸',
+            'ты вдохновляешь! 💫', 'ты творишь магию! 🪄', 'ты сила! ⚡',
+            'ты прорыв! 💥', 'ты шедевр! 🎨', 'ты космос! 🚀',
+            'ты алмаз! 💎', 'ты сокровище! 🏴‍☠️', 'ты ураган! 🌪️',
+            'ты океан! 🌊', 'ты солнце! ☀️', 'ты звезда! 🌠',
+            'ты победительница! 🏅', 'ты героиня! 🦸‍♀️', 'ты титаниха! 🗿',
+            'ты великолепна! 🌺', 'ты очаровательна! 🌹', 'ты удивительная! 🌈',
+            'ты талантлива! 🎭', 'ты уникальна! 🦄', 'ты неповторима! 🌸',
+            'ты солнечный лучик! ☀️', 'ты нежность! 🕊️', 'ты грация! 🦢',
+            'ты гармония! 🎵', 'ты вдохновение! 🎨', 'ты мечта! 🌙',
+            'ты звёздочка! ✨', 'ты совершенство! 💎', 'ты искренность! 💝',
+            'ты доброта! 🌷', 'ты мудрость! 📚', 'ты красота! 🌹',
+            'ты изящество! 🦋', 'ты шарм! ✨', 'ты обаяние! 😊',
+            'ты свежесть! 🌿', 'ты энергия! ⚡', 'ты страсть! ❤️‍🔥',
+            'ты тепло! ☀️', 'ты свет! 💡', 'ты цветок! 🌺',
+            'у тебя всё получится! 🤞', 'ты справишься с любыми задачами! 🎯',
+            'мы в тебя верим! 🙌', 'ты можешь всё! 💫',
+            'никто не справится лучше тебя! 🌟', 'ты на верном пути! 🛤️',
+            'ты делаешь мир лучше! 🌍', 'ты пример для подражания! 👏',
+            'ты создана для великих дел! 🏔️', 'ты преодолеешь всё! 🏋️‍♀️',
+            'ты сильнее, чем думаешь! 💪', 'ты умница! 🧠', 'ты молодец! 👍',
+            'ты на высоте! 📈', 'ты двигаешь прогресс! 🚀', 'ты меняешь мир! 🌎',
+            'ты вдохновляешь команду! 👥', 'ты делаешь крутые вещи! 🎪',
+            'ты профессионал! 👩‍💼', 'ты эксперт! 🎓', 'ты ас своего дела! ✈️',
+            'ты мастер! 🏺', 'ты виртуоз! 🎻', 'ты гранд! 🎩',
+            'ты королева! 👑', 'ты центр вселенной! 🌌',
+            'ты луч света в тёмном царстве! 💡', 'ты бриллиант! 💎',
+            'ты жемчужина! 🦪', 'ты сокровище нации! 🏛️',
+            'ты способна на всё! 🌟', 'твой потенциал бесконечен! ♾️',
+            'ты открываешь новые горизонты! 🌅', 'ты создаёшь будущее! 🔮',
+            'ты пишешь свою историю! 📖', 'ты строишь империю! 🏰',
+            'ты воспаряешь выше облаков! ☁️', 'ты покоряешь вершины! 🏔️',
+            'ты пересекаешь океаны! ⛵', 'ты летишь к звёздам! 🚀',
+            'ты творишь чудеса! 🪄', 'ты исполняешь мечты! 🌠',
+            'ты приносишь радость! 😊', 'ты даришь надежду! 🕊️',
+            'ты заряжаешь энергией! 🔋', 'ты объединяешь людей! 🤝',
+            'ты ведёшь к успеху! 🏆', 'ты прокладываешь путь! 🛤️',
+            'ты зажигаешь огонь! 🔥', 'ты расцветаешь каждый день! 🌸',
+            'ты растёшь над собой! 🌱', 'ты становишься лучше! 📈',
+            'ты достигаешь целей! 🎯', 'ты превосходишь ожидания! 🚀',
+            'ты удивляешь всех! 😲', 'ты вдохновляешь на подвиги! 🦸‍♀️',
+            'ты заставляешь мечтать! 🌙', 'ты даришь веру! 🙏',
+            'ты излучаешь свет! 💫', 'ты — чудо! 🌟'
         ];
 
         const bracingPhrasesMale = [
-            'ты просто огонь! 🔥',
-            'ты мощь! 💪',
-            'ты суперзвезда! ⭐',
-            'ты невероятен! ✨',
-            'ты лучший! 🏆',
-            'ты круче всех! 👑',
-            'ты машина! 🚀',
-            'ты гений! 🧠',
-            'ты легенда! 🌟',
-            'ты чемпион! 🥇',
-            'ты топ! 📈',
-            'ты бог! 👑',
-            'ты вдохновляешь! 💫',
-            'ты творишь магию! 🪄',
-            'ты сила! ⚡',
-            'ты прорыв! 💥',
-            'ты шедевр! 🎨',
-            'ты космос! 🚀',
-            'ты алмаз! 💎',
-            'ты сокровище! 🏴‍☠️',
-            'ты гроза! ⛈️',
-            'ты ураган! 🌪️',
-            'ты вулкан! 🌋',
-            'ты океан! 🌊',
-            'ты солнце! ☀️',
-            'ты звезда! 🌠',
-            'ты победитель! 🏅',
-            'ты герой! 🦸‍♂️',
-            'ты титан! 🗿',
-            'ты бесценен! 💰',
-            'ты великолепен! 🌺',
-            'ты очарователен! 🌹',
-            'ты прекрасен, как рассвет! 🌅',
-            'ты удивительный! 🌈',
-            'ты талантлив! 🎭',
-            'ты уникален! 🦄',
-            'ты неповторим! 🌸',
-            'ты солнечный лучик! ☀️',
-            'ты нежность! 🕊️',
-            'ты грация! 🦢',
-            'ты гармония! 🎵',
-            'ты вдохновение! 🎨',
-            'ты мечта! 🌙',
-            'ты звёздочка! ✨',
-            'ты совершенство! 💎',
-            'ты искренность! 💝',
-            'ты доброта! 🌷',
-            'ты мудрость! 📚',
-            'ты красота! 🌹',
-            'ты изящество! 🦋',
-            'ты шарм! ✨',
-            'ты обаяние! 😊',
-            'ты свежесть! 🌿',
-            'ты энергия! ⚡',
-            'ты страсть! ❤️‍🔥',
-            'ты тепло! ☀️',
-            'ты свет! 💡',
-            'ты цветок! 🌺',
-            'у тебя всё получится! 🤞',
-            'ты справишься с любыми задачами! 🎯',
-            'мы в тебя верим! 🙌',
-            'ты можешь всё! 💫',
-            'никто не справится лучше тебя! 🌟',
-            'ты на верном пути! 🛤️',
-            'ты делаешь мир лучше! 🌍',
-            'ты пример для подражания! 👏',
-            'ты создан для великих дел! 🏔️',
-            'ты преодолеешь всё! 🏋️‍♂️',
-            'ты сильнее, чем думаешь! 💪',
-            'ты умница! 🧠',
-            'ты молодец! 👍',
-            'ты на высоте! 📈',
-            'ты двигаешь прогресс! 🚀',
-            'ты меняешь мир! 🌎',
-            'ты вдохновляешь команду! 👥',
-            'ты делаешь крутые вещи! 🎪',
-            'ты профессионал! 👨‍💼',
-            'ты эксперт! 🎓',
-            'ты ас своего дела! ✈️',
-            'ты мастер! 🏺',
-            'ты виртуоз! 🎻',
-            'ты гранд! 🎩',
-            'ты король! 👑',
-            'ты центр вселенной! 🌌',
-            'ты луч света в тёмном царстве! 💡',
-            'ты бриллиант! 💎',
-            'ты жемчужина! 🦪',
-            'ты сокровище нации! 🏛️',
-            'ты способен на всё! 🌟',
-            'твой потенциал бесконечен! ♾️',
-            'ты открываешь новые горизонты! 🌅',
-            'ты создаёшь будущее! 🔮',
-            'ты пишешь свою историю! 📖',
-            'ты строишь империю! 🏰',
-            'ты воспаряешь выше облаков! ☁️',
-            'ты покоряешь вершины! 🏔️',
-            'ты пересекаешь океаны! ⛵',
-            'ты летишь к звёздам! 🚀',
-            'ты творишь чудеса! 🪄',
-            'ты исполняешь мечты! 🌠',
-            'ты приносишь радость! 😊',
-            'ты даришь надежду! 🕊️',
-            'ты заряжаешь энергией! 🔋',
-            'ты объединяешь людей! 🤝',
-            'ты ведёшь к успеху! 🏆',
-            'ты прокладываешь путь! 🛤️',
-            'ты зажигаешь огонь! 🔥',
-            'ты расцветаешь каждый день! 🌸',
-            'ты растёшь над собой! 🌱',
-            'ты становишься лучше! 📈',
-            'ты достигаешь целей! 🎯',
-            'ты превосходишь ожидания! 🚀',
-            'ты удивляешь всех! 😲',
-            'ты вдохновляешь на подвиги! 🦸‍♂️',
-            'ты заставляешь мечтать! 🌙',
-            'ты даришь веру! 🙏',
-            'ты излучаешь свет! 💫',
-            'ты — чудо! 🌟'
+            'ты просто огонь! 🔥', 'ты мощь! 💪', 'ты суперзвезда! ⭐',
+            'ты невероятен! ✨', 'ты лучший! 🏆', 'ты круче всех! 👑',
+            'ты машина! 🚀', 'ты гений! 🧠', 'ты легенда! 🌟',
+            'ты чемпион! 🥇', 'ты топ! 📈', 'ты бог! 👑',
+            'ты вдохновляешь! 💫', 'ты творишь магию! 🪄', 'ты сила! ⚡',
+            'ты прорыв! 💥', 'ты шедевр! 🎨', 'ты космос! 🚀',
+            'ты алмаз! 💎', 'ты сокровище! 🏴‍☠️', 'ты ураган! 🌪️',
+            'ты океан! 🌊', 'ты солнце! ☀️', 'ты звезда! 🌠',
+            'ты победитель! 🏅', 'ты герой! 🦸‍♂️', 'ты титан! 🗿',
+            'ты великолепен! 🌺', 'ты очарователен! 🌹', 'ты удивительный! 🌈',
+            'ты талантлив! 🎭', 'ты уникален! 🦄', 'ты неповторим! 🌸',
+            'ты солнечный лучик! ☀️', 'ты нежность! 🕊️', 'ты грация! 🦢',
+            'ты гармония! 🎵', 'ты вдохновение! 🎨', 'ты мечта! 🌙',
+            'ты звёздочка! ✨', 'ты совершенство! 💎', 'ты искренность! 💝',
+            'ты доброта! 🌷', 'ты мудрость! 📚', 'ты красота! 🌹',
+            'ты изящество! 🦋', 'ты шарм! ✨', 'ты обаяние! 😊',
+            'ты свежесть! 🌿', 'ты энергия! ⚡', 'ты страсть! ❤️‍🔥',
+            'ты тепло! ☀️', 'ты свет! 💡', 'ты цветок! 🌺',
+            'у тебя всё получится! 🤞', 'ты справишься с любыми задачами! 🎯',
+            'мы в тебя верим! 🙌', 'ты можешь всё! 💫',
+            'никто не справится лучше тебя! 🌟', 'ты на верном пути! 🛤️',
+            'ты делаешь мир лучше! 🌍', 'ты пример для подражания! 👏',
+            'ты создан для великих дел! 🏔️', 'ты преодолеешь всё! 🏋️‍♂️',
+            'ты сильнее, чем думаешь! 💪', 'ты умница! 🧠', 'ты молодец! 👍',
+            'ты на высоте! 📈', 'ты двигаешь прогресс! 🚀', 'ты меняешь мир! 🌎',
+            'ты вдохновляешь команду! 👥', 'ты делаешь крутые вещи! 🎪',
+            'ты профессионал! 👨‍💼', 'ты эксперт! 🎓', 'ты ас своего дела! ✈️',
+            'ты мастер! 🏺', 'ты виртуоз! 🎻', 'ты гранд! 🎩',
+            'ты король! 👑', 'ты центр вселенной! 🌌',
+            'ты луч света в тёмном царстве! 💡', 'ты бриллиант! 💎',
+            'ты жемчужина! 🦪', 'ты сокровище нации! 🏛️',
+            'ты способен на всё! 🌟', 'твой потенциал бесконечен! ♾️',
+            'ты открываешь новые горизонты! 🌅', 'ты создаёшь будущее! 🔮',
+            'ты пишешь свою историю! 📖', 'ты строишь империю! 🏰',
+            'ты воспаряешь выше облаков! ☁️', 'ты покоряешь вершины! 🏔️',
+            'ты пересекаешь океаны! ⛵', 'ты летишь к звёздам! 🚀',
+            'ты творишь чудеса! 🪄', 'ты исполняешь мечты! 🌠',
+            'ты приносишь радость! 😊', 'ты даришь надежду! 🕊️',
+            'ты заряжаешь энергией! 🔋', 'ты объединяешь людей! 🤝',
+            'ты ведёшь к успеху! 🏆', 'ты прокладываешь путь! 🛤️',
+            'ты зажигаешь огонь! 🔥', 'ты расцветаешь каждый день! 🌸',
+            'ты растёшь над собой! 🌱', 'ты становишься лучше! 📈',
+            'ты достигаешь целей! 🎯', 'ты превосходишь ожидания! 🚀',
+            'ты удивляешь всех! 😲', 'ты вдохновляешь на подвиги! 🦸‍♂️',
+            'ты заставляешь мечтать! 🌙', 'ты даришь веру! 🙏',
+            'ты излучаешь свет! 💫', 'ты — чудо! 🌟'
         ];
 
         const phrases = isMale ? bracingPhrasesMale : bracingPhrasesFemale;
@@ -937,6 +958,7 @@
             div.style.fontWeight = '700';
             div.style.textAlign = 'center';
             div.style.padding = '4px';
+            div.style.fontFamily = 'Georgia, Times New Roman, serif';
             grid.appendChild(div);
         });
 
@@ -1004,12 +1026,12 @@
         const container = document.getElementById('eventList');
         const events = appData.events[dateStr] || [];
         if (events.length === 0) {
-            container.innerHTML = '<p style="color:var(--text); opacity:0.6;">Нет событий на этот день</p>';
+            container.innerHTML = '<p style="color:var(--text); opacity:0.6; font-family: Georgia, Times New Roman, serif;">Нет событий на этот день</p>';
             return;
         }
         container.innerHTML = events.map((e, idx) => `
             <div style="display:flex; justify-content:space-between; padding:6px 12px; background:var(--bg); border-radius:8px; margin-bottom:4px; ${e.done ? 'opacity:0.4; text-decoration:line-through;' : ''}">
-                <div><strong>${e.title}</strong> ${e.comment ? `— ${e.comment}` : ''} ${e.assignee ? `👤 ${e.assignee}` : ''}</div>
+                <div style="font-family: Georgia, Times New Roman, serif;"><strong>${e.title}</strong> ${e.comment ? `— ${e.comment}` : ''} ${e.assignee ? `👤 ${e.assignee}` : ''}</div>
                 <div>
                     <button onclick="toggleEventDone('${dateStr}', ${idx})" style="padding:4px 12px; font-size:0.8rem; background:var(--success);">✅</button>
                     <button onclick="deleteEvent('${dateStr}', ${idx})" style="padding:4px 12px; font-size:0.8rem; background:var(--danger);">✖</button>
@@ -1062,7 +1084,7 @@
     }
 
     // ================================================================
-    // 8. ЗАДАЧИ
+    // 8. ЗАДАЧИ (с комментариями/апдейтами)
     // ================================================================
     function addTask() {
         const title = document.getElementById('taskTitle').value.trim();
@@ -1098,7 +1120,8 @@
             deadline,
             assignees,
             file: fileData,
-            done: false
+            done: false,
+            updates: [] // массив апдейтов { text, author, date }
         });
         saveData();
         renderTasks();
@@ -1107,11 +1130,56 @@
         document.getElementById('taskFile').value = '';
     }
 
+    // Добавление апдейта к задаче
+    function addTaskUpdate(taskId) {
+        const input = document.getElementById(`updateInput_${taskId}`);
+        const text = input.value.trim();
+        if (!text) { alert('Введите текст апдейта'); return; }
+
+        const task = appData.tasks.find(t => t.id === taskId);
+        if (!task) return;
+
+        if (!task.updates) task.updates = [];
+        task.updates.push({
+            text: text,
+            author: currentUser.name,
+            date: new Date().toLocaleString('ru-RU')
+        });
+
+        saveData();
+        renderTasks();
+    }
+
+    // Удаление апдейта
+    function deleteTaskUpdate(taskId, updateIdx) {
+        if (!confirm('Удалить этот апдейт?')) return;
+        const task = appData.tasks.find(t => t.id === taskId);
+        if (!task || !task.updates) return;
+        task.updates.splice(updateIdx, 1);
+        saveData();
+        renderTasks();
+    }
+
+    // Редактирование апдейта
+    function editTaskUpdate(taskId, updateIdx) {
+        const task = appData.tasks.find(t => t.id === taskId);
+        if (!task || !task.updates) return;
+        const update = task.updates[updateIdx];
+        const newText = prompt('Редактировать апдейт:', update.text);
+        if (newText !== null && newText.trim() !== '') {
+            update.text = newText.trim();
+            update.edited = true;
+            update.editedDate = new Date().toLocaleString('ru-RU');
+            saveData();
+            renderTasks();
+        }
+    }
+
     function renderTasks() {
         const container = document.getElementById('taskList');
         const tasks = appData.tasks;
         if (tasks.length === 0) {
-            container.innerHTML = '<p style="opacity:0.6;">Задач пока нет</p>';
+            container.innerHTML = '<p style="opacity:0.6; font-family: Georgia, Times New Roman, serif;">Задач пока нет</p>';
             return;
         }
 
@@ -1121,24 +1189,60 @@
             return (a.deadline || '').localeCompare(b.deadline || '');
         });
 
-        container.innerHTML = sorted.map(t => `
-            <div style="background:${t.priority === 'Срочная' ? '#fecaca' : 'var(--bg)'}; border-radius:12px; padding:14px; margin-bottom:10px; ${t.done ? 'opacity:0.5; text-decoration:line-through;' : ''}">
-                <div style="display:flex; justify-content:space-between; align-items:center;">
-                    <div>
-                        <strong>${t.title}</strong> 
-                        <span style="font-size:0.8rem; background:var(--border); padding:2px 12px; border-radius:20px;">${t.priority}</span>
-                        ${t.deadline ? `📅 ${t.deadline}` : ''}
-                    </div>
-                    <div>
-                        <button onclick="toggleTaskDone(${t.id})" style="padding:4px 12px; font-size:0.8rem; background:var(--success);">✅</button>
-                        <button onclick="deleteTask(${t.id})" style="padding:4px 12px; font-size:0.8rem; background:var(--danger);">✖</button>
-                    </div>
+        container.innerHTML = sorted.map(t => {
+            const isDone = t.done ? 'done' : '';
+            const bgColor = t.priority === 'Срочная' ? '#fecaca' : 'var(--bg)';
+            
+            // Рендерим апдейты
+            let updatesHtml = '';
+            if (t.updates && t.updates.length > 0) {
+                updatesHtml = '<div style="margin-top:8px; padding-top:8px; border-top:1px solid var(--border);"><div style="font-size:0.8rem; opacity:0.6; margin-bottom:4px;">📝 Апдейты:</div>';
+                t.updates.forEach((u, idx) => {
+                    updatesHtml += `
+                        <div class="task-comment">
+                            <div class="comment-text">
+                                <div>${u.text}</div>
+                                <div class="comment-meta">👤 ${u.author} • ${u.date}${u.edited ? ' ✏️ ред.' : ''}</div>
+                            </div>
+                            <div class="comment-actions">
+                                <button onclick="editTaskUpdate(${t.id}, ${idx})" class="btn-sm" style="background:var(--accent);">✏️</button>
+                                <button onclick="deleteTaskUpdate(${t.id}, ${idx})" class="btn-sm" style="background:var(--danger);">🗑️</button>
+                            </div>
+                        </div>
+                    `;
+                });
+                updatesHtml += '</div>';
+            }
+
+            // Форма добавления апдейта
+            const updateForm = `
+                <div class="add-comment-form">
+                    <input type="text" id="updateInput_${t.id}" placeholder="Новый апдейт по задаче...">
+                    <button onclick="addTaskUpdate(${t.id})" style="padding:6px 16px; font-size:0.8rem;">➕ Добавить апдейт</button>
                 </div>
-                ${t.comment ? `<div style="margin-top:6px; opacity:0.7;">💬 ${t.comment}</div>` : ''}
-                ${t.assignees && t.assignees.length ? `<div style="margin-top:4px; font-size:0.9rem;">👤 ${t.assignees.join(', ')}</div>` : ''}
-                ${t.file ? `<div style="margin-top:6px;"><img src="${t.file}" style="max-width:100px; max-height:100px; border-radius:8px;"/></div>` : ''}
-            </div>
-        `).join('');
+            `;
+
+            return `
+                <div class="task-item ${isDone}" style="background:${bgColor};">
+                    <div class="task-header">
+                        <div>
+                            <span class="task-title">${t.title}</span>
+                            <span class="task-priority">${t.priority}</span>
+                            ${t.deadline ? `📅 ${t.deadline}` : ''}
+                        </div>
+                        <div>
+                            <button onclick="toggleTaskDone(${t.id})" class="btn-sm" style="background:var(--success);">✅</button>
+                            <button onclick="deleteTask(${t.id})" class="btn-sm" style="background:var(--danger);">🗑️</button>
+                        </div>
+                    </div>
+                    ${t.comment ? `<div class="task-meta">💬 ${t.comment}</div>` : ''}
+                    ${t.assignees && t.assignees.length ? `<div class="task-meta">👤 ${t.assignees.join(', ')}</div>` : ''}
+                    ${t.file ? `<div style="margin-top:6px;"><img src="${t.file}" style="max-width:100px; max-height:100px; border-radius:8px;"/></div>` : ''}
+                    ${updatesHtml}
+                    ${updateForm}
+                </div>
+            `;
+        }).join('');
     }
 
     function toggleTaskDone(id) {
@@ -1247,7 +1351,7 @@
         const vok = appData.vok;
 
         if (vok.length === 0) {
-            container.innerHTML = '<p style="opacity:0.6;">Нет данных</p>';
+            container.innerHTML = '<p style="opacity:0.6; font-family: Georgia, Times New Roman, serif;">Нет данных</p>';
             return;
         }
 
@@ -1263,7 +1367,7 @@
         sortedDates.forEach(date => {
             const items = groups[date];
             const dateDisplay = new Date(date + 'T00:00:00').toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
-            html += `<div style="font-weight:700; margin-top:16px; font-size:1.1rem;">📅 ${dateDisplay}:</div>`;
+            html += `<div style="font-weight:700; margin-top:16px; font-size:1.1rem; font-family: Georgia, Times New Roman, serif;">📅 ${dateDisplay}:</div>`;
 
             items.forEach((item, index) => {
                 const isLate = item.resolvedAt && new Date(item.resolvedAt) > new Date(new Date(item.date).setDate(new Date(item.date).getDate() + 1));
@@ -1600,7 +1704,7 @@
         const container = document.getElementById('healList');
         const heal = appData.heal;
         if (heal.length === 0) {
-            container.innerHTML = '<p style="opacity:0.6;">Нет записей "Лечим ВОК"</p>';
+            container.innerHTML = '<p style="opacity:0.6; font-family: Georgia, Times New Roman, serif;">Нет записей "Лечим ВОК"</p>';
             return;
         }
 
@@ -1608,7 +1712,7 @@
             <div class="heal-item">
                 <input type="checkbox" class="heal-checkbox" data-index="${idx}">
                 <div class="heal-content">
-                    <span>💊 ${h.name} — ${h.date}</span>
+                    <span style="font-family: Georgia, Times New Roman, serif;">💊 ${h.name} — ${h.date}</span>
                     <button onclick="deleteHeal(${idx})" style="padding:2px 12px; background:var(--danger);">✖</button>
                 </div>
             </div>
@@ -1645,14 +1749,14 @@
         const container = document.getElementById('antitopList');
         const antitop = appData.antitop;
         if (antitop.length === 0) {
-            container.innerHTML = '<p style="opacity:0.6;">Нет связей</p>';
+            container.innerHTML = '<p style="opacity:0.6; font-family: Georgia, Times New Roman, serif;">Нет связей</p>';
             return;
         }
 
         container.innerHTML = antitop.map((a, idx) => `
             <div style="background:var(--bg); border-radius:12px; padding:12px; margin-bottom:8px;">
                 <div style="display:flex; justify-content:space-between;">
-                    <span><strong>👨‍🏫 ${a.mentor}</strong> → 🧑‍🎓 ${a.student}</span>
+                    <span style="font-family: Georgia, Times New Roman, serif;"><strong>👨‍🏫 ${a.mentor}</strong> → 🧑‍🎓 ${a.student}</span>
                     <button onclick="deleteAntitop(${idx})" style="padding:2px 12px; background:var(--danger);">✖</button>
                 </div>
                 <div style="margin-top:8px;">
@@ -1660,7 +1764,7 @@
                         <input type="text" id="noteInput_${idx}" placeholder="Заметка о прогрессе" style="flex:2;">
                         <button onclick="addAntitopNote(${idx})" style="padding:4px 16px;">➕</button>
                     </div>
-                    <div style="margin-top:6px; font-size:0.9rem; opacity:0.7;">
+                    <div style="margin-top:6px; font-size:0.9rem; opacity:0.7; font-family: Georgia, Times New Roman, serif;">
                         ${a.notes.map(n => `📝 ${n.text} (${n.date})`).join('<br>')}
                     </div>
                 </div>
@@ -1696,11 +1800,48 @@
         container.innerHTML = users.map((u, idx) => `
             <div class="user-row">
                 <span>${u.name} ${u.role === 'admin' ? '👑' : ''}</span>
-                <span>
-                    ${u.role !== 'admin' ? `<button onclick="deleteUser(${idx})" style="padding:2px 12px; background:var(--danger);">Удалить</button>` : ''}
-                </span>
+                <div class="user-actions">
+                    ${u.role !== 'admin' ? `<button onclick="makeAdmin(${idx})" style="background:var(--accent); padding:4px 12px; font-size:0.8rem;">👑 Назначить админом</button>` : ''}
+                    ${u.role === 'admin' && u.name !== 'Наташа Заплатина' && u.name !== 'Юма Доржиева' ? `<button onclick="removeAdmin(${idx})" style="background:var(--warning); padding:4px 12px; font-size:0.8rem;">⬇️ Снять админа</button>` : ''}
+                    ${u.role !== 'admin' ? `<button onclick="deleteUser(${idx})" style="padding:4px 12px; background:var(--danger); font-size:0.8rem;">Удалить</button>` : ''}
+                </div>
             </div>
         `).join('');
+    }
+
+    function makeAdmin(idx) {
+        if (!confirm('Назначить этого пользователя администратором?')) return;
+        const users = JSON.parse(localStorage.getItem(USERS_KEY));
+        users[idx].role = 'admin';
+        localStorage.setItem(USERS_KEY, JSON.stringify(users));
+        renderUserList();
+        updateMentorSelects();
+    }
+
+    function removeAdmin(idx) {
+        if (!confirm('Снять статус администратора?')) return;
+        const users = JSON.parse(localStorage.getItem(USERS_KEY));
+        users[idx].role = 'mentor';
+        localStorage.setItem(USERS_KEY, JSON.stringify(users));
+        renderUserList();
+        updateMentorSelects();
+    }
+
+    function updateMentorSelects() {
+        const users = JSON.parse(localStorage.getItem(USERS_KEY));
+        const mentorNames = users.filter(u => u.role === 'mentor' || u.role === 'admin').map(u => u.name);
+        const selects = ['eventAssignee', 'taskAssignees', 'antitopMentor'];
+        selects.forEach(id => {
+            const sel = document.getElementById(id);
+            if (!sel) return;
+            sel.innerHTML = '';
+            mentorNames.forEach(name => {
+                const opt = document.createElement('option');
+                opt.value = name;
+                opt.textContent = name;
+                sel.appendChild(opt);
+            });
+        });
     }
 
     function addUser() {
@@ -1716,27 +1857,20 @@
         localStorage.setItem(USERS_KEY, JSON.stringify(users));
         document.getElementById('newUserName').value = '';
         renderUserList();
-        const selects = ['eventAssignee', 'taskAssignees', 'antitopMentor'];
-        selects.forEach(id => {
-            const sel = document.getElementById(id);
-            if (!sel) return;
-            const opt = document.createElement('option');
-            opt.value = name;
-            opt.textContent = name;
-            sel.appendChild(opt);
-        });
+        updateMentorSelects();
     }
 
     function deleteUser(idx) {
         if (!confirm('Удалить пользователя?')) return;
         const users = JSON.parse(localStorage.getItem(USERS_KEY));
-        if (users[idx].role === 'admin') {
-            alert('Нельзя удалить администратора');
+        if (users[idx].role === 'admin' && (users[idx].name === 'Наташа Заплатина' || users[idx].name === 'Юма Доржиева')) {
+            alert('Нельзя удалить главного администратора');
             return;
         }
         users.splice(idx, 1);
         localStorage.setItem(USERS_KEY, JSON.stringify(users));
         renderUserList();
+        updateMentorSelects();
     }
 
     // ================================================================

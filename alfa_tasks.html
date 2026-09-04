@@ -1,0 +1,1124 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Наставники Наташи Заплатиной</title>
+    <style>
+        /* === ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ === */
+        :root {
+            --bg: #f9fafb;
+            --text: #111827;
+            --card: #ffffff;
+            --border: #e5e7eb;
+            --shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+            --accent: #4f46e5;
+            --danger: #ef4444;
+            --success: #22c55e;
+            --warning: #facc15;
+        }
+
+        body.dark {
+            --bg: #1f2937;
+            --text: #f9fafb;
+            --card: #374151;
+            --border: #4b5563;
+            --shadow: 0 10px 15px -3px rgba(0,0,0,0.5);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Inter', system-ui, -apple-system, sans-serif;
+            transition: background-color 0.3s, color 0.2s;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* === ШАПКА === */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 24px;
+            background: var(--card);
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .user-greeting {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .theme-toggle, .logout-btn {
+            background: var(--border);
+            border: none;
+            padding: 8px 18px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        /* === КАРТОЧКИ === */
+        .card {
+            background: var(--card);
+            padding: 20px;
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            margin-bottom: 24px;
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* === ТАБЫ === */
+        .tabs {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 24px;
+        }
+
+        .tab-btn {
+            padding: 10px 20px;
+            border: none;
+            background: var(--border);
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            color: var(--text);
+        }
+
+        .tab-btn.active {
+            background: var(--accent);
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+
+        /* === КАЛЕНДАРЬ === */
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 6px;
+        }
+
+        .calendar-day {
+            background: var(--bg);
+            padding: 12px 4px;
+            text-align: center;
+            border-radius: 12px;
+            font-weight: 500;
+            min-height: 70px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border: 1px solid var(--border);
+            cursor: pointer;
+        }
+
+        .calendar-day .day-number {
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .calendar-day .icon-group {
+            display: flex;
+            gap: 4px;
+            font-size: 0.8rem;
+            margin-top: 4px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .calendar-day .event-dot {
+            font-size: 0.7rem;
+        }
+
+        .calendar-day.done {
+            opacity: 0.5;
+            text-decoration: line-through;
+        }
+
+        .calendar-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        /* === ВОК === */
+        .vok-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .vok-item {
+            padding: 10px 16px;
+            background: var(--bg);
+            border-radius: 10px;
+            border-left: 4px solid var(--accent);
+        }
+
+        .vok-item.late {
+            border-left-color: var(--warning);
+            background: #fef3c7;
+        }
+
+        .vok-item .date {
+            font-weight: 700;
+        }
+
+        /* === ФОРМЫ === */
+        input, textarea, select {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: var(--bg);
+            color: var(--text);
+            font-size: 1rem;
+            margin-bottom: 10px;
+        }
+
+        button {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        button:hover {
+            opacity: 0.8;
+        }
+
+        .btn-danger { background: var(--danger); }
+        .btn-success { background: var(--success); }
+
+        .flex-row {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        /* === АДМИНКА === */
+        .user-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .user-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 12px;
+            background: var(--bg);
+            border-radius: 10px;
+        }
+
+        /* === АДАПТИВ === */
+        @media (max-width: 600px) {
+            .calendar-day {
+                min-height: 50px;
+                padding: 6px 2px;
+                font-size: 0.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container" id="app">
+
+    <!-- ШАПКА -->
+    <div class="header">
+        <div>
+            <span style="font-weight:300;">👋</span>
+            <span class="user-greeting" id="greetingText">Привет, Алёна, ты крутая!</span>
+        </div>
+        <div style="display:flex; gap:10px; align-items:center;">
+            <button class="theme-toggle" onclick="toggleTheme()">🌓 Тема</button>
+            <button class="logout-btn" onclick="logout()">🚪 Выйти</button>
+        </div>
+    </div>
+
+    <!-- ВКЛАДКИ -->
+    <div class="tabs" id="tabsContainer">
+        <button class="tab-btn active" data-tab="tabCalendar">📅 Календарь</button>
+        <button class="tab-btn" data-tab="tabTasks">📋 Задачи</button>
+        <button class="tab-btn" data-tab="tabVok">📉 Не сделали ВОК</button>
+        <button class="tab-btn" data-tab="tabHeal">💊 Лечим ВОК</button>
+        <button class="tab-btn" data-tab="tabAntitop">🔻 Антитопы</button>
+        <button class="tab-btn" data-tab="tabAdmin" id="adminTab" style="display:none;">⚙️ Админ</button>
+    </div>
+
+    <!-- ========================= -->
+    <!-- ТАБ 1: КАЛЕНДАРЬ -->
+    <!-- ========================= -->
+    <div id="tabCalendar" class="tab-content active">
+        <div class="card">
+            <div class="card-title">
+                <span>Календарь встреч и событий</span>
+                <span id="monthYearLabel">Сентябрь 2026</span>
+            </div>
+            <div class="calendar-nav">
+                <button onclick="changeMonth(-1)">◀</button>
+                <button onclick="changeMonth(1)">▶</button>
+            </div>
+            <div class="calendar-grid" id="calendarGrid"></div>
+        </div>
+
+        <!-- Модалка для добавления в день -->
+        <div class="card" id="dayEventCard" style="display:none;">
+            <div class="card-title">📌 Событие на <span id="selectedDayLabel"></span>
+                <button onclick="closeEventForm()">✖</button>
+            </div>
+            <input type="text" id="eventTitle" placeholder="Название (например: Встреча по ВОК)">
+            <textarea id="eventComment" placeholder="Комментарий"></textarea>
+            <select id="eventAssignee" multiple></select>
+            <div class="flex-row">
+                <button onclick="addEvent()">➕ Добавить</button>
+                <button onclick="markEventDone()" class="btn-success">✅ Выполнено (серая)</button>
+            </div>
+            <div id="eventList" style="margin-top:12px;"></div>
+        </div>
+    </div>
+
+    <!-- ========================= -->
+    <!-- ТАБ 2: ЗАДАЧИ -->
+    <!-- ========================= -->
+    <div id="tabTasks" class="tab-content">
+        <div class="card">
+            <div class="card-title">📋 Задачи (срочные / обычные)</div>
+            <div class="flex-row" style="margin-bottom:12px;">
+                <input type="text" id="taskTitle" placeholder="Название задачи" style="flex:2;">
+                <select id="taskPriority" style="flex:1;">
+                    <option value="Срочная">🚨 Срочная</option>
+                    <option value="Обычная">📌 Обычная</option>
+                </select>
+                <input type="date" id="taskDeadline">
+            </div>
+            <textarea id="taskComment" placeholder="Комментарий к задаче"></textarea>
+            <select id="taskAssignees" multiple></select>
+            <input type="file" id="taskFile" accept="image/*">
+            <button onclick="addTask()">➕ Добавить задачу</button>
+
+            <div id="taskList" style="margin-top:20px;"></div>
+        </div>
+    </div>
+
+    <!-- ========================= -->
+    <!-- ТАБ 3: НЕ СДЕЛАЛИ ВОК -->
+    <!-- ========================= -->
+    <div id="tabVok" class="tab-content">
+        <div class="card">
+            <div class="card-title">📥 Загрузить данные "Не сделали ВОК"</div>
+            <textarea id="vokRawInput" rows="6" placeholder="Вставьте данные скопом:&#10;3 сентября AD24LK 1 Бортникова Алёна Алексеевна&#10;3 сентября AWWJJ4 1 Сердюк Александр Владимирович"></textarea>
+            <button onclick="parseVok()">🔍 Распарсить и сохранить</button>
+        </div>
+
+        <div class="card">
+            <div class="card-title">
+                <span>📊 Не сделали разбор ВОК</span>
+                <button onclick="exportVokExcel()" class="btn-success">📤 Выгрузить Excel</button>
+            </div>
+            <div id="vokListContainer" class="vok-list"></div>
+        </div>
+    </div>
+
+    <!-- ========================= -->
+    <!-- ТАБ 4: ЛЕЧИМ ВОК -->
+    <!-- ========================= -->
+    <div id="tabHeal" class="tab-content">
+        <div class="card">
+            <div class="card-title">💊 Добавить "Лечим ВОК"</div>
+            <div class="flex-row">
+                <input type="text" id="healName" placeholder="Фамилия Имя сотрудника">
+                <input type="date" id="healDate">
+            </div>
+            <button onclick="addHeal()">➕ Добавить</button>
+            <div id="healList" style="margin-top:20px;"></div>
+        </div>
+    </div>
+
+    <!-- ========================= -->
+    <!-- ТАБ 5: АНТИТОПЫ -->
+    <!-- ========================= -->
+    <div id="tabAntitop" class="tab-content">
+        <div class="card">
+            <div class="card-title">🔻 Антитопы (кто кого ведет + заметки)</div>
+            <div class="flex-row">
+                <select id="antitopMentor"></select>
+                <input type="text" id="antitopStudent" placeholder="Имя ведомого">
+                <button onclick="addAntitop()">➕ Добавить связь</button>
+            </div>
+            <div id="antitopList" style="margin-top:20px;"></div>
+        </div>
+    </div>
+
+    <!-- ========================= -->
+    <!-- ТАБ 6: АДМИНКА -->
+    <!-- ========================= -->
+    <div id="tabAdmin" class="tab-content">
+        <div class="card">
+            <div class="card-title">👥 Управление пользователями</div>
+            <div class="flex-row">
+                <input type="text" id="newUserName" placeholder="Имя нового участника (например: Охохонин Павел)">
+                <button onclick="addUser()">➕ Добавить</button>
+            </div>
+            <div class="user-list" id="userListAdmin"></div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    // ================================================================
+    // 1. БАЗОВЫЕ ДАННЫЕ И НАСТРОЙКИ
+    // ================================================================
+    const USERS_KEY = 'nz_users';
+    const DATA_KEY = 'nz_data';
+
+    // Дефолтные пользователи
+    const defaultUsers = [
+        { name: 'Наташа Заплатина', role: 'admin' },
+        { name: 'Таня Зверева', role: 'mentor' },
+        { name: 'Таня Силкина', role: 'mentor' },
+        { name: 'Настя Мурылёва', role: 'mentor' },
+        { name: 'Настя Муравьёва', role: 'mentor' },
+        { name: 'Катя Русинова', role: 'mentor' },
+        { name: 'Илья Токарев', role: 'mentor' },
+        { name: 'Юма Доржиева', role: 'admin' },
+        { name: 'Алёна Бортникова', role: 'mentor' },
+        { name: 'Охохонин Павел', role: 'mentor' }
+    ];
+
+    // Текущий пользователь
+    let currentUser = null;
+
+    // Данные приложения (хранятся в localStorage)
+    let appData = {
+        events: {},      // { '2026-09-03': [{ title, comment, assignee, done }] }
+        tasks: [],       // [{ id, title, comment, priority, deadline, assignees, file, done }]
+        vok: [],         // [{ date, id, count, fio, addedAt, resolvedAt }]
+        heal: [],        // [{ name, date }]
+        antitop: [],     // [{ mentor, student, notes: [{ text, date }] }]
+        lastId: 0
+    };
+
+    // ================================================================
+    // 2. ИНИЦИАЛИЗАЦИЯ
+    // ================================================================
+    function init() {
+        // Загружаем пользователей
+        let users = JSON.parse(localStorage.getItem(USERS_KEY));
+        if (!users) {
+            users = defaultUsers;
+            localStorage.setItem(USERS_KEY, JSON.stringify(users));
+        }
+
+        // Загружаем данные приложения
+        let stored = JSON.parse(localStorage.getItem(DATA_KEY));
+        if (stored) {
+            appData = stored;
+        } else {
+            // Добавим тестовые данные для демонстрации
+            appData.vok = [
+                { date: '2026-09-01', id: 'AD24LK', count: 1, fio: 'Охохонин Павел Андреевич', addedAt: '2026-09-01', resolvedAt: null },
+                { date: '2026-09-01', id: 'AWWJJ4', count: 1, fio: 'Доржиева Юмжана Эрдэнеевна', addedAt: '2026-09-01', resolvedAt: null },
+                { date: '2026-09-03', id: 'AD4QRD', count: 1, fio: 'Бортникова Алёна Бодеевна', addedAt: '2026-09-03', resolvedAt: '2026-09-05' }, // просрочка
+            ];
+            appData.heal = [
+                { name: 'Иванов Иван', date: '2026-09-02' }
+            ];
+            localStorage.setItem(DATA_KEY, JSON.stringify(appData));
+        }
+
+        // Проверка авторизации
+        const savedUser = sessionStorage.getItem('nz_current_user');
+        if (savedUser) {
+            const found = users.find(u => normalizeName(u.name) === normalizeName(savedUser));
+            if (found) {
+                currentUser = found;
+                renderApp();
+                return;
+            }
+        }
+
+        // Если не авторизован — запрашиваем логин
+        showLogin();
+    }
+
+    // ================================================================
+    // 3. АВТОРИЗАЦИЯ
+    // ================================================================
+    function showLogin() {
+        const name = prompt('Введите ваше имя (как в списке):');
+        if (!name) return;
+        const users = JSON.parse(localStorage.getItem(USERS_KEY));
+        const found = users.find(u => normalizeName(u.name) === normalizeName(name));
+        if (found) {
+            currentUser = found;
+            sessionStorage.setItem('nz_current_user', found.name);
+            renderApp();
+        } else {
+            alert('Пользователь не найден. Проверьте имя или обратитесь к админу.');
+            showLogin();
+        }
+    }
+
+    function logout() {
+        sessionStorage.removeItem('nz_current_user');
+        currentUser = null;
+        location.reload();
+    }
+
+    function normalizeName(name) {
+        return name.toLowerCase().replace(/ё/g, 'е').replace(/\s/g, '');
+    }
+
+    // ================================================================
+    // 4. РЕНДЕР ПОСЛЕ ВХОДА
+    // ================================================================
+    function renderApp() {
+        // Приветствие
+        const greeting = document.getElementById('greetingText');
+        const nameParts = currentUser.name.split(' ');
+        const firstName = nameParts[0] || 'Друг';
+        const bracingPhrases = ['ты крутая!', 'ты мощь!', 'ты огонь!', 'ты супер!', 'всё получится!'];
+        const phrase = bracingPhrases[Math.floor(Math.random() * bracingPhrases.length)];
+        greeting.textContent = `Привет, ${firstName}, ${phrase}`;
+
+        // Показать админку, если роль admin
+        if (currentUser.role === 'admin') {
+            document.getElementById('adminTab').style.display = 'inline-block';
+        }
+
+        // Заполнить выпадающие списки наставниками
+        const users = JSON.parse(localStorage.getItem(USERS_KEY));
+        const mentorNames = users.filter(u => u.role === 'mentor' || u.role === 'admin').map(u => u.name);
+
+        const selects = ['eventAssignee', 'taskAssignees', 'antitopMentor'];
+        selects.forEach(id => {
+            const sel = document.getElementById(id);
+            if (!sel) return;
+            sel.innerHTML = '';
+            mentorNames.forEach(name => {
+                const opt = document.createElement('option');
+                opt.value = name;
+                opt.textContent = name;
+                sel.appendChild(opt);
+            });
+            if (id === 'eventAssignee' || id === 'taskAssignees') {
+                sel.multiple = true;
+            }
+        });
+
+        // Рендерим всё
+        renderCalendar();
+        renderTasks();
+        renderVok();
+        renderHeal();
+        renderAntitop();
+        renderUserList();
+
+        // Табы
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.onclick = () => {
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+                document.getElementById(btn.dataset.tab).classList.add('active');
+            };
+        });
+    }
+
+    // ================================================================
+    // 5. КАЛЕНДАРЬ
+    // ================================================================
+    let currentMonth = 8; // сентябрь 2026 (0-индексация: 8 = сентябрь)
+    let currentYear = 2026;
+
+    function renderCalendar() {
+        const grid = document.getElementById('calendarGrid');
+        const label = document.getElementById('monthYearLabel');
+        const months = ['Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'];
+        label.textContent = `${months[currentMonth]} ${currentYear}`;
+
+        const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+        const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+
+        grid.innerHTML = '';
+        // Заголовки дней недели
+        const weekDays = ['Пн','Вт','Ср','Чт','Пт','Сб','Вс'];
+        weekDays.forEach(d => {
+            const div = document.createElement('div');
+            div.style.fontWeight = '700';
+            div.style.textAlign = 'center';
+            div.style.padding = '4px';
+            grid.appendChild(div);
+        });
+
+        // Пустые ячейки до 1-го числа
+        for (let i = 0; i < (firstDay === 0 ? 6 : firstDay - 1); i++) {
+            const empty = document.createElement('div');
+            grid.appendChild(empty);
+        }
+
+        // Дни месяца
+        for (let day = 1; day <= daysInMonth; day++) {
+            const div = document.createElement('div');
+            div.className = 'calendar-day';
+            const dateStr = `${currentYear}-${String(currentMonth+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+
+            const numSpan = document.createElement('span');
+            numSpan.className = 'day-number';
+            numSpan.textContent = day;
+            div.appendChild(numSpan);
+
+            // Иконки событий
+            const iconGroup = document.createElement('div');
+            iconGroup.className = 'icon-group';
+            const events = appData.events[dateStr] || [];
+            const doneCount = events.filter(e => e.done).length;
+            if (events.length > 0) {
+                const icon = events.some(e => e.title.toLowerCase().includes('встреча')) ? '👥' : '📌';
+                iconGroup.textContent = `${icon} ${events.length}`;
+                if (doneCount === events.length) {
+                    div.classList.add('done');
+                }
+            }
+            div.appendChild(iconGroup);
+
+            // Клик по дню
+            div.onclick = () => openDayEvents(dateStr);
+            grid.appendChild(div);
+        }
+    }
+
+    function changeMonth(delta) {
+        currentMonth += delta;
+        if (currentMonth < 0) { currentMonth = 11; currentYear--; }
+        if (currentMonth > 11) { currentMonth = 0; currentYear++; }
+        renderCalendar();
+        document.getElementById('dayEventCard').style.display = 'none';
+    }
+
+    // ================================================================
+    // 6. СОБЫТИЯ В КАЛЕНДАРЕ
+    // ================================================================
+    function openDayEvents(dateStr) {
+        const card = document.getElementById('dayEventCard');
+        card.style.display = 'block';
+        document.getElementById('selectedDayLabel').textContent = dateStr;
+        document.getElementById('selectedDayLabel').dataset.date = dateStr;
+
+        // Очищаем поля
+        document.getElementById('eventTitle').value = '';
+        document.getElementById('eventComment').value = '';
+
+        // Показываем список событий за день
+        renderDayEvents(dateStr);
+    }
+
+    function closeEventForm() {
+        document.getElementById('dayEventCard').style.display = 'none';
+    }
+
+    function renderDayEvents(dateStr) {
+        const container = document.getElementById('eventList');
+        const events = appData.events[dateStr] || [];
+        if (events.length === 0) {
+            container.innerHTML = '<p style="color:var(--text); opacity:0.6;">Нет событий на этот день</p>';
+            return;
+        }
+        container.innerHTML = events.map((e, idx) => `
+            <div style="display:flex; justify-content:space-between; padding:6px 12px; background:var(--bg); border-radius:8px; margin-bottom:4px; ${e.done ? 'opacity:0.4; text-decoration:line-through;' : ''}">
+                <div><strong>${e.title}</strong> ${e.comment ? `— ${e.comment}` : ''} ${e.assignee ? `👤 ${e.assignee}` : ''}</div>
+                <div>
+                    <button onclick="toggleEventDone('${dateStr}', ${idx})" style="padding:4px 12px; font-size:0.8rem; background:var(--success);">✅</button>
+                    <button onclick="deleteEvent('${dateStr}', ${idx})" style="padding:4px 12px; font-size:0.8rem; background:var(--danger);">✖</button>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    function addEvent() {
+        const dateStr = document.getElementById('selectedDayLabel').dataset.date;
+        const title = document.getElementById('eventTitle').value.trim();
+        const comment = document.getElementById('eventComment').value.trim();
+        const assigneeSel = document.getElementById('eventAssignee');
+        const assignee = assigneeSel.selectedOptions.length > 0 ? assigneeSel.selectedOptions[0].value : '';
+
+        if (!title) { alert('Введите название события'); return; }
+
+        if (!appData.events[dateStr]) appData.events[dateStr] = [];
+        appData.events[dateStr].push({ title, comment, assignee, done: false });
+
+        saveData();
+        renderDayEvents(dateStr);
+        renderCalendar();
+    }
+
+    function toggleEventDone(dateStr, idx) {
+        if (!appData.events[dateStr]) return;
+        appData.events[dateStr][idx].done = !appData.events[dateStr][idx].done;
+        saveData();
+        renderDayEvents(dateStr);
+        renderCalendar();
+    }
+
+    function deleteEvent(dateStr, idx) {
+        if (!confirm('Удалить событие?')) return;
+        appData.events[dateStr].splice(idx, 1);
+        if (appData.events[dateStr].length === 0) delete appData.events[dateStr];
+        saveData();
+        renderDayEvents(dateStr);
+        renderCalendar();
+    }
+
+    function markEventDone() {
+        const dateStr = document.getElementById('selectedDayLabel').dataset.date;
+        if (!appData.events[dateStr]) return;
+        appData.events[dateStr].forEach(e => e.done = true);
+        saveData();
+        renderDayEvents(dateStr);
+        renderCalendar();
+    }
+
+    // ================================================================
+    // 7. ЗАДАЧИ
+    // ================================================================
+    function addTask() {
+        const title = document.getElementById('taskTitle').value.trim();
+        const comment = document.getElementById('taskComment').value.trim();
+        const priority = document.getElementById('taskPriority').value;
+        const deadline = document.getElementById('taskDeadline').value;
+        const assigneesSel = document.getElementById('taskAssignees');
+        const assignees = Array.from(assigneesSel.selectedOptions).map(o => o.value);
+        const fileInput = document.getElementById('taskFile');
+        let fileData = null;
+
+        if (!title) { alert('Введите название задачи'); return; }
+
+        // Читаем файл в base64
+        if (fileInput.files && fileInput.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                fileData = e.target.result;
+                saveTask(title, comment, priority, deadline, assignees, fileData);
+            };
+            reader.readAsDataURL(fileInput.files[0]);
+        } else {
+            saveTask(title, comment, priority, deadline, assignees, null);
+        }
+    }
+
+    function saveTask(title, comment, priority, deadline, assignees, fileData) {
+        appData.lastId = (appData.lastId || 0) + 1;
+        appData.tasks.push({
+            id: appData.lastId,
+            title,
+            comment,
+            priority,
+            deadline,
+            assignees,
+            file: fileData,
+            done: false
+        });
+        saveData();
+        renderTasks();
+        document.getElementById('taskTitle').value = '';
+        document.getElementById('taskComment').value = '';
+        document.getElementById('taskFile').value = '';
+    }
+
+    function renderTasks() {
+        const container = document.getElementById('taskList');
+        const tasks = appData.tasks;
+        if (tasks.length === 0) {
+            container.innerHTML = '<p style="opacity:0.6;">Задач пока нет</p>';
+            return;
+        }
+
+        // Сортируем: срочные сверху, потом по дате
+        const sorted = [...tasks].sort((a,b) => {
+            if (a.priority === 'Срочная' && b.priority !== 'Срочная') return -1;
+            if (a.priority !== 'Срочная' && b.priority === 'Срочная') return 1;
+            return (a.deadline || '').localeCompare(b.deadline || '');
+        });
+
+        container.innerHTML = sorted.map(t => `
+            <div style="background:${t.priority === 'Срочная' ? '#fecaca' : 'var(--bg)'}; border-radius:12px; padding:14px; margin-bottom:10px; ${t.done ? 'opacity:0.5; text-decoration:line-through;' : ''}">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <div>
+                        <strong>${t.title}</strong> 
+                        <span style="font-size:0.8rem; background:var(--border); padding:2px 12px; border-radius:20px;">${t.priority}</span>
+                        ${t.deadline ? `📅 ${t.deadline}` : ''}
+                    </div>
+                    <div>
+                        <button onclick="toggleTaskDone(${t.id})" style="padding:4px 12px; font-size:0.8rem; background:var(--success);">✅</button>
+                        <button onclick="deleteTask(${t.id})" style="padding:4px 12px; font-size:0.8rem; background:var(--danger);">✖</button>
+                    </div>
+                </div>
+                ${t.comment ? `<div style="margin-top:6px; opacity:0.7;">💬 ${t.comment}</div>` : ''}
+                ${t.assignees && t.assignees.length ? `<div style="margin-top:4px; font-size:0.9rem;">👤 ${t.assignees.join(', ')}</div>` : ''}
+                ${t.file ? `<div style="margin-top:6px;"><img src="${t.file}" style="max-width:100px; max-height:100px; border-radius:8px;"/></div>` : ''}
+            </div>
+        `).join('');
+    }
+
+    function toggleTaskDone(id) {
+        const task = appData.tasks.find(t => t.id === id);
+        if (task) task.done = !task.done;
+        saveData();
+        renderTasks();
+    }
+
+    function deleteTask(id) {
+        if (!confirm('Удалить задачу?')) return;
+        appData.tasks = appData.tasks.filter(t => t.id !== id);
+        saveData();
+        renderTasks();
+    }
+
+    // ================================================================
+    // 8. НЕ СДЕЛАЛИ ВОК
+    // ================================================================
+    function parseVok() {
+        const raw = document.getElementById('vokRawInput').value;
+        const lines = raw.split('\n').filter(line => line.trim() !== '');
+        let added = 0;
+
+        lines.forEach(line => {
+            // Парсим: "3 сентября AD24LK 1 Бортникова Алёна Алексеевна"
+            const parts = line.trim().split(/\s+/);
+            if (parts.length < 4) return;
+
+            // Ищем дату (сентября, октября и т.д.)
+            let datePart = parts[0] + ' ' + parts[1];
+            // Преобразуем в YYYY-MM-DD
+            const monthMap = { 'января':'01', 'февраля':'02', 'марта':'03', 'апреля':'04', 'мая':'05', 'июня':'06', 'июля':'07', 'августа':'08', 'сентября':'09', 'октября':'10', 'ноября':'11', 'декабря':'12' };
+            const day = parts[0].padStart(2, '0');
+            const monthName = parts[1].toLowerCase();
+            const month = monthMap[monthName] || '09';
+            const year = '2026';
+            const date = `${year}-${month}-${day}`;
+
+            // ID клиента
+            const id = parts[2];
+            // Количество (пропускаем parts[3])
+            // ФИО — всё что после количества
+            const fio = parts.slice(4).join(' ');
+
+            // Проверяем, есть ли уже такая запись
+            const exists = appData.vok.some(v => v.id === id && v.date === date);
+            if (!exists) {
+                appData.vok.push({
+                    date,
+                    id,
+                    count: parseInt(parts[3]) || 1,
+                    fio,
+                    addedAt: new Date().toISOString().split('T')[0],
+                    resolvedAt: null // дата разбора
+                });
+                added++;
+            }
+        });
+
+        saveData();
+        renderVok();
+        document.getElementById('vokRawInput').value = '';
+        alert(`Добавлено ${added} записей`);
+    }
+
+    function renderVok() {
+        const container = document.getElementById('vokListContainer');
+        const vok = appData.vok;
+
+        if (vok.length === 0) {
+            container.innerHTML = '<p style="opacity:0.6;">Нет данных</p>';
+            return;
+        }
+
+        // Группируем по дате
+        const groups = {};
+        vok.forEach(item => {
+            if (!groups[item.date]) groups[item.date] = [];
+            groups[item.date].push(item);
+        });
+
+        const sortedDates = Object.keys(groups).sort();
+
+        let html = '';
+        sortedDates.forEach(date => {
+            const items = groups[date];
+            const dateDisplay = new Date(date).toLocaleDateString('ru-RU', { day: 'numeric', month: 'long' });
+            html += `<div style="font-weight:700; margin-top:12px;">${dateDisplay}:</div>`;
+
+            items.forEach(item => {
+                const isLate = item.resolvedAt && new Date(item.resolvedAt) > new Date(new Date(item.date).setDate(new Date(item.date).getDate() + 1));
+                const lateClass = isLate ? 'late' : '';
+                html += `
+                    <div class="vok-item ${lateClass}">
+                        <div class="flex-row" style="justify-content:space-between;">
+                            <span>@${item.fio} (${item.id})</span>
+                            <span style="font-size:0.8rem;">
+                                ${item.resolvedAt ? `✅ Разбор: ${item.resolvedAt}` : '❌ Не разобрано'}
+                                <button onclick="resolveVok('${item.id}', '${item.date}')" style="padding:2px 12px; font-size:0.7rem; background:var(--success); margin-left:8px;">➕ Дата разбора</button>
+                                <button onclick="deleteVok('${item.id}', '${item.date}')" style="padding:2px 12px; font-size:0.7rem; background:var(--danger);">✖</button>
+                            </span>
+                        </div>
+                    </div>
+                `;
+            });
+        });
+
+        container.innerHTML = html;
+    }
+
+    function resolveVok(id, date) {
+        const newDate = prompt('Введите дату разбора (ГГГГ-ММ-ДД):', new Date().toISOString().split('T')[0]);
+        if (!newDate) return;
+        const item = appData.vok.find(v => v.id === id && v.date === date);
+        if (item) {
+            item.resolvedAt = newDate;
+            saveData();
+            renderVok();
+        }
+    }
+
+    function deleteVok(id, date) {
+        if (!confirm('Удалить запись?')) return;
+        appData.vok = appData.vok.filter(v => !(v.id === id && v.date === date));
+        saveData();
+        renderVok();
+    }
+
+    function exportVokExcel() {
+        // Формируем CSV
+        let csv = 'Дата,ID,Кол-во,ФИО,Статус\n';
+        appData.vok.forEach(v => {
+            const status = v.resolvedAt ? (new Date(v.resolvedAt) > new Date(new Date(v.date).setDate(new Date(v.date).getDate() + 1)) ? 'Просрочка' : 'В срок') : 'Не разобрано';
+            csv += `${v.date},${v.id},${v.count},${v.fio},${status}\n`;
+        });
+
+        // Скачиваем
+        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = `vok_export_${new Date().toISOString().split('T')[0]}.csv`;
+        link.click();
+    }
+
+    // ================================================================
+    // 9. ЛЕЧИМ ВОК
+    // ================================================================
+    function addHeal() {
+        const name = document.getElementById('healName').value.trim();
+        const date = document.getElementById('healDate').value;
+        if (!name || !date) { alert('Заполните все поля'); return; }
+
+        appData.heal.push({ name, date });
+        saveData();
+        renderHeal();
+        document.getElementById('healName').value = '';
+        document.getElementById('healDate').value = '';
+    }
+
+    function renderHeal() {
+        const container = document.getElementById('healList');
+        const heal = appData.heal;
+        if (heal.length === 0) {
+            container.innerHTML = '<p style="opacity:0.6;">Нет записей "Лечим ВОК"</p>';
+            return;
+        }
+
+        container.innerHTML = heal.map((h, idx) => `
+            <div style="display:flex; justify-content:space-between; padding:8px 16px; background:var(--bg); border-radius:10px; margin-bottom:4px;">
+                <span>💊 ${h.name} — ${h.date}</span>
+                <button onclick="deleteHeal(${idx})" style="padding:2px 12px; background:var(--danger);">✖</button>
+            </div>
+        `).join('');
+    }
+
+    function deleteHeal(idx) {
+        if (!confirm('Удалить?')) return;
+        appData.heal.splice(idx, 1);
+        saveData();
+        renderHeal();
+    }
+
+    // ================================================================
+    // 10. АНТИТОПЫ
+    // ================================================================
+    function addAntitop() {
+        const mentor = document.getElementById('antitopMentor').value;
+        const student = document.getElementById('antitopStudent').value.trim();
+        if (!mentor || !student) { alert('Выберите наставника и введите ведомого'); return; }
+
+        appData.antitop.push({
+            mentor,
+            student,
+            notes: []
+        });
+        saveData();
+        renderAntitop();
+        document.getElementById('antitopStudent').value = '';
+    }
+
+    function renderAntitop() {
+        const container = document.getElementById('antitopList');
+        const antitop = appData.antitop;
+        if (antitop.length === 0) {
+            container.innerHTML = '<p style="opacity:0.6;">Нет связей</p>';
+            return;
+        }
+
+        container.innerHTML = antitop.map((a, idx) => `
+            <div style="background:var(--bg); border-radius:12px; padding:12px; margin-bottom:8px;">
+                <div style="display:flex; justify-content:space-between;">
+                    <span><strong>👨‍🏫 ${a.mentor}</strong> → 🧑‍🎓 ${a.student}</span>
+                    <button onclick="deleteAntitop(${idx})" style="padding:2px 12px; background:var(--danger);">✖</button>
+                </div>
+                <div style="margin-top:8px;">
+                    <div class="flex-row">
+                        <input type="text" id="noteInput_${idx}" placeholder="Заметка о прогрессе" style="flex:2;">
+                        <button onclick="addAntitopNote(${idx})" style="padding:4px 16px;">➕</button>
+                    </div>
+                    <div style="margin-top:6px; font-size:0.9rem; opacity:0.7;">
+                        ${a.notes.map(n => `📝 ${n.text} (${n.date})`).join('<br>')}
+                    </div>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    function addAntitopNote(idx) {
+        const input = document.getElementById(`noteInput_${idx}`);
+        const text = input.value.trim();
+        if (!text) return;
+        appData.antitop[idx].notes.push({
+            text,
+            date: new Date().toLocaleDateString('ru-RU')
+        });
+        saveData();
+        renderAntitop();
+    }
+
+    function deleteAntitop(idx) {
+        if (!confirm('Удалить связь?')) return;
+        appData.antitop.splice(idx, 1);
+        saveData();
+        renderAntitop();
+    }
+
+    // ================================================================
+    // 11. АДМИНКА
+    // ================================================================
+    function renderUserList() {
+        const container = document.getElementById('userListAdmin');
+        const users = JSON.parse(localStorage.getItem(USERS_KEY));
+        container.innerHTML = users.map((u, idx) => `
+            <div class="user-row">
+                <span>${u.name} ${u.role === 'admin' ? '👑' : ''}</span>
+                <span>
+                    ${u.role !== 'admin' ? `<button onclick="deleteUser(${idx})" style="padding:2px 12px; background:var(--danger);">Удалить</button>` : ''}
+                </span>
+            </div>
+        `).join('');
+    }
+
+    function addUser() {
+        const name = document.getElementById('newUserName').value.trim();
+        if (!name) return;
+        const users = JSON.parse(localStorage.getItem(USERS_KEY));
+        if (users.find(u => normalizeName(u.name) === normalizeName(name))) {
+            alert('Такой пользователь уже есть');
+            return;
+        }
+        users.push({ name, role: 'mentor' });
+        localStorage.setItem(USERS_KEY, JSON.stringify(users));
+        document.getElementById('newUserName').value = '';
+        renderUserList();
+        // Обновить выпадающие списки
+        const selects = ['eventAssignee', 'taskAssignees', 'antitopMentor'];
+        selects.forEach(id => {
+            const sel = document.getElementById(id);
+            if (!sel) return;
+            const opt = document.createElement('option');
+            opt.value = name;
+            opt.textContent = name;
+            sel.appendChild(opt);
+        });
+    }
+
+    function deleteUser(idx) {
+        if (!confirm('Удалить пользователя?')) return;
+        const users = JSON.parse(localStorage.getItem(USERS_KEY));
+        if (users[idx].role === 'admin') {
+            alert('Нельзя удалить администратора');
+            return;
+        }
+        users.splice(idx, 1);
+        localStorage.setItem(USERS_KEY, JSON.stringify(users));
+        renderUserList();
+    }
+
+    // ================================================================
+    // 12. ТЕМА
+    // ================================================================
+    function toggleTheme() {
+        document.body.classList.toggle('dark');
+    }
+
+    // ================================================================
+    // 13. СОХРАНЕНИЕ ДАННЫХ
+    // ================================================================
+    function saveData() {
+        localStorage.setItem(DATA_KEY, JSON.stringify(appData));
+    }
+
+    // ================================================================
+    // 14. ЗАПУСК
+    // ================================================================
+    document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>

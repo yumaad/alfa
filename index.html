@@ -181,6 +181,9 @@
             background: var(--bg);
             border-radius: 10px;
             border-left: 4px solid var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
 
         .vok-item.late {
@@ -190,6 +193,23 @@
 
         body.dark .vok-item.late {
             background: #78350f;
+        }
+
+        .vok-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            flex-shrink: 0;
+            margin-bottom: 0;
+        }
+
+        .vok-item .vok-content {
+            flex: 1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
         }
 
         input, textarea, select {
@@ -244,6 +264,31 @@
             padding: 8px 12px;
             background: var(--bg);
             border-radius: 10px;
+        }
+
+        .heal-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 16px;
+            background: var(--bg);
+            border-radius: 10px;
+            margin-bottom: 4px;
+        }
+
+        .heal-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            flex-shrink: 0;
+            margin-bottom: 0;
+        }
+
+        .heal-item .heal-content {
+            flex: 1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         @media (max-width: 600px) {
@@ -359,6 +404,8 @@
                     <button onclick="copyVokByDate()" class="btn-success" style="font-size:0.9rem;">📋 Копировать за дату</button>
                     <button onclick="copyVokAll()" class="btn-success" style="font-size:0.9rem;">📋 Копировать всё время</button>
                     <button onclick="exportVokExcel()" style="font-size:0.9rem;">📤 Выгрузить Excel</button>
+                    <button onclick="deleteVokSelected()" class="btn-danger" style="font-size:0.9rem;">🗑️ Удалить выбранные</button>
+                    <button onclick="deleteVokAll()" class="btn-danger" style="font-size:0.9rem;">🗑️ Удалить всё</button>
                 </div>
             </div>
             <div id="vokListContainer" class="vok-list"></div>
@@ -377,6 +424,10 @@
             </div>
             <button onclick="addHeal()">➕ Добавить</button>
             <div id="healList" style="margin-top:20px;"></div>
+            <div style="margin-top:12px;">
+                <button onclick="deleteHealSelected()" class="btn-danger">🗑️ Удалить выбранные</button>
+                <button onclick="deleteHealAll()" class="btn-danger" style="margin-left:8px;">🗑️ Удалить всё</button>
+            </div>
         </div>
 
         <div class="card">
@@ -521,7 +572,172 @@
         const greeting = document.getElementById('greetingText');
         const nameParts = currentUser.name.split(' ');
         const firstName = nameParts[0] || 'Друг';
-        const bracingPhrases = ['ты крутая!', 'ты мощь!', 'ты огонь!', 'ты супер!', 'всё получится!'];
+        
+        // ============================================================
+        // 150+ ОБОДРЯЮЩИХ СООБЩЕНИЙ
+        // ============================================================
+        const bracingPhrases = [
+            // 🔥 Мотивирующие (30)
+            'ты просто огонь! 🔥',
+            'ты мощь! 💪',
+            'ты суперзвезда! ⭐',
+            'ты невероятна! ✨',
+            'ты лучшая! 🏆',
+            'ты круче всех! 👑',
+            'ты машина! 🚀',
+            'ты гений! 🧠',
+            'ты легенда! 🌟',
+            'ты чемпионка! 🥇',
+            'ты топ! 📈',
+            'ты богиня! 👸',
+            'ты вдохновляешь! 💫',
+            'ты творишь магию! 🪄',
+            'ты сила! ⚡',
+            'ты прорыв! 💥',
+            'ты шедевр! 🎨',
+            'ты космос! 🚀',
+            'ты алмаз! 💎',
+            'ты сокровище! 🏴‍☠️',
+            'ты гроза! ⛈️',
+            'ты ураган! 🌪️',
+            'ты вулкан! 🌋',
+            'ты океан! 🌊',
+            'ты солнце! ☀️',
+            'ты звезда! 🌠',
+            'ты победитель! 🏅',
+            'ты герой! 🦸‍♀️',
+            'ты титан! 🗿',
+            'ты бесценна! 💰',
+            
+            // 💖 Комплименты (30)
+            'ты красивая и умная! 💖',
+            'ты очаровательна! 🌹',
+            'ты великолепна! 🌺',
+            'ты прекрасна, как рассвет! 🌅',
+            'ты удивительная! 🌈',
+            'ты талантлива! 🎭',
+            'ты уникальна! 🦄',
+            'ты неповторима! 🌸',
+            'ты солнечный лучик! ☀️',
+            'ты нежность! 🕊️',
+            'ты грация! 🦢',
+            'ты гармония! 🎵',
+            'ты вдохновение! 🎨',
+            'ты мечта! 🌙',
+            'ты звёздочка! ✨',
+            'ты совершенство! 💎',
+            'ты искренность! 💝',
+            'ты доброта! 🌷',
+            'ты мудрость! 📚',
+            'ты красота! 🌹',
+            'ты изящество! 🦋',
+            'ты шарм! ✨',
+            'ты обаяние! 😊',
+            'ты свежесть! 🌿',
+            'ты энергия! ⚡',
+            'ты страсть! ❤️‍🔥',
+            'ты нежность! 🌸',
+            'ты тепло! ☀️',
+            'ты свет! 💡',
+            'ты цветок! 🌺',
+            
+            // 💪 Поддерживающие (30)
+            'у тебя всё получится! 🤞',
+            'ты справишься с любыми задачами! 🎯',
+            'мы в тебя верим! 🙌',
+            'ты можешь всё! 💫',
+            'никто не справится лучше тебя! 🌟',
+            'ты на верном пути! 🛤️',
+            'ты делаешь мир лучше! 🌍',
+            'ты пример для подражания! 👏',
+            'ты создана для великих дел! 🏔️',
+            'ты преодолеешь всё! 🏋️‍♀️',
+            'ты сильнее, чем думаешь! 💪',
+            'ты умница! 🧠',
+            'ты молодец! 👍',
+            'ты на высоте! 📈',
+            'ты двигаешь прогресс! 🚀',
+            'ты меняешь мир! 🌎',
+            'ты вдохновляешь команду! 👥',
+            'ты делаешь крутые вещи! 🎪',
+            'ты профессионал! 👩‍💼',
+            'ты эксперт! 🎓',
+            'ты ас своего дела! ✈️',
+            'ты мастер! 🏺',
+            'ты виртуоз! 🎻',
+            'ты гранд! 🎩',
+            'ты королева! 👑',
+            'ты центр вселенной! 🌌',
+            'ты луч света в тёмном царстве! 💡',
+            'ты бриллиант! 💎',
+            'ты жемчужина! 🦪',
+            'ты сокровище нации! 🏛️',
+            
+            // 🌟 Вдохновляющие (30)
+            'ты способна на всё! 🌟',
+            'твой потенциал бесконечен! ♾️',
+            'ты открываешь новые горизонты! 🌅',
+            'ты создаёшь будущее! 🔮',
+            'ты пишешь свою историю! 📖',
+            'ты строишь империю! 🏰',
+            'ты воспаряешь выше облаков! ☁️',
+            'ты покоряешь вершины! 🏔️',
+            'ты пересекаешь океаны! ⛵',
+            'ты летишь к звёздам! 🚀',
+            'ты творишь чудеса! 🪄',
+            'ты исполняешь мечты! 🌠',
+            'ты приносишь радость! 😊',
+            'ты даришь надежду! 🕊️',
+            'ты заряжаешь энергией! 🔋',
+            'ты объединяешь людей! 🤝',
+            'ты ведёшь к успеху! 🏆',
+            'ты прокладываешь путь! 🛤️',
+            'ты зажигаешь огонь! 🔥',
+            'ты расцветаешь каждый день! 🌸',
+            'ты растёшь над собой! 🌱',
+            'ты становишься лучше! 📈',
+            'ты достигаешь целей! 🎯',
+            'ты превосходишь ожидания! 🚀',
+            'ты удивляешь всех! 😲',
+            'ты вдохновляешь на подвиги! 🦸‍♀️',
+            'ты заставляешь мечтать! 🌙',
+            'ты даришь веру! 🙏',
+            'ты излучаешь свет! 💫',
+            'ты — чудо! 🌟',
+            
+            // 😄 Смешные и позитивные (30)
+            'ты ас! 🛩️',
+            'ты просто пушка! 💣',
+            'ты зажигалка! 🔥',
+            'ты чипс! 🍟',
+            'ты конфетка! 🍬',
+            'ты пирожок! 🥟',
+            'ты печенька! 🍪',
+            'ты тортик! 🎂',
+            'ты радость! 🎉',
+            'ты праздник! 🎊',
+            'ты фейерверк! 🎆',
+            'ты салют! 🎇',
+            'ты фонтан! ⛲',
+            'ты водопад! 💦',
+            'ты бриз! 🌊',
+            'ты ветер! 🍃',
+            'ты радуга! 🌈',
+            'ты северное сияние! 🌌',
+            'ты млечный путь! 🌌',
+            'ты комета! ☄️',
+            'ты метеорит! 🌠',
+            'ты супермен в юбке! 🦸‍♀️',
+            'ты женщина-паук! 🕷️',
+            'ты чудо-женщина! 🦸‍♀️',
+            'ты капитан очевидность! ⚓',
+            'ты повелительница вселенной! 🌌',
+            'ты богиня удачи! 🍀',
+            'ты магистр магии! 🧙‍♀️',
+            'ты профессор успеха! 🎓',
+            'ты доктор позитива! 👩‍⚕️'
+        ];
+
         const phrase = bracingPhrases[Math.floor(Math.random() * bracingPhrases.length)];
         greeting.textContent = `Привет, ${firstName}, ${phrase}`;
 
@@ -548,7 +764,6 @@
             }
         });
 
-        // Заполняем выпадающие списки дат для копирования
         updateDateSelects();
 
         renderCalendar();
@@ -569,7 +784,6 @@
     }
 
     function updateDateSelects() {
-        // Собираем все уникальные даты из VOK
         const dates = [...new Set(appData.vok.map(v => v.date))].sort();
         
         const vokSelect = document.getElementById('vokCopyDate');
@@ -942,12 +1156,14 @@
             const dateDisplay = new Date(date + 'T00:00:00').toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
             html += `<div style="font-weight:700; margin-top:16px; font-size:1.1rem;">📅 ${dateDisplay}:</div>`;
 
-            items.forEach(item => {
+            items.forEach((item, index) => {
                 const isLate = item.resolvedAt && new Date(item.resolvedAt) > new Date(new Date(item.date).setDate(new Date(item.date).getDate() + 1));
                 const lateClass = isLate ? 'late' : '';
+                const globalIdx = vok.indexOf(item);
                 html += `
                     <div class="vok-item ${lateClass}">
-                        <div class="flex-row" style="justify-content:space-between;">
+                        <input type="checkbox" class="vok-checkbox" data-index="${globalIdx}">
+                        <div class="vok-content">
                             <span>@${item.fio} (${item.id}) — оценка: ${item.count}</span>
                             <span style="font-size:0.8rem;">
                                 ${item.resolvedAt ? `✅ Разбор: ${item.resolvedAt}` : '❌ Не разобрано'}
@@ -1040,7 +1256,85 @@
     }
 
     // ================================================================
-    // 11. КОПИРОВАНИЕ HEAL
+    // 11. МАССОВОЕ УДАЛЕНИЕ VOK
+    // ================================================================
+    function deleteVokSelected() {
+        const checkboxes = document.querySelectorAll('.vok-checkbox:checked');
+        if (checkboxes.length === 0) {
+            alert('❌ Выберите хотя бы одну запись для удаления');
+            return;
+        }
+
+        if (!confirm(`🗑️ Удалить ${checkboxes.length} записей?`)) return;
+
+        const indices = Array.from(checkboxes).map(cb => parseInt(cb.dataset.index));
+        indices.sort((a, b) => b - a);
+        indices.forEach(idx => {
+            appData.vok.splice(idx, 1);
+        });
+
+        saveData();
+        renderVok();
+        updateDateSelects();
+        alert(`✅ Удалено ${indices.length} записей`);
+    }
+
+    function deleteVokAll() {
+        if (appData.vok.length === 0) {
+            alert('❌ Нет записей для удаления');
+            return;
+        }
+
+        if (!confirm(`🗑️ Удалить ВСЕ записи (${appData.vok.length} шт.)? Это действие необратимо!`)) return;
+
+        appData.vok = [];
+        saveData();
+        renderVok();
+        updateDateSelects();
+        alert('✅ Все записи удалены');
+    }
+
+    // ================================================================
+    // 12. МАССОВОЕ УДАЛЕНИЕ HEAL
+    // ================================================================
+    function deleteHealSelected() {
+        const checkboxes = document.querySelectorAll('.heal-checkbox:checked');
+        if (checkboxes.length === 0) {
+            alert('❌ Выберите хотя бы одну запись для удаления');
+            return;
+        }
+
+        if (!confirm(`🗑️ Удалить ${checkboxes.length} записей?`)) return;
+
+        const indices = Array.from(checkboxes).map(cb => parseInt(cb.dataset.index));
+        indices.sort((a, b) => b - a);
+        indices.forEach(idx => {
+            appData.heal.splice(idx, 1);
+        });
+
+        saveData();
+        renderHeal();
+        updateDateSelects();
+        alert(`✅ Удалено ${indices.length} записей`);
+    }
+
+    function deleteHealAll() {
+        if (appData.heal.length === 0) {
+            alert('❌ Нет записей для удаления');
+            return;
+        }
+
+        if (!confirm(`🗑️ Удалить ВСЕ записи (${appData.heal.length} шт.)? Это действие необратимо!`)) return;
+
+        appData.heal = [];
+        saveData();
+        renderHeal();
+        updateDateSelects();
+        alert('✅ Все записи удалены');
+    }
+
+    // ================================================================
+    // 13. КОПИРОВАНИЕ HEAL
     // ================================================================
     function copyHealByDate() {
         const select = document.getElementById('healCopyDate');
@@ -1099,10 +1393,9 @@
     }
 
     // ================================================================
-    // 12. ЭКСПОРТ В EXCEL С РАСШИРЕННОЙ СТАТИСТИКОЙ
+    // 14. ЭКСПОРТ В EXCEL С РАСШИРЕННОЙ СТАТИСТИКОЙ
     // ================================================================
     function exportVokExcel() {
-        // Собираем статистику по сотрудникам
         const stats = {};
         
         appData.vok.forEach(v => {
@@ -1127,7 +1420,6 @@
             }
         });
 
-        // Формируем CSV
         let csv = '\uFEFFФИО сотрудника,Не сделано разборов,Просрочено разборов,ID просроченных,ID не сделанных\n';
         
         Object.keys(stats).sort().forEach(fio => {
@@ -1135,7 +1427,6 @@
             csv += `"${fio}",${s.notDone},${s.late},"${s.lateIds.join('; ')}","${s.notDoneIds.join('; ')}"\n`;
         });
 
-        // Добавляем итоговую строку
         const totalNotDone = appData.vok.filter(v => !v.resolvedAt).length;
         const totalLate = appData.vok.filter(v => v.resolvedAt && new Date(v.resolvedAt) > new Date(new Date(v.date).setDate(new Date(v.date).getDate() + 1))).length;
         csv += `"ИТОГО",${totalNotDone},${totalLate},"",""\n`;
@@ -1148,7 +1439,7 @@
     }
 
     // ================================================================
-    // 13. ВСПОМОГАТЕЛЬНАЯ ФУНКЦИЯ ДЛЯ КОПИРОВАНИЯ
+    // 15. ВСПОМОГАТЕЛЬНАЯ ФУНКЦИЯ ДЛЯ КОПИРОВАНИЯ
     // ================================================================
     function copyToClipboard(text) {
         if (navigator.clipboard && navigator.clipboard.writeText) {
@@ -1181,7 +1472,7 @@
     }
 
     // ================================================================
-    // 14. ЛЕЧИМ ВОК
+    // 16. ЛЕЧИМ ВОК
     // ================================================================
     function addHeal() {
         const name = document.getElementById('healName').value.trim();
@@ -1205,9 +1496,12 @@
         }
 
         container.innerHTML = heal.map((h, idx) => `
-            <div style="display:flex; justify-content:space-between; padding:8px 16px; background:var(--bg); border-radius:10px; margin-bottom:4px;">
-                <span>💊 ${h.name} — ${h.date}</span>
-                <button onclick="deleteHeal(${idx})" style="padding:2px 12px; background:var(--danger);">✖</button>
+            <div class="heal-item">
+                <input type="checkbox" class="heal-checkbox" data-index="${idx}">
+                <div class="heal-content">
+                    <span>💊 ${h.name} — ${h.date}</span>
+                    <button onclick="deleteHeal(${idx})" style="padding:2px 12px; background:var(--danger);">✖</button>
+                </div>
             </div>
         `).join('');
     }
@@ -1221,7 +1515,7 @@
     }
 
     // ================================================================
-    // 15. АНТИТОПЫ
+    // 17. АНТИТОПЫ
     // ================================================================
     function addAntitop() {
         const mentor = document.getElementById('antitopMentor').value;
@@ -1285,7 +1579,7 @@
     }
 
     // ================================================================
-    // 16. АДМИНКА
+    // 18. АДМИНКА
     // ================================================================
     function renderUserList() {
         const container = document.getElementById('userListAdmin');
@@ -1336,21 +1630,21 @@
     }
 
     // ================================================================
-    // 17. ТЕМА
+    // 19. ТЕМА
     // ================================================================
     function toggleTheme() {
         document.body.classList.toggle('dark');
     }
 
     // ================================================================
-    // 18. СОХРАНЕНИЕ ДАННЫХ
+    // 20. СОХРАНЕНИЕ ДАННЫХ
     // ================================================================
     function saveData() {
         localStorage.setItem(DATA_KEY, JSON.stringify(appData));
     }
 
     // ================================================================
-    // 19. ЗАПУСК
+    // 21. ЗАПУСК
     // ================================================================
     document.addEventListener('DOMContentLoaded', init);
 </script>

@@ -196,6 +196,10 @@
             background: #fef3c7;
         }
 
+        body.dark .vok-item.late {
+            background: #78350f;
+        }
+
         .vok-item .date {
             font-weight: 700;
         }
@@ -349,14 +353,20 @@
     <div id="tabVok" class="tab-content">
         <div class="card">
             <div class="card-title">📥 Загрузить данные "Не сделали ВОК"</div>
-            <textarea id="vokRawInput" rows="6" placeholder="Вставьте данные скопом:&#10;3 сентября AD24LK 1 Бортникова Алёна Алексеевна&#10;3 сентября AWWJJ4 1 Сердюк Александр Владимирович"></textarea>
+            <p style="font-size:0.9rem; opacity:0.7; margin-bottom:10px;">
+                📌 Вставьте данные в формате:<br>
+                <code>1 сентября 2026</code> (или <code>1.09.2026</code> или <code>01.09.2026</code>)<br>
+                <code>AD24LK	1	Бортникова Алёна Алексеевна</code><br>
+                <code>AWWJJ4	1	Сердюк Александр Владимирович</code>
+            </p>
+            <textarea id="vokRawInput" rows="8" placeholder="Вставьте данные скопом:&#10;1 сентября 2026&#10;AD24LK	1	Бортникова Алёна Алексеевна&#10;AWWJJ4	1	Сердюк Александр Владимирович"></textarea>
             <button onclick="parseVok()">🔍 Распарсить и сохранить</button>
         </div>
 
         <div class="card">
             <div class="card-title">
                 <span>📊 Не сделали разбор ВОК</span>
-                <button onclick="exportVokExcel()" class="btn-success">📤 Выгрузить Excel</button>
+                <button onclick="exportVokExcel()" class="btn-success">📤 Выгрузить CSV</button>
             </div>
             <div id="vokListContainer" class="vok-list"></div>
         </div>
@@ -458,15 +468,6 @@
         if (stored) {
             appData = stored;
         } else {
-            // Добавим тестовые данные для демонстрации
-            appData.vok = [
-                { date: '2026-09-01', id: 'AD24LK', count: 1, fio: 'Охохонин Павел Андреевич', addedAt: '2026-09-01', resolvedAt: null },
-                { date: '2026-09-01', id: 'AWWJJ4', count: 1, fio: 'Доржиева Юмжана Эрдэнеевна', addedAt: '2026-09-01', resolvedAt: null },
-                { date: '2026-09-03', id: 'AD4QRD', count: 1, fio: 'Бортникова Алёна Бодеевна', addedAt: '2026-09-03', resolvedAt: '2026-09-05' }, // просрочка
-            ];
-            appData.heal = [
-                { name: 'Иванов Иван', date: '2026-09-02' }
-            ];
             localStorage.setItem(DATA_KEY, JSON.stringify(appData));
         }
 
@@ -819,55 +820,102 @@
     }
 
     // ================================================================
-    // 8. НЕ СДЕЛАЛИ ВОК
+    // 8. НЕ СДЕЛАЛИ ВОК — ОБНОВЛЕННЫЙ ПАРСЕР
     // ================================================================
     function parseVok() {
         const raw = document.getElementById('vokRawInput').value;
         const lines = raw.split('\n').filter(line => line.trim() !== '');
         let added = 0;
+        let currentDate = null;
 
         lines.forEach(line => {
-            // Парсим: "3 сентября AD24LK 1 Бортникова Алёна Алексеевна"
-            const parts = line.trim().split(/\s+/);
-            if (parts.length < 4) return;
+            const trimmed = line.trim();
 
-            // Ищем дату (сентября, октября и т.д.)
-            let datePart = parts[0] + ' ' + parts[1];
-            // Преобразуем в YYYY-MM-DD
-            const monthMap = { 'января':'01', 'февраля':'02', 'марта':'03', 'апреля':'04', 'мая':'05', 'июня':'06', 'июля':'07', 'августа':'08', 'сентября':'09', 'октября':'10', 'ноября':'11', 'декабря':'12' };
-            const day = parts[0].padStart(2, '0');
-            const monthName = parts[1].toLowerCase();
-            const month = monthMap[monthName] || '09';
-            const year = '2026';
-            const date = `${year}-${month}-${day}`;
+            // Пробуем распознать дату
+            const parsedDate = parseDate(trimmed);
+            if (parsedDate) {
+                currentDate = parsedDate;
+                return;
+            }
 
-            // ID клиента
-            const id = parts[2];
-            // Количество (пропускаем parts[3])
-            // ФИО — всё что после количества
-            const fio = parts.slice(4).join(' ');
+            // Если дата не найдена, но у нас есть текущая дата — парсим строку с данными
+            if (currentDate) {
+                // Разбиваем по табуляции или пробелам (поддержка множественных пробелов)
+                const parts = trimmed.split(/\t+|\s{2,}/).filter(p => p.trim() !== '');
+                if (parts.length >= 3) {
+                    const id = parts[0].trim();
+                    const count = parseInt(parts[1]) || 1;
+                    // ФИО — всё, что после оценки
+                    const fio = parts.slice(2).join(' ').trim();
 
-            // Проверяем, есть ли уже такая запись
-            const exists = appData.vok.some(v => v.id === id && v.date === date);
-            if (!exists) {
-                appData.vok.push({
-                    date,
-                    id,
-                    count: parseInt(parts[3]) || 1,
-                    fio,
-                    addedAt: new Date().toISOString().split('T')[0],
-                    resolvedAt: null // дата разбора
-                });
-                added++;
+                    if (id && fio) {
+                        // Проверяем, есть ли уже такая запись
+                        const exists = appData.vok.some(v => v.id === id && v.date === currentDate);
+                        if (!exists) {
+                            appData.vok.push({
+                                date: currentDate,
+                                id: id,
+                                count: count,
+                                fio: fio,
+                                addedAt: new Date().toISOString().split('T')[0],
+                                resolvedAt: null
+                            });
+                            added++;
+                        }
+                    }
+                }
             }
         });
 
         saveData();
         renderVok();
         document.getElementById('vokRawInput').value = '';
-        alert(`Добавлено ${added} записей`);
+        alert(`✅ Добавлено ${added} записей`);
     }
 
+    // ================================================================
+    // ФУНКЦИЯ ПАРСИНГА ДАТЫ (поддерживает все три формата)
+    // ================================================================
+    function parseDate(str) {
+        // Формат 1: "1 сентября 2026"
+        const monthMap = {
+            'января': '01', 'февраля': '02', 'марта': '03', 'апреля': '04',
+            'мая': '05', 'июня': '06', 'июля': '07', 'августа': '08',
+            'сентября': '09', 'октября': '10', 'ноября': '11', 'декабря': '12'
+        };
+        
+        const matchText = str.match(/^(\d{1,2})\s+([а-я]+)\s+(\d{4})$/i);
+        if (matchText) {
+            const day = matchText[1].padStart(2, '0');
+            const month = monthMap[matchText[2].toLowerCase()];
+            const year = matchText[3];
+            if (month) return `${year}-${month}-${day}`;
+        }
+
+        // Формат 2: "1.09.2026" или "01.09.2026"
+        const matchDots = str.match(/^(\d{1,2})\.(\d{1,2})\.(\d{4})$/);
+        if (matchDots) {
+            const day = matchDots[1].padStart(2, '0');
+            const month = matchDots[2].padStart(2, '0');
+            const year = matchDots[3];
+            return `${year}-${month}-${day}`;
+        }
+
+        // Формат 3: "1-09-2026" или "01-09-2026" (на всякий случай)
+        const matchDashes = str.match(/^(\d{1,2})-(\d{1,2})-(\d{4})$/);
+        if (matchDashes) {
+            const day = matchDashes[1].padStart(2, '0');
+            const month = matchDashes[2].padStart(2, '0');
+            const year = matchDashes[3];
+            return `${year}-${month}-${day}`;
+        }
+
+        return null;
+    }
+
+    // ================================================================
+    // 9. ОСТАЛЬНЫЕ ФУНКЦИИ (НЕ ИЗМЕНЕНЫ)
+    // ================================================================
     function renderVok() {
         const container = document.getElementById('vokListContainer');
         const vok = appData.vok;
@@ -889,8 +937,8 @@
         let html = '';
         sortedDates.forEach(date => {
             const items = groups[date];
-            const dateDisplay = new Date(date).toLocaleDateString('ru-RU', { day: 'numeric', month: 'long' });
-            html += `<div style="font-weight:700; margin-top:12px;">${dateDisplay}:</div>`;
+            const dateDisplay = new Date(date + 'T00:00:00').toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
+            html += `<div style="font-weight:700; margin-top:16px; font-size:1.1rem;">📅 ${dateDisplay}:</div>`;
 
             items.forEach(item => {
                 const isLate = item.resolvedAt && new Date(item.resolvedAt) > new Date(new Date(item.date).setDate(new Date(item.date).getDate() + 1));
@@ -898,10 +946,10 @@
                 html += `
                     <div class="vok-item ${lateClass}">
                         <div class="flex-row" style="justify-content:space-between;">
-                            <span>@${item.fio} (${item.id})</span>
+                            <span>@${item.fio} (${item.id}) — оценка: ${item.count}</span>
                             <span style="font-size:0.8rem;">
                                 ${item.resolvedAt ? `✅ Разбор: ${item.resolvedAt}` : '❌ Не разобрано'}
-                                <button onclick="resolveVok('${item.id}', '${item.date}')" style="padding:2px 12px; font-size:0.7rem; background:var(--success); margin-left:8px;">➕ Дата разбора</button>
+                                <button onclick="resolveVok('${item.id}', '${item.date}')" style="padding:2px 12px; font-size:0.7rem; background:var(--success); margin-left:8px;">📅 Дата разбора</button>
                                 <button onclick="deleteVok('${item.id}', '${item.date}')" style="padding:2px 12px; font-size:0.7rem; background:var(--danger);">✖</button>
                             </span>
                         </div>
@@ -932,24 +980,19 @@
     }
 
     function exportVokExcel() {
-        // Формируем CSV
-        let csv = 'Дата,ID,Кол-во,ФИО,Статус\n';
+        let csv = 'Дата,ID,Оценка,ФИО,Статус\n';
         appData.vok.forEach(v => {
             const status = v.resolvedAt ? (new Date(v.resolvedAt) > new Date(new Date(v.date).setDate(new Date(v.date).getDate() + 1)) ? 'Просрочка' : 'В срок') : 'Не разобрано';
             csv += `${v.date},${v.id},${v.count},${v.fio},${status}\n`;
         });
 
-        // Скачиваем
-        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+        const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
         const link = document.createElement('a');
         link.href = URL.createObjectURL(blob);
         link.download = `vok_export_${new Date().toISOString().split('T')[0]}.csv`;
         link.click();
     }
 
-    // ================================================================
-    // 9. ЛЕЧИМ ВОК
-    // ================================================================
     function addHeal() {
         const name = document.getElementById('healName').value.trim();
         const date = document.getElementById('healDate').value;
@@ -985,9 +1028,6 @@
         renderHeal();
     }
 
-    // ================================================================
-    // 10. АНТИТОПЫ
-    // ================================================================
     function addAntitop() {
         const mentor = document.getElementById('antitopMentor').value;
         const student = document.getElementById('antitopStudent').value.trim();
@@ -1049,9 +1089,6 @@
         renderAntitop();
     }
 
-    // ================================================================
-    // 11. АДМИНКА
-    // ================================================================
     function renderUserList() {
         const container = document.getElementById('userListAdmin');
         const users = JSON.parse(localStorage.getItem(USERS_KEY));
@@ -1077,7 +1114,6 @@
         localStorage.setItem(USERS_KEY, JSON.stringify(users));
         document.getElementById('newUserName').value = '';
         renderUserList();
-        // Обновить выпадающие списки
         const selects = ['eventAssignee', 'taskAssignees', 'antitopMentor'];
         selects.forEach(id => {
             const sel = document.getElementById(id);
@@ -1101,23 +1137,14 @@
         renderUserList();
     }
 
-    // ================================================================
-    // 12. ТЕМА
-    // ================================================================
     function toggleTheme() {
         document.body.classList.toggle('dark');
     }
 
-    // ================================================================
-    // 13. СОХРАНЕНИЕ ДАННЫХ
-    // ================================================================
     function saveData() {
         localStorage.setItem(DATA_KEY, JSON.stringify(appData));
     }
 
-    // ================================================================
-    // 14. ЗАПУСК
-    // ================================================================
     document.addEventListener('DOMContentLoaded', init);
 </script>
 </body>

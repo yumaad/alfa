@@ -6,104 +6,533 @@
     <title>Наставники Наташи Заплатиной</title>
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Oswald', sans-serif; }
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            font-family: 'Oswald', sans-serif; 
+        }
+        
         :root {
-            --bg: #f5f0eb; --text: #2d2a24; --card: #fff; --border: #d6cbc0;
-            --shadow: 0 4px 12px rgba(0,0,0,0.06); --accent: #8b6b4d;
-            --danger: #b33c2b; --success: #2d7d46; --task-highlight: #f6ede4;
+            --bg: #f5f0eb; 
+            --text: #2d2a24; 
+            --card: #fff; 
+            --border: #d6cbc0;
+            --shadow: 0 4px 12px rgba(0,0,0,0.06); 
+            --accent: #8b6b4d;
+            --danger: #b33c2b; 
+            --success: #2d7d46; 
+            --task-highlight: #f6ede4;
+            --warning: #f0ad4e;
         }
+        
         body.dark {
-            --bg: #1e1a16; --text: #e8ddd0; --card: #2d2822;
-            --border: #4a4038; --accent: #b8956e; --task-highlight: #3d342b;
+            --bg: #1e1a16; 
+            --text: #e8ddd0; 
+            --card: #2d2822;
+            --border: #4a4038; 
+            --accent: #b8956e; 
+            --task-highlight: #3d342b;
         }
-        body { background: var(--bg); color: var(--text); padding: 16px; }
-        .container { max-width: 1200px; margin: 0 auto; }
+        
+        body { 
+            background: var(--bg); 
+            color: var(--text); 
+            padding: 16px; 
+            transition: background 0.3s, color 0.3s;
+        }
+        
+        .container { 
+            max-width: 1200px; 
+            margin: 0 auto; 
+        }
 
         .header {
-            display: flex; justify-content: space-between; align-items: center;
-            background: var(--card); padding: 12px 20px; border-radius: 40px;
-            box-shadow: var(--shadow); margin-bottom: 20px; flex-wrap: wrap; gap: 8px;
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+            background: var(--card); 
+            padding: 12px 20px; 
+            border-radius: 40px;
+            box-shadow: var(--shadow); 
+            margin-bottom: 20px; 
+            flex-wrap: wrap; 
+            gap: 8px;
         }
+        
         .user-greeting {
-            font-size: 1.5rem; font-weight: 500;
+            font-size: 1.5rem; 
+            font-weight: 500;
             background: linear-gradient(135deg, #d4a373, #b5835a);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            -webkit-background-clip: text; 
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
-        .header-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+        
+        .header-actions { 
+            display: flex; 
+            gap: 8px; 
+            flex-wrap: wrap; 
+        }
+        
         .header-actions button {
-            background: var(--border); border: none; padding: 6px 16px;
-            border-radius: 30px; font-weight: 400; cursor: pointer;
-            color: var(--text); font-size: 0.9rem;
+            background: var(--border); 
+            border: none; 
+            padding: 6px 16px;
+            border-radius: 30px; 
+            font-weight: 400; 
+            cursor: pointer;
+            color: var(--text); 
+            font-size: 0.9rem;
+            transition: all 0.3s;
         }
-        .sync-btn { background: var(--accent); color: #fff; }
-        .sync-status { font-size: 0.8rem; padding: 4px 12px; border-radius: 20px; display: none; }
-        .sync-status.ok { background: #d4edda; color: #155724; display: inline-block; }
-        .sync-status.err { background: #f8d7da; color: #721c24; display: inline-block; }
-        .sync-status.loading { background: #fff3cd; color: #856404; display: inline-block; }
+        
+        .header-actions button:hover {
+            opacity: 0.8;
+            transform: translateY(-1px);
+        }
+        
+        .sync-btn { 
+            background: var(--accent); 
+            color: #fff; 
+        }
+        
+        .sync-status { 
+            font-size: 0.8rem; 
+            padding: 4px 12px; 
+            border-radius: 20px; 
+            display: none; 
+        }
+        
+        .sync-status.ok { 
+            background: #d4edda; 
+            color: #155724; 
+            display: inline-block; 
+        }
+        
+        .sync-status.err { 
+            background: #f8d7da; 
+            color: #721c24; 
+            display: inline-block; 
+        }
+        
+        .sync-status.loading { 
+            background: #fff3cd; 
+            color: #856404; 
+            display: inline-block; 
+        }
 
-        .tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 16px; }
+        .tabs { 
+            display: flex; 
+            gap: 6px; 
+            flex-wrap: wrap; 
+            margin-bottom: 16px; 
+        }
+        
         .tab-btn {
-            padding: 8px 20px; border: none; border-radius: 30px;
-            background: var(--border); cursor: pointer; font-weight: 400;
-            color: var(--text); font-size: 0.95rem;
+            padding: 8px 20px; 
+            border: none; 
+            border-radius: 30px;
+            background: var(--border); 
+            cursor: pointer; 
+            font-weight: 400;
+            color: var(--text); 
+            font-size: 0.95rem;
+            transition: all 0.3s;
         }
-        .tab-btn.active { background: var(--accent); color: #fff; }
+        
+        .tab-btn:hover {
+            opacity: 0.8;
+        }
+        
+        .tab-btn.active { 
+            background: var(--accent); 
+            color: #fff; 
+        }
 
-        .tab-content { display: none; }
-        .tab-content.active { display: block; }
+        .tab-content { 
+            display: none; 
+        }
+        
+        .tab-content.active { 
+            display: block; 
+            animation: fadeIn 0.3s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
-        .card { background: var(--card); padding: 16px; border-radius: 20px; box-shadow: var(--shadow); margin-bottom: 20px; }
-        .card-title { font-size: 1.2rem; font-weight: 500; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+        .card { 
+            background: var(--card); 
+            padding: 16px; 
+            border-radius: 20px; 
+            box-shadow: var(--shadow); 
+            margin-bottom: 20px; 
+        }
+        
+        .card-title { 
+            font-size: 1.2rem; 
+            font-weight: 500; 
+            margin-bottom: 12px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            flex-wrap: wrap; 
+            gap: 8px; 
+        }
 
-        .calendar-grid { display: grid; grid-template-columns: repeat(7,1fr); gap: 4px; }
+        .calendar-grid { 
+            display: grid; 
+            grid-template-columns: repeat(7,1fr); 
+            gap: 4px; 
+        }
+        
         .calendar-day {
-            background: var(--bg); padding: 8px 2px; border-radius: 12px;
-            text-align: center; border: 1px solid var(--border); cursor: pointer;
-            min-height: 60px; display: flex; flex-direction: column; align-items: center;
+            background: var(--bg); 
+            padding: 8px 2px; 
+            border-radius: 12px;
+            text-align: center; 
+            border: 1px solid var(--border); 
+            cursor: pointer;
+            min-height: 60px; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center;
+            transition: all 0.3s;
+            position: relative;
         }
-        .calendar-day .day-num { font-weight: 500; font-size: 1rem; }
-        .calendar-day .task-badge { font-size: 0.6rem; background: var(--accent); color: #fff; padding: 0 6px; border-radius: 10px; margin-top: 2px; }
-        .calendar-day.has-task { border-color: var(--accent); border-width: 2px; }
-        .calendar-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        
+        .calendar-day:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .calendar-day .day-num { 
+            font-weight: 500; 
+            font-size: 1rem; 
+        }
+        
+        .calendar-day .task-badge { 
+            font-size: 0.6rem; 
+            background: var(--accent); 
+            color: #fff; 
+            padding: 0 6px; 
+            border-radius: 10px; 
+            margin-top: 2px; 
+        }
+        
+        .calendar-day.has-task { 
+            border-color: var(--accent); 
+            border-width: 2px; 
+        }
+        
+        .calendar-day.has-event {
+            background: var(--task-highlight);
+        }
+        
+        .calendar-day .event-indicator {
+            font-size: 0.7rem;
+            margin-top: 2px;
+        }
+        
+        .calendar-nav { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            margin-bottom: 12px; 
+        }
+        
+        .calendar-nav button {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .calendar-nav button:hover {
+            opacity: 0.8;
+        }
 
-        .multi-select-container { display: flex; flex-wrap: wrap; gap: 6px; padding: 8px; background: var(--bg); border-radius: 12px; border: 1px solid var(--border); min-height: 44px; }
+        .multi-select-container { 
+            display: flex; 
+            flex-wrap: wrap; 
+            gap: 6px; 
+            padding: 8px; 
+            background: var(--bg); 
+            border-radius: 12px; 
+            border: 1px solid var(--border); 
+            min-height: 44px; 
+        }
+        
         .multi-select-item {
-            padding: 4px 14px; border-radius: 20px; border: 1px solid var(--border);
-            cursor: pointer; background: var(--card); font-size: 0.9rem;
+            padding: 4px 14px; 
+            border-radius: 20px; 
+            border: 1px solid var(--border);
+            cursor: pointer; 
+            background: var(--card); 
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            user-select: none;
         }
-        .multi-select-item.selected { background: var(--accent); color: #fff; border-color: var(--accent); }
-        .multi-select-item.selected::after { content: " ✓"; }
+        
+        .multi-select-item:hover {
+            border-color: var(--accent);
+        }
+        
+        .multi-select-item.selected { 
+            background: var(--accent); 
+            color: #fff; 
+            border-color: var(--accent); 
+        }
+        
+        .multi-select-item.selected::after { 
+            content: " ✓"; 
+        }
 
-        input, textarea, select { width: 100%; padding: 8px 12px; border: 1px solid var(--border); border-radius: 12px; background: var(--bg); color: var(--text); margin-bottom: 8px; }
-        button { background: var(--accent); color: #fff; border: none; padding: 8px 20px; border-radius: 30px; cursor: pointer; font-weight: 400; }
-        button:hover { opacity: 0.8; }
-        .btn-danger { background: var(--danger); }
-        .btn-success { background: var(--success); }
-        .btn-sm { padding: 4px 12px; font-size: 0.8rem; }
+        input, textarea, select { 
+            width: 100%; 
+            padding: 8px 12px; 
+            border: 1px solid var(--border); 
+            border-radius: 12px; 
+            background: var(--bg); 
+            color: var(--text); 
+            margin-bottom: 8px; 
+            transition: all 0.3s;
+        }
+        
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 2px rgba(139, 107, 77, 0.2);
+        }
+        
+        button { 
+            background: var(--accent); 
+            color: #fff; 
+            border: none; 
+            padding: 8px 20px; 
+            border-radius: 30px; 
+            cursor: pointer; 
+            font-weight: 400;
+            transition: all 0.3s;
+        }
+        
+        button:hover { 
+            opacity: 0.8; 
+            transform: translateY(-1px);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        .btn-danger { 
+            background: var(--danger); 
+        }
+        
+        .btn-success { 
+            background: var(--success); 
+        }
+        
+        .btn-sm { 
+            padding: 4px 12px; 
+            font-size: 0.8rem; 
+        }
 
-        .flex-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+        .flex-row { 
+            display: flex; 
+            gap: 8px; 
+            flex-wrap: wrap; 
+            align-items: center; 
+        }
 
         .task-item {
-            background: var(--bg); border-radius: 12px; padding: 12px;
-            margin-bottom: 10px; border-left: 4px solid var(--accent);
+            background: var(--bg); 
+            border-radius: 12px; 
+            padding: 12px;
+            margin-bottom: 10px; 
+            border-left: 4px solid var(--accent);
+            transition: all 0.3s;
         }
-        .task-item.done { opacity: 0.5; text-decoration: line-through; }
-        .task-item.my-task { background: var(--task-highlight); border-color: var(--accent); border-width: 2px; }
-        .task-meta { font-size: 0.85rem; opacity: 0.7; margin-top: 4px; }
+        
+        .task-item:hover {
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .task-item.done { 
+            opacity: 0.5; 
+            text-decoration: line-through; 
+        }
+        
+        .task-item.my-task { 
+            background: var(--task-highlight); 
+            border-color: var(--accent); 
+            border-width: 2px; 
+        }
+        
+        .task-meta { 
+            font-size: 0.85rem; 
+            opacity: 0.7; 
+            margin-top: 4px; 
+        }
+        
         .task-comment {
-            background: var(--card); padding: 6px 10px; border-radius: 8px;
-            margin-top: 6px; border-left: 2px solid var(--accent);
-            display: flex; justify-content: space-between; align-items: center;
+            background: var(--card); 
+            padding: 6px 10px; 
+            border-radius: 8px;
+            margin-top: 6px; 
+            border-left: 2px solid var(--accent);
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+            gap: 8px;
         }
-        .task-comment .meta { font-size: 0.7rem; opacity: 0.6; }
+        
+        .task-comment .meta { 
+            font-size: 0.7rem; 
+            opacity: 0.6; 
+        }
 
-        .filter-row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; }
-        .filter-row select, .filter-row input { width: auto; margin-bottom: 0; }
+        .filter-row { 
+            display: flex; 
+            gap: 10px; 
+            flex-wrap: wrap; 
+            margin-bottom: 12px; 
+        }
+        
+        .filter-row select, .filter-row input { 
+            width: auto; 
+            margin-bottom: 0; 
+            min-width: 150px;
+        }
 
-        .vok-item.late { border-left-color: var(--danger); background: #fdf0ed; }
-        body.dark .vok-item.late { background: #3d2420; }
+        .vok-item {
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding: 6px 12px; 
+            background: var(--bg); 
+            border-radius: 8px; 
+            margin-bottom: 4px;
+            transition: all 0.3s;
+            border-left: 3px solid transparent;
+        }
+        
+        .vok-item:hover {
+            transform: translateX(4px);
+        }
+        
+        .vok-item.late { 
+            border-left-color: var(--warning); 
+            background: #fdf0ed; 
+        }
+        
+        body.dark .vok-item.late { 
+            background: #3d2420; 
+        }
 
-        @media (max-width:600px){ .calendar-day { min-height: 44px; font-size: 0.7rem; } }
+        .heal-item {
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+            padding: 6px 12px; 
+            background: var(--bg); 
+            border-radius: 8px; 
+            margin-bottom: 4px;
+            transition: all 0.3s;
+        }
+        
+        .heal-item:hover {
+            transform: translateX(4px);
+        }
+        
+        .heal-item input[type="checkbox"] { 
+            width: 16px; 
+            height: 16px; 
+            margin-right: 8px; 
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            animation: fadeIn 0.3s;
+        }
+        
+        .modal-content {
+            background: var(--card);
+            padding: 24px;
+            border-radius: 20px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            animation: slideUp 0.3s;
+        }
+        
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text);
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-close:hover {
+            background: var(--border);
+            border-radius: 50%;
+        }
+
+        @media (max-width:600px){ 
+            .calendar-day { 
+                min-height: 44px; 
+                font-size: 0.7rem; 
+            }
+            
+            .user-greeting {
+                font-size: 1.2rem;
+            }
+            
+            .header {
+                padding: 8px 12px;
+            }
+            
+            .tab-btn {
+                padding: 6px 12px;
+                font-size: 0.8rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -139,8 +568,9 @@
                 <span id="monthYearLabel">Сентябрь 2026</span>
             </div>
             <div class="calendar-nav">
-                <button onclick="changeMonth(-1)">◀</button>
-                <button onclick="changeMonth(1)">▶</button>
+                <button onclick="changeMonth(-1)">◀ Предыдущий</button>
+                <button onclick="goToToday()">Сегодня</button>
+                <button onclick="changeMonth(1)">Следующий ▶</button>
             </div>
             <div class="calendar-grid" id="calendarGrid"></div>
         </div>
@@ -160,11 +590,16 @@
                 <select id="filterAssignee" onchange="renderTasks()">
                     <option value="all">Все сотрудники</option>
                 </select>
+                <select id="filterStatus" onchange="renderTasks()">
+                    <option value="all">Все статусы</option>
+                    <option value="active">Активные</option>
+                    <option value="done">Выполненные</option>
+                </select>
                 <button onclick="clearFilters()" class="btn-sm">Сбросить</button>
             </div>
 
             <div class="flex-row" style="margin-bottom:8px;">
-                <input type="text" id="taskTitle" placeholder="Название" style="flex:2;">
+                <input type="text" id="taskTitle" placeholder="Название задачи" style="flex:2;">
                 <select id="taskPriority" style="flex:1;">
                     <option value="Срочная">🚨 Срочная</option>
                     <option value="Обычная">📌 Обычная</option>
@@ -176,7 +611,7 @@
                 <span style="font-size:0.8rem; opacity:0.6;">или</span>
                 <input type="text" id="taskCustomDays" placeholder="дни: 2026-09-10,2026-09-12" style="flex:1.5;">
             </div>
-            <textarea id="taskComment" placeholder="Комментарий"></textarea>
+            <textarea id="taskComment" placeholder="Комментарий" rows="3"></textarea>
             <div class="multi-select-container" id="taskAssigneesContainer"></div>
             <input type="file" id="taskFile" accept="image/*">
             <button onclick="addTask()">➕ Добавить задачу</button>
@@ -188,18 +623,20 @@
     <!-- ========== НЕ СДЕЛАЛИ ВОК ========== -->
     <div id="tabVok" class="tab-content">
         <div class="card">
-            <div class="card-title">📥 Загрузить данные</div>
-            <textarea id="vokRawInput" rows="6" placeholder="1 сентября 2026&#10;AD24LK 1 Бортникова Алёна Алексеевна"></textarea>
-            <button onclick="parseVok()">🔍 Распарсить</button>
+            <div class="card-title">📥 Загрузить данные "Не сделали ВОК"</div>
+            <textarea id="vokRawInput" rows="6" placeholder="1 сентября 2026&#10;AD24LK 1 Бортникова Алёна Алексеевна&#10;AWWJJ4 1 Сердюк Александр Владимирович"></textarea>
+            <button onclick="parseVok()">🔍 Распарсить и сохранить</button>
         </div>
         <div class="card">
             <div class="card-title">
-                <span>📊 Не сделали разбор</span>
+                <span>📊 Не сделали разбор ВОК</span>
                 <div class="flex-row">
                     <select id="vokCopyDate"><option value="today">Сегодня</option></select>
                     <button onclick="copyVokByDate()" class="btn-success btn-sm">📋 Копировать за дату</button>
                     <button onclick="copyVokAll()" class="btn-success btn-sm">📋 Всё время</button>
                     <button onclick="exportVokExcel()" class="btn-sm">📤 Excel</button>
+                    <button onclick="deleteVokSelected()" class="btn-danger btn-sm">🗑️ Удалить выбранные</button>
+                    <button onclick="deleteVokAll()" class="btn-danger btn-sm">🗑️ Удалить всё</button>
                 </div>
             </div>
             <div id="vokListContainer"></div>
@@ -209,16 +646,20 @@
     <!-- ========== ЛЕЧИМ ВОК ========== -->
     <div id="tabHeal" class="tab-content">
         <div class="card">
-            <div class="card-title">💊 Добавить</div>
+            <div class="card-title">💊 Добавить "Лечим ВОК"</div>
             <div class="flex-row">
                 <input type="text" id="healName" placeholder="ФИО сотрудника">
                 <input type="date" id="healDate">
             </div>
             <button onclick="addHeal()">➕ Добавить</button>
             <div id="healList" style="margin-top:12px;"></div>
+            <div style="margin-top:8px;">
+                <button onclick="deleteHealSelected()" class="btn-danger btn-sm">🗑️ Удалить выбранные</button>
+                <button onclick="deleteHealAll()" class="btn-danger btn-sm">🗑️ Удалить всё</button>
+            </div>
         </div>
         <div class="card">
-            <div class="card-title">📋 Копировать</div>
+            <div class="card-title">📋 Копировать "Лечим ВОК"</div>
             <div class="flex-row">
                 <select id="healCopyDate"><option value="today">Сегодня</option></select>
                 <button onclick="copyHealByDate()" class="btn-success btn-sm">📋 За дату</button>
@@ -231,11 +672,11 @@
     <!-- ========== АНТИТОПЫ ========== -->
     <div id="tabAntitop" class="tab-content">
         <div class="card">
-            <div class="card-title">🔻 Антитопы</div>
+            <div class="card-title">🔻 Антитопы (кто кого ведет + заметки)</div>
             <div class="flex-row">
                 <select id="antitopMentor"></select>
                 <input type="text" id="antitopStudent" placeholder="Ведомый">
-                <button onclick="addAntitop()">➕ Добавить</button>
+                <button onclick="addAntitop()">➕ Добавить связь</button>
             </div>
             <div id="antitopList"></div>
         </div>
@@ -244,7 +685,7 @@
     <!-- ========== АДМИН ========== -->
     <div id="tabAdmin" class="tab-content">
         <div class="card">
-            <div class="card-title">👥 Пользователи</div>
+            <div class="card-title">👥 Управление пользователями</div>
             <div class="flex-row">
                 <input type="text" id="newUserName" placeholder="Имя нового участника">
                 <button onclick="addUser()">➕ Добавить</button>
@@ -253,6 +694,17 @@
         </div>
     </div>
 
+</div>
+
+<!-- Модальное окно для событий -->
+<div id="eventModal" class="modal-overlay" style="display:none;">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 id="modalTitle">📌 События</h3>
+            <button class="modal-close" onclick="closeEventModal()">✖</button>
+        </div>
+        <div id="modalBody"></div>
+    </div>
 </div>
 
 <script>
@@ -265,6 +717,7 @@
 
     const USERS_KEY = 'nz_users';
     const DATA_KEY = 'nz_data';
+    const THEME_KEY = 'nz_theme';
 
     const defaultUsers = [
         { name: 'Наташа Заплатина', role: 'admin', gender: 'female' },
@@ -280,7 +733,14 @@
     ];
 
     let currentUser = null;
-    let appData = { events: {}, tasks: [], vok: [], heal: [], antitop: [], lastId: 0 };
+    let appData = { 
+        events: {}, 
+        tasks: [], 
+        vok: [], 
+        heal: [], 
+        antitop: [], 
+        lastId: 0 
+    };
     let selectedAssignees = [];
     let selectedEventAssignees = [];
     let currentMonth = 8, currentYear = 2026;
@@ -289,16 +749,39 @@
     // 2. ЗАПУСК
     // ================================================================
     async function init() {
+        // Загрузка темы
+        const savedTheme = localStorage.getItem(THEME_KEY);
+        if (savedTheme === 'dark') {
+            document.body.classList.add('dark');
+        }
+
+        // Загрузка пользователей
         let users = JSON.parse(localStorage.getItem(USERS_KEY));
-        if (!users) { users = defaultUsers; localStorage.setItem(USERS_KEY, JSON.stringify(users)); }
+        if (!users) { 
+            users = defaultUsers; 
+            localStorage.setItem(USERS_KEY, JSON.stringify(users)); 
+        }
 
+        // Загрузка данных
         let stored = JSON.parse(localStorage.getItem(DATA_KEY));
-        if (stored) appData = stored;
-        else localStorage.setItem(DATA_KEY, JSON.stringify(appData));
+        if (stored) {
+            appData = stored;
+            // Проверяем наличие всех полей
+            if (!appData.events) appData.events = {};
+            if (!appData.tasks) appData.tasks = [];
+            if (!appData.vok) appData.vok = [];
+            if (!appData.heal) appData.heal = [];
+            if (!appData.antitop) appData.antitop = [];
+            if (!appData.lastId) appData.lastId = 0;
+        } else {
+            localStorage.setItem(DATA_KEY, JSON.stringify(appData));
+        }
 
-        if (USE_CLOUD) await loadFromCloud();
+        // Синхронизация с облаком
+        if (USE_CLOUD) {
+            await loadFromCloud();
+        }
 
-        // ВСЕГДА показываем логин, НЕ запоминаем пользователя
         showLogin();
     }
 
@@ -311,8 +794,11 @@
     }
 
     function showLogin() {
-        const name = prompt('Введите имя (например: Алёна Бортникова или Бортникова Алёна):');
-        if (!name) { showLogin(); return; }
+        const name = prompt('Введите ваше имя (например: Алёна Бортникова или Бортникова Алёна):');
+        if (!name) { 
+            showLogin(); 
+            return; 
+        }
         const users = JSON.parse(localStorage.getItem(USERS_KEY));
         const found = findUserByName(users, name);
         if (found) {
@@ -342,7 +828,10 @@
             status.className = 'sync-status ok';
             status.textContent = '✅ Синхронизировано!';
             renderApp();
-            setTimeout(()=>{ status.className='sync-status'; status.textContent=''; }, 3000);
+            setTimeout(()=>{ 
+                status.className='sync-status'; 
+                status.textContent=''; 
+            }, 3000);
         } catch(e) {
             status.className = 'sync-status err';
             status.textContent = '❌ Ошибка: ' + e.message;
@@ -352,10 +841,16 @@
 
     async function saveToCloud() {
         if (!USE_CLOUD) return;
-        const data = { users: JSON.parse(localStorage.getItem(USERS_KEY)), appData };
+        const data = { 
+            users: JSON.parse(localStorage.getItem(USERS_KEY)), 
+            appData 
+        };
         const r = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
             method: 'PUT',
-            headers: { 'Content-Type':'application/json', 'X-Master-Key': API_KEY },
+            headers: { 
+                'Content-Type':'application/json', 
+                'X-Master-Key': API_KEY 
+            },
             body: JSON.stringify(data)
         });
         if (!r.ok) throw new Error(`HTTP ${r.status}`);
@@ -369,38 +864,58 @@
         if (!r.ok) throw new Error(`HTTP ${r.status}`);
         const result = await r.json();
         const data = result.record;
-        if (data.users) localStorage.setItem(USERS_KEY, JSON.stringify(data.users));
-        if (data.appData) { appData = data.appData; localStorage.setItem(DATA_KEY, JSON.stringify(appData)); }
+        if (data.users) {
+            localStorage.setItem(USERS_KEY, JSON.stringify(data.users));
+        }
+        if (data.appData) { 
+            appData = data.appData; 
+            // Проверяем наличие всех полей
+            if (!appData.events) appData.events = {};
+            if (!appData.tasks) appData.tasks = [];
+            if (!appData.vok) appData.vok = [];
+            if (!appData.heal) appData.heal = [];
+            if (!appData.antitop) appData.antitop = [];
+            if (!appData.lastId) appData.lastId = 0;
+            localStorage.setItem(DATA_KEY, JSON.stringify(appData)); 
+        }
     }
 
     function saveDataAndSync() {
         localStorage.setItem(DATA_KEY, JSON.stringify(appData));
-        if (USE_CLOUD) saveToCloud().catch(e => console.warn('Cloud save error:', e));
+        if (USE_CLOUD) {
+            saveToCloud().catch(e => console.warn('Cloud save error:', e));
+        }
     }
 
     // ================================================================
     // 4. РЕНДЕР
     // ================================================================
     function renderApp() {
+        // Приветствие
         const greeting = document.getElementById('greetingText');
         const firstName = currentUser.name.split(' ')[0] || 'Друг';
         const isMale = currentUser.gender === 'male';
-        const phrases = isMale ? ['ты крутой! 💪','ты мощь! 🔥','ты лучший! 🏆'] : ['ты крутая! 💪','ты мощь! 🔥','ты лучшая! 🏆'];
+        const phrases = isMale ? 
+            ['ты крутой! 💪','ты мощь! 🔥','ты лучший! 🏆','ты профессионал! ⭐'] : 
+            ['ты крутая! 💪','ты мощь! 🔥','ты лучшая! 🏆','ты профессионал! ⭐'];
         greeting.textContent = `👋 Привет, ${firstName}, ${phrases[Math.floor(Math.random()*phrases.length)]}`;
 
+        // Показываем/скрываем админ-вкладку
         if (currentUser.role === 'admin') {
             document.getElementById('adminTab').style.display = 'inline-block';
         } else {
             document.getElementById('adminTab').style.display = 'none';
         }
 
+        // Получаем список наставников
         const users = JSON.parse(localStorage.getItem(USERS_KEY));
         const mentorNames = users.filter(u => u.role === 'mentor' || u.role === 'admin').map(u => u.name);
 
-        // Заполняем селекты
+        // Обновляем селекты
         ['antitopMentor', 'filterAssignee'].forEach(id => {
             const sel = document.getElementById(id);
             if (!sel) return;
+            const currentVal = sel.value;
             sel.innerHTML = '<option value="all">Все</option>';
             mentorNames.forEach(n => {
                 const o = document.createElement('option');
@@ -408,13 +923,18 @@
                 o.textContent = n;
                 sel.appendChild(o);
             });
+            if (currentVal && [...sel.options].some(o => o.value === currentVal)) {
+                sel.value = currentVal;
+            }
         });
 
+        // Сбрасываем выбор ответственных
         selectedAssignees = [];
         selectedEventAssignees = [];
         renderMultiSelect('taskAssigneesContainer', mentorNames, selectedAssignees);
         renderMultiSelect('eventAssigneeContainer', mentorNames, selectedEventAssignees);
 
+        // Обновляем все компоненты
         updateDateSelects();
         renderCalendar();
         renderTasks();
@@ -423,7 +943,7 @@
         renderAntitop();
         renderUserList();
 
-        // ВКЛАДКИ — ПРОСТАЯ И НАДЁЖНАЯ ЛОГИКА
+        // Настраиваем переключение вкладок
         document.querySelectorAll('.tab-btn').forEach(btn => {
             btn.onclick = function(e) {
                 e.preventDefault();
@@ -446,7 +966,11 @@
             div.textContent = opt;
             div.onclick = () => {
                 const idx = selected.indexOf(opt);
-                idx === -1 ? selected.push(opt) : selected.splice(idx, 1);
+                if (idx === -1) {
+                    selected.push(opt);
+                } else {
+                    selected.splice(idx, 1);
+                }
                 renderMultiSelect(containerId, options, selected);
             };
             container.appendChild(div);
@@ -463,10 +987,16 @@
             dates.forEach(d => {
                 const o = document.createElement('option');
                 o.value = d;
-                o.textContent = new Date(d + 'T00:00:00').toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
+                o.textContent = new Date(d + 'T00:00:00').toLocaleDateString('ru-RU', { 
+                    day: 'numeric', 
+                    month: 'long', 
+                    year: 'numeric' 
+                });
                 sel.appendChild(o);
             });
-            if (val && [...sel.options].some(o => o.value === val)) sel.value = val;
+            if (val && [...sel.options].some(o => o.value === val)) {
+                sel.value = val;
+            }
         });
     }
 
@@ -482,6 +1012,8 @@
         const first = new Date(currentYear, currentMonth, 1).getDay();
         const days = new Date(currentYear, currentMonth + 1, 0).getDate();
         grid.innerHTML = '';
+        
+        // Добавляем заголовки дней недели
         ['Пн','Вт','Ср','Чт','Пт','Сб','Вс'].forEach(d => {
             const div = document.createElement('div');
             div.style.fontWeight = '500';
@@ -489,14 +1021,20 @@
             div.textContent = d;
             grid.appendChild(div);
         });
-        for (let i = 0; i < (first === 0 ? 6 : first - 1); i++) grid.appendChild(document.createElement('div'));
+        
+        // Добавляем пустые ячейки
+        for (let i = 0; i < (first === 0 ? 6 : first - 1); i++) {
+            grid.appendChild(document.createElement('div'));
+        }
 
+        // Добавляем дни месяца
         for (let d = 1; d <= days; d++) {
             const dateStr = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
             const div = document.createElement('div');
             div.className = 'calendar-day';
             div.innerHTML = `<span class="day-num">${d}</span>`;
 
+            // Проверяем задачи
             const tasks = appData.tasks.filter(t => t.deadline === dateStr && !t.done);
             if (tasks.length) {
                 div.classList.add('has-task');
@@ -505,24 +1043,196 @@
                 badge.textContent = `📋 ${tasks.length}`;
                 div.appendChild(badge);
             }
+            
+            // Проверяем события
             const evs = appData.events[dateStr] || [];
             if (evs.length) {
-                const icon = document.createElement('div');
-                icon.style.fontSize = '0.7rem';
-                icon.textContent = evs.some(e => e.title.toLowerCase().includes('встреча')) ? '👥' : '📌';
-                div.appendChild(icon);
+                div.classList.add('has-event');
+                const eventIndicator = document.createElement('div');
+                eventIndicator.className = 'event-indicator';
+                
+                const hasMeeting = evs.some(e => e.title.toLowerCase().includes('встреча'));
+                const hasRegular = evs.some(e => !e.title.toLowerCase().includes('встреча'));
+                
+                let indicators = [];
+                if (hasMeeting) indicators.push('👥');
+                if (hasRegular) indicators.push('📌');
+                if (indicators.length) {
+                    eventIndicator.textContent = indicators.join(' ');
+                    div.appendChild(eventIndicator);
+                }
+                
+                if (evs.every(e => e.done)) {
+                    div.style.textDecoration = 'line-through';
+                    div.style.opacity = '0.6';
+                }
             }
+            
+            // Делаем день кликабельным
+            div.onclick = () => openDayModal(dateStr);
+            
             grid.appendChild(div);
         }
     }
 
     function changeMonth(delta) {
         currentMonth += delta;
-        if (currentMonth < 0) { currentMonth = 11;
-            currentYear--; }
-        if (currentMonth > 11) { currentMonth = 0;
-            currentYear++; }
+        if (currentMonth < 0) { 
+            currentMonth = 11; 
+            currentYear--; 
+        }
+        if (currentMonth > 11) { 
+            currentMonth = 0; 
+            currentYear++; 
+        }
         renderCalendar();
+    }
+
+    function goToToday() {
+        const today = new Date();
+        currentMonth = today.getMonth();
+        currentYear = today.getFullYear();
+        renderCalendar();
+    }
+
+    function openDayModal(dateStr) {
+        const modal = document.getElementById('eventModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalBody = document.getElementById('modalBody');
+        
+        modalTitle.textContent = `📅 ${new Date(dateStr + 'T00:00:00').toLocaleDateString('ru-RU', { 
+            day: 'numeric', 
+            month: 'long', 
+            year: 'numeric' 
+        })}`;
+        
+        const events = appData.events[dateStr] || [];
+        const tasks = appData.tasks.filter(t => t.deadline === dateStr);
+        
+        let html = '';
+        
+        // Форма для добавления события
+        html += `
+            <div style="margin-bottom:16px;">
+                <h4>📌 Добавить событие</h4>
+                <input type="text" id="eventTitle" placeholder="Название события">
+                <textarea id="eventComment" placeholder="Комментарий" rows="2"></textarea>
+                <div class="multi-select-container" id="eventAssigneeContainer"></div>
+                <div class="flex-row" style="margin-top:8px;">
+                    <button onclick="addEvent('${dateStr}')">➕ Добавить</button>
+                    <button onclick="markAllEventsDone('${dateStr}')" class="btn-success">✅ Все выполнены</button>
+                </div>
+            </div>
+        `;
+        
+        // Список событий
+        if (events.length > 0) {
+            html += `<h4>📌 События:</h4>`;
+            events.forEach((ev, idx) => {
+                html += `
+                    <div style="background:var(--bg); border-radius:8px; padding:8px; margin-bottom:6px; ${ev.done ? 'opacity:0.5; text-decoration:line-through;' : ''}">
+                        <div style="display:flex; justify-content:space-between; align-items:center;">
+                            <div>
+                                <strong>${ev.title}</strong>
+                                ${ev.comment ? `<div class="task-meta">💬 ${ev.comment}</div>` : ''}
+                                ${ev.assignee ? `<div class="task-meta">👤 ${ev.assignee}</div>` : ''}
+                            </div>
+                            <div>
+                                <button onclick="toggleEventDone('${dateStr}', ${idx})" class="btn-sm btn-success">✅</button>
+                                <button onclick="deleteEvent('${dateStr}', ${idx})" class="btn-sm btn-danger">✖</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+        } else {
+            html += '<p style="opacity:0.6;">Нет событий на этот день</p>';
+        }
+        
+        // Список задач
+        if (tasks.length > 0) {
+            html += `<h4 style="margin-top:16px;">📋 Задачи:</h4>`;
+            tasks.forEach(t => {
+                html += `
+                    <div style="background:var(--bg); border-radius:8px; padding:8px; margin-bottom:6px; ${t.done ? 'opacity:0.5; text-decoration:line-through;' : ''}">
+                        <strong>${t.title}</strong>
+                        <span style="font-size:0.75rem; background:var(--border); padding:0 8px; border-radius:10px; margin-left:8px;">${t.priority}</span>
+                        ${t.comment ? `<div class="task-meta">💬 ${t.comment}</div>` : ''}
+                        ${t.assignees && t.assignees.length ? `<div class="task-meta">👤 ${t.assignees.join(', ')}</div>` : ''}
+                    </div>
+                `;
+            });
+        }
+        
+        modalBody.innerHTML = html;
+        
+        // Перерисовываем multi-select для событий
+        const users = JSON.parse(localStorage.getItem(USERS_KEY));
+        const mentorNames = users.filter(u => u.role === 'mentor' || u.role === 'admin').map(u => u.name);
+        renderMultiSelect('eventAssigneeContainer', mentorNames, selectedEventAssignees);
+        
+        modal.style.display = 'flex';
+    }
+
+    function closeEventModal() {
+        document.getElementById('eventModal').style.display = 'none';
+    }
+
+    function addEvent(dateStr) {
+        const title = document.getElementById('eventTitle').value.trim();
+        const comment = document.getElementById('eventComment').value.trim();
+        const assignee = selectedEventAssignees.join(', ');
+        
+        if (!title) {
+            alert('Введите название события');
+            return;
+        }
+        
+        if (!appData.events[dateStr]) {
+            appData.events[dateStr] = [];
+        }
+        
+        appData.events[dateStr].push({
+            title,
+            comment,
+            assignee,
+            done: false
+        });
+        
+        saveDataAndSync();
+        renderCalendar();
+        openDayModal(dateStr);
+    }
+
+    function toggleEventDone(dateStr, idx) {
+        if (appData.events[dateStr] && appData.events[dateStr][idx]) {
+            appData.events[dateStr][idx].done = !appData.events[dateStr][idx].done;
+            saveDataAndSync();
+            renderCalendar();
+            openDayModal(dateStr);
+        }
+    }
+
+    function deleteEvent(dateStr, idx) {
+        if (!confirm('Удалить событие?')) return;
+        if (appData.events[dateStr]) {
+            appData.events[dateStr].splice(idx, 1);
+            if (appData.events[dateStr].length === 0) {
+                delete appData.events[dateStr];
+            }
+            saveDataAndSync();
+            renderCalendar();
+            openDayModal(dateStr);
+        }
+    }
+
+    function markAllEventsDone(dateStr) {
+        if (appData.events[dateStr]) {
+            appData.events[dateStr].forEach(ev => ev.done = true);
+            saveDataAndSync();
+            renderCalendar();
+            openDayModal(dateStr);
+        }
     }
 
     // ================================================================
@@ -537,7 +1247,11 @@
         const customDays = document.getElementById('taskCustomDays').value.trim();
         const assignees = [...selectedAssignees];
         const fileInput = document.getElementById('taskFile');
-        if (!title) return alert('Введите название');
+        
+        if (!title) {
+            alert('Введите название задачи');
+            return;
+        }
 
         let dates = [];
         if (customDays) {
@@ -552,67 +1266,85 @@
         } else if (dateFrom) {
             dates = [dateFrom];
         } else {
-            return alert('Укажите дату (от–до, конкретную или через запятую)');
+            alert('Укажите дату (от–до, конкретную или через запятую)');
+            return;
         }
 
-        let fileData = null;
+        const handleFile = (fileData) => {
+            dates.forEach(d => {
+                appData.lastId = (appData.lastId || 0) + 1;
+                appData.tasks.push({
+                    id: appData.lastId,
+                    title,
+                    comment,
+                    priority,
+                    deadline: d,
+                    assignees: assignees || [],
+                    file: fileData,
+                    done: false,
+                    updates: []
+                });
+            });
+            
+            saveDataAndSync();
+            renderTasks();
+            renderCalendar();
+            
+            // Очищаем форму
+            document.getElementById('taskTitle').value = '';
+            document.getElementById('taskComment').value = '';
+            document.getElementById('taskDateFrom').value = '';
+            document.getElementById('taskDateTo').value = '';
+            document.getElementById('taskCustomDays').value = '';
+            document.getElementById('taskFile').value = '';
+            selectedAssignees = [];
+            const users = JSON.parse(localStorage.getItem(USERS_KEY));
+            const mentorNames = users.filter(u => u.role === 'mentor' || u.role === 'admin').map(u => u.name);
+            renderMultiSelect('taskAssigneesContainer', mentorNames, selectedAssignees);
+        };
+
         if (fileInput.files && fileInput.files[0]) {
             const reader = new FileReader();
             reader.onload = function(e) {
-                fileData = e.target.result;
-                dates.forEach(d => saveSingleTask(title, comment, priority, d, assignees, fileData));
+                handleFile(e.target.result);
             };
             reader.readAsDataURL(fileInput.files[0]);
         } else {
-            dates.forEach(d => saveSingleTask(title, comment, priority, d, assignees, null));
+            handleFile(null);
         }
-        document.getElementById('taskTitle').value = '';
-        document.getElementById('taskComment').value = '';
-        document.getElementById('taskDateFrom').value = '';
-        document.getElementById('taskDateTo').value = '';
-        document.getElementById('taskCustomDays').value = '';
-        document.getElementById('taskFile').value = '';
-        selectedAssignees = [];
-        const users = JSON.parse(localStorage.getItem(USERS_KEY));
-        const mentorNames = users.filter(u => u.role === 'mentor' || u.role === 'admin').map(u => u.name);
-        renderMultiSelect('taskAssigneesContainer', mentorNames, selectedAssignees);
-    }
-
-    function saveSingleTask(title, comment, priority, deadline, assignees, fileData) {
-        appData.lastId = (appData.lastId || 0) + 1;
-        appData.tasks.push({
-            id: appData.lastId,
-            title,
-            comment,
-            priority,
-            deadline,
-            assignees: assignees || [],
-            file: fileData,
-            done: false,
-            updates: []
-        });
-        saveDataAndSync();
-        renderTasks();
-        renderCalendar();
     }
 
     function renderTasks() {
         const container = document.getElementById('taskList');
         const priorityFilter = document.getElementById('filterPriority').value;
         const assigneeFilter = document.getElementById('filterAssignee').value;
+        const statusFilter = document.getElementById('filterStatus').value;
 
         let tasks = appData.tasks;
-        if (priorityFilter !== 'all') tasks = tasks.filter(t => t.priority === priorityFilter);
-        if (assigneeFilter !== 'all') tasks = tasks.filter(t => t.assignees && t.assignees.includes(assigneeFilter));
+        
+        if (priorityFilter !== 'all') {
+            tasks = tasks.filter(t => t.priority === priorityFilter);
+        }
+        if (assigneeFilter !== 'all') {
+            tasks = tasks.filter(t => t.assignees && t.assignees.includes(assigneeFilter));
+        }
+        if (statusFilter === 'active') {
+            tasks = tasks.filter(t => !t.done);
+        } else if (statusFilter === 'done') {
+            tasks = tasks.filter(t => t.done);
+        }
 
-        if (!tasks.length) { container.innerHTML = '<p style="opacity:0.6;">Задач пока нет</p>'; return; }
+        if (!tasks.length) { 
+            container.innerHTML = '<p style="opacity:0.6;">Задач пока нет</p>'; 
+            return; 
+        }
 
         container.innerHTML = tasks.sort((a, b) => {
             if (a.priority === 'Срочная' && b.priority !== 'Срочная') return -1;
             if (a.priority !== 'Срочная' && b.priority === 'Срочная') return 1;
             return (a.deadline || '').localeCompare(b.deadline || '');
         }).map(t => {
-            const isMy = t.assignees && t.assignees.some(a => findUserByName([currentUser], a));
+            const isMy = t.assignees && t.assignees.some(a => a === currentUser.name);
             const isDone = t.done ? 'done' : '';
             const myClass = isMy && !t.done ? 'my-task' : '';
 
@@ -626,8 +1358,8 @@
                                 <div>${u.text}</div>
                                 <div class="meta">👤 ${u.author} • ${u.date}${u.edited ? ' ✏️ ред.' : ''}</div>
                             </div>
-                            <div>
-                                <button onclick="editTaskUpdate(${t.id},${i})" class="btn-sm" style="background:var(--accent);">✏️</button>
+                            <div class="flex-row">
+                                <button onclick="editTaskUpdate(${t.id},${i})" class="btn-sm">✏️</button>
                                 <button onclick="deleteTaskUpdate(${t.id},${i})" class="btn-sm btn-danger">🗑️</button>
                             </div>
                         </div>
@@ -657,18 +1389,18 @@
                     <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:4px;">
                         <div>
                             <strong>${t.title}</strong>
-                            <span style="font-size:0.75rem;background:var(--border);padding:0 10px;border-radius:12px;">${t.priority}</span>
+                            <span style="font-size:0.75rem;background:var(--border);padding:0 10px;border-radius:12px;margin-left:8px;">${t.priority}</span>
                             ${t.deadline ? `📅 ${t.deadline}` : ''}
-                            ${isMy && !t.done ? ' ⭐ Моя' : ''}
+                            ${isMy && !t.done ? ' ⭐ Моя задача' : ''}
                         </div>
-                        <div>
+                        <div class="flex-row">
                             <button onclick="toggleTaskDone(${t.id})" class="btn-sm btn-success">✅</button>
                             <button onclick="deleteTask(${t.id})" class="btn-sm btn-danger">🗑️</button>
                         </div>
                     </div>
                     ${t.comment ? `<div class="task-meta">💬 ${t.comment}</div>` : ''}
                     ${assigneesHtml}
-                    ${t.file ? `<div style="margin-top:4px;"><img src="${t.file}" style="max-width:80px;max-height:80px;border-radius:8px;"/></div>` : ''}
+                    ${t.file ? `<div style="margin-top:4px;"><img src="${t.file}" style="max-width:120px;max-height:120px;border-radius:8px;cursor:pointer;" onclick="window.open('${t.file}')"/></div>` : ''}
                     ${updatesHtml}
                     ${updateForm}
                 </div>
@@ -686,10 +1418,12 @@
 
     function toggleTaskDone(id) {
         const task = appData.tasks.find(t => t.id === id);
-        if (task) { task.done = !task.done;
-            saveDataAndSync();
-            renderTasks();
-            renderCalendar(); }
+        if (task) { 
+            task.done = !task.done; 
+            saveDataAndSync(); 
+            renderTasks(); 
+            renderCalendar(); 
+        }
     }
 
     function deleteTask(id) {
@@ -703,11 +1437,18 @@
     function addTaskUpdate(id) {
         const input = document.getElementById(`updateInput_${id}`);
         const text = input.value.trim();
-        if (!text) return alert('Введите текст');
+        if (!text) {
+            alert('Введите текст апдейта');
+            return;
+        }
         const task = appData.tasks.find(t => t.id === id);
         if (!task) return;
         if (!task.updates) task.updates = [];
-        task.updates.push({ text, author: currentUser.name, date: new Date().toLocaleString('ru-RU') });
+        task.updates.push({ 
+            text, 
+            author: currentUser.name, 
+            date: new Date().toLocaleString('ru-RU') 
+        });
         saveDataAndSync();
         renderTasks();
     }
@@ -725,7 +1466,7 @@
         const task = appData.tasks.find(t => t.id === id);
         if (!task || !task.updates) return;
         const upd = task.updates[idx];
-        const newText = prompt('Редактировать:', upd.text);
+        const newText = prompt('Редактировать апдейт:', upd.text);
         if (newText !== null && newText.trim()) {
             upd.text = newText.trim();
             upd.edited = true;
@@ -737,6 +1478,7 @@
     function clearFilters() {
         document.getElementById('filterPriority').value = 'all';
         document.getElementById('filterAssignee').value = 'all';
+        document.getElementById('filterStatus').value = 'all';
         renderTasks();
     }
 
@@ -746,25 +1488,38 @@
     function parseVok() {
         const raw = document.getElementById('vokRawInput').value;
         const lines = raw.split('\n').filter(l => l.trim());
-        let added = 0,
-            currentDate = null;
+        let added = 0, currentDate = null;
+        
         lines.forEach(line => {
             const trimmed = line.trim();
             const parsed = parseDate(trimmed);
-            if (parsed) { currentDate = parsed; return; }
+            if (parsed) { 
+                currentDate = parsed; 
+                return; 
+            }
+            
             if (currentDate) {
                 const parts = trimmed.split(/\t+|\s{2,}/).filter(p => p.trim());
                 if (parts.length >= 3) {
                     const id = parts[0].trim();
                     const count = parseInt(parts[1]) || 1;
                     const fio = parts.slice(2).join(' ').trim();
+                    
                     if (id && fio && !appData.vok.some(v => v.id === id && v.date === currentDate)) {
-                        appData.vok.push({ date: currentDate, id, count, fio, addedAt: new Date().toISOString().split('T')[0], resolvedAt: null });
+                        appData.vok.push({ 
+                            date: currentDate, 
+                            id, 
+                            count, 
+                            fio, 
+                            addedAt: new Date().toISOString().split('T')[0], 
+                            resolvedAt: null 
+                        });
                         added++;
                     }
                 }
             }
         });
+        
         saveDataAndSync();
         renderVok();
         updateDateSelects();
@@ -773,41 +1528,73 @@
     }
 
     function parseDate(str) {
-        const mm = { 'января': '01', 'февраля': '02', 'марта': '03', 'апреля': '04', 'мая': '05', 'июня': '06', 'июля': '07', 'августа': '08', 'сентября': '09', 'октября': '10', 'ноября': '11', 'декабря': '12' };
+        const mm = { 
+            'января': '01', 'февраля': '02', 'марта': '03', 'апреля': '04', 
+            'мая': '05', 'июня': '06', 'июля': '07', 'августа': '08', 
+            'сентября': '09', 'октября': '10', 'ноября': '11', 'декабря': '12' 
+        };
+        
         let m = str.match(/^(\d{1,2})\s+([а-я]+)\s+(\d{4})$/i);
-        if (m) { const month = mm[m[2].toLowerCase()]; if (month) return `${m[3]}-${month}-${m[1].padStart(2, '0')}`; }
+        if (m) { 
+            const month = mm[m[2].toLowerCase()]; 
+            if (month) return `${m[3]}-${month}-${m[1].padStart(2, '0')}`; 
+        }
+        
         m = str.match(/^(\d{1,2})\.(\d{1,2})\.(\d{4})$/);
         if (m) return `${m[3]}-${m[2].padStart(2, '0')}-${m[1].padStart(2, '0')}`;
+        
         m = str.match(/^(\d{1,2})-(\d{1,2})-(\d{4})$/);
         if (m) return `${m[3]}-${m[2].padStart(2, '0')}-${m[1].padStart(2, '0')}`;
+        
         return null;
     }
 
     function renderVok() {
         const container = document.getElementById('vokListContainer');
         const vok = appData.vok;
-        if (!vok.length) { container.innerHTML = '<p style="opacity:0.6;">Нет данных</p>'; return; }
+        
+        if (!vok.length) { 
+            container.innerHTML = '<p style="opacity:0.6;">Нет данных</p>'; 
+            return; 
+        }
+        
         const groups = {};
-        vok.forEach(v => { if (!groups[v.date]) groups[v.date] = [];
-            groups[v.date].push(v); });
+        vok.forEach(v => { 
+            if (!groups[v.date]) groups[v.date] = []; 
+            groups[v.date].push(v); 
+        });
+        
         let html = '';
         Object.keys(groups).sort().forEach(date => {
             const items = groups[date];
-            html += `<div style="font-weight:500;margin-top:12px;">📅 ${new Date(date + 'T00:00:00').toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' })}</div>`;
-            items.forEach(item => {
-                const isLate = item.resolvedAt && new Date(item.resolvedAt) > new Date(new Date(item.date).setDate(new Date(item.date).getDate() + 1));
+            html += `<div style="font-weight:500;margin-top:12px;">📅 ${new Date(date + 'T00:00:00').toLocaleDateString('ru-RU', { 
+                day: 'numeric', 
+                month: 'long', 
+                year: 'numeric' 
+            })}</div>`;
+            
+            items.forEach((item, idx) => {
+                const isLate = item.resolvedAt && new Date(item.resolvedAt) > new Date(new Date(item.date).getTime() + 24*60*60*1000);
+                const globalIdx = vok.indexOf(item);
+                
                 html += `
-                    <div class="vok-item ${isLate ? 'late' : ''}" style="display:flex;justify-content:space-between;align-items:center;padding:6px 12px;background:var(--bg);border-radius:8px;margin-bottom:4px;">
-                        <span>@${item.fio} (${item.id}) — ${item.count}</span>
-                        <span>
-                            ${item.resolvedAt ? `✅ ${item.resolvedAt}` : '❌'}
+                    <div class="vok-item ${isLate ? 'late' : ''}">
+                        <div style="display:flex;align-items:center;gap:8px;flex:1;">
+                            <input type="checkbox" class="vok-checkbox" data-index="${globalIdx}">
+                            <span>@${item.fio} (${item.id}) — ${item.count}</span>
+                        </div>
+                        <div class="flex-row">
+                            <span style="font-size:0.8rem;">
+                                ${item.resolvedAt ? `✅ ${item.resolvedAt}` : '❌ Не разобрано'}
+                            </span>
                             <button onclick="resolveVok('${item.id}','${item.date}')" class="btn-sm btn-success">📅</button>
                             <button onclick="deleteVok('${item.id}','${item.date}')" class="btn-sm btn-danger">✖</button>
-                        </span>
+                        </div>
                     </div>
                 `;
             });
         });
+        
         container.innerHTML = html;
     }
 
@@ -815,114 +1602,257 @@
         const d = prompt('Дата разбора (ГГГГ-ММ-ДД):', new Date().toISOString().split('T')[0]);
         if (!d) return;
         const item = appData.vok.find(v => v.id === id && v.date === date);
-        if (item) { item.resolvedAt = d;
-            saveDataAndSync();
-            renderVok(); }
+        if (item) { 
+            item.resolvedAt = d; 
+            saveDataAndSync(); 
+            renderVok(); 
+        }
     }
 
     function deleteVok(id, date) {
-        if (!confirm('Удалить?')) return;
+        if (!confirm('Удалить запись?')) return;
         appData.vok = appData.vok.filter(v => !(v.id === id && v.date === date));
         saveDataAndSync();
         renderVok();
+    }
+
+    function deleteVokSelected() {
+        const checkboxes = document.querySelectorAll('.vok-checkbox:checked');
+        if (!checkboxes.length) {
+            alert('Выберите записи для удаления');
+            return;
+        }
+        if (!confirm(`Удалить ${checkboxes.length} записей?`)) return;
+        
+        const indices = Array.from(checkboxes).map(cb => parseInt(cb.dataset.index)).sort((a,b) => b - a);
+        indices.forEach(idx => appData.vok.splice(idx, 1));
+        
+        saveDataAndSync();
+        renderVok();
+        updateDateSelects();
+        alert(`✅ Удалено ${indices.length} записей`);
+    }
+
+    function deleteVokAll() {
+        if (!appData.vok.length) {
+            alert('Нет записей для удаления');
+            return;
+        }
+        if (!confirm('Удалить все записи? Это действие нельзя отменить!')) return;
+        
+        appData.vok = [];
+        saveDataAndSync();
+        renderVok();
+        updateDateSelects();
+        alert('✅ Все записи удалены');
     }
 
     function copyVokByDate() {
         const sel = document.getElementById('vokCopyDate');
         let target = sel.value === 'today' ? new Date().toISOString().split('T')[0] : sel.value;
         const items = appData.vok.filter(v => v.date === target && !v.resolvedAt);
-        if (!items.length) return alert('✅ Все сделали разбор');
-        let text = `🚨 НЕ СДЕЛАЛИ РАЗБОР ВОК за ${new Date(target + 'T00:00:00').toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' })}:\n`;
+        
+        if (!items.length) {
+            alert('✅ Все сделали разбор ВОК за эту дату');
+            return;
+        }
+        
+        let text = `🚨 НЕ СДЕЛАЛИ РАЗБОР ВОК за ${new Date(target + 'T00:00:00').toLocaleDateString('ru-RU', { 
+            day: 'numeric', 
+            month: 'long', 
+            year: 'numeric' 
+        })}:\n\n`;
+        
         items.forEach(v => text += `@${v.fio} (${v.id})\n`);
+        text += `\n📌 Всего: ${items.length} человек(а)`;
+        
         copyText(text);
     }
 
     function copyVokAll() {
         const items = appData.vok.filter(v => !v.resolvedAt);
-        if (!items.length) return alert('✅ Все сделали разбор');
+        
+        if (!items.length) {
+            alert('✅ Все сделали разбор ВОК');
+            return;
+        }
+        
         let text = `🚨 НЕ СДЕЛАЛИ РАЗБОР ВОК (всего ${items.length}):\n`;
         const groups = {};
-        items.forEach(v => { if (!groups[v.date]) groups[v.date] = [];
-            groups[v.date].push(v); });
+        items.forEach(v => { 
+            if (!groups[v.date]) groups[v.date] = []; 
+            groups[v.date].push(v); 
+        });
+        
         Object.keys(groups).sort().forEach(date => {
-            text += `\n📅 ${new Date(date + 'T00:00:00').toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' })}:\n`;
+            text += `\n📅 ${new Date(date + 'T00:00:00').toLocaleDateString('ru-RU', { 
+                day: 'numeric', 
+                month: 'long', 
+                year: 'numeric' 
+            })}:\n`;
             groups[date].forEach(v => text += `  @${v.fio} (${v.id})\n`);
         });
+        
         copyText(text);
     }
 
     function exportVokExcel() {
         const stats = {};
         appData.vok.forEach(v => {
-            if (!stats[v.fio]) stats[v.fio] = { notDone: 0, late: 0, ids: [] };
-            if (!v.resolvedAt) { stats[v.fio].notDone++;
-                stats[v.fio].ids.push(v.id); } else if (new Date(v.resolvedAt) > new Date(new Date(v.date).setDate(new Date(v.date).getDate() + 1))) {
-                stats[v.fio].late++;
-                stats[v.fio].ids.push(v.id); }
+            if (!stats[v.fio]) {
+                stats[v.fio] = { notDone: 0, late: 0, notDoneIds: [], lateIds: [] };
+            }
+            
+            if (!v.resolvedAt) { 
+                stats[v.fio].notDone++; 
+                stats[v.fio].notDoneIds.push(v.id); 
+            } else if (new Date(v.resolvedAt) > new Date(new Date(v.date).getTime() + 24*60*60*1000)) {
+                stats[v.fio].late++; 
+                stats[v.fio].lateIds.push(v.id); 
+            }
         });
-        let csv = '\uFEFFФИО,Не сделано,Просрочено,ID\n';
+        
+        let csv = '\uFEFFФИО сотрудника;Не сделано разборов;Просрочено разборов;ID просроченных;ID не сделанных\n';
+        
         Object.keys(stats).sort().forEach(fio => {
             const s = stats[fio];
-            csv += `"${fio}",${s.notDone},${s.late},"${s.ids.join('; ')}"\n`;
+            csv += `"${fio}";${s.notDone};${s.late};"${s.lateIds.join('; ')}";"${s.notDoneIds.join('; ')}"\n`;
         });
+        
+        // Добавляем итоги
+        const totalNotDone = Object.values(stats).reduce((sum, s) => sum + s.notDone, 0);
+        const totalLate = Object.values(stats).reduce((sum, s) => sum + s.late, 0);
+        csv += `\n"ИТОГО";${totalNotDone};${totalLate};;\n`;
+        
         const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
         const link = document.createElement('a');
         link.href = URL.createObjectURL(blob);
         link.download = `vok_stats_${new Date().toISOString().split('T')[0]}.csv`;
         link.click();
+        
+        alert('✅ Статистика выгружена в CSV файл');
     }
 
     // ================================================================
-    // 8. HEAL
+    // 8. HEAL (ЛЕЧИМ ВОК)
     // ================================================================
     function addHeal() {
         const name = document.getElementById('healName').value.trim();
         const date = document.getElementById('healDate').value;
-        if (!name || !date) return alert('Заполните поля');
+        
+        if (!name || !date) {
+            alert('Заполните все поля');
+            return;
+        }
+        
         appData.heal.push({ name, date });
         saveDataAndSync();
         renderHeal();
+        
         document.getElementById('healName').value = '';
         document.getElementById('healDate').value = '';
     }
 
     function renderHeal() {
         const container = document.getElementById('healList');
-        if (!appData.heal.length) { container.innerHTML = '<p style="opacity:0.6;">Нет записей</p>'; return; }
+        
+        if (!appData.heal.length) { 
+            container.innerHTML = '<p style="opacity:0.6;">Нет записей</p>'; 
+            return; 
+        }
+        
         container.innerHTML = appData.heal.map((h, i) => `
-            <div style="display:flex;justify-content:space-between;align-items:center;padding:4px 12px;background:var(--bg);border-radius:8px;margin-bottom:4px;">
-                <span>💊 ${h.name} — ${h.date}</span>
+            <div class="heal-item">
+                <div style="display:flex;align-items:center;flex:1;">
+                    <input type="checkbox" class="heal-checkbox" data-index="${i}">
+                    <span>💊 ${h.name} — ${h.date}</span>
+                </div>
                 <button onclick="deleteHeal(${i})" class="btn-sm btn-danger">✖</button>
             </div>
         `).join('');
     }
 
-    function deleteHeal(i) { if (!confirm('Удалить?')) return;
-        appData.heal.splice(i, 1);
+    function deleteHeal(i) { 
+        if (!confirm('Удалить запись?')) return; 
+        appData.heal.splice(i, 1); 
+        saveDataAndSync(); 
+        renderHeal(); 
+    }
+
+    function deleteHealSelected() {
+        const checkboxes = document.querySelectorAll('.heal-checkbox:checked');
+        if (!checkboxes.length) {
+            alert('Выберите записи для удаления');
+            return;
+        }
+        if (!confirm(`Удалить ${checkboxes.length} записей?`)) return;
+        
+        const indices = Array.from(checkboxes).map(cb => parseInt(cb.dataset.index)).sort((a,b) => b - a);
+        indices.forEach(idx => appData.heal.splice(idx, 1));
+        
         saveDataAndSync();
-        renderHeal(); }
+        renderHeal();
+        alert(`✅ Удалено ${indices.length} записей`);
+    }
+
+    function deleteHealAll() {
+        if (!appData.heal.length) {
+            alert('Нет записей для удаления');
+            return;
+        }
+        if (!confirm('Удалить все записи?')) return;
+        
+        appData.heal = [];
+        saveDataAndSync();
+        renderHeal();
+        alert('✅ Все записи удалены');
+    }
 
     function copyHealByDate() {
         const sel = document.getElementById('healCopyDate');
         let target = sel.value === 'today' ? new Date().toISOString().split('T')[0] : sel.value;
         const items = appData.heal.filter(h => h.date === target);
-        if (!items.length) return alert('Нет записей');
-        let text = `💊 ЛЕЧИМ ВОК за ${new Date(target + 'T00:00:00').toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' })}:\n`;
+        
+        if (!items.length) {
+            alert('Нет записей за эту дату');
+            return;
+        }
+        
+        let text = `💊 ЛЕЧИМ ВОК за ${new Date(target + 'T00:00:00').toLocaleDateString('ru-RU', { 
+            day: 'numeric', 
+            month: 'long', 
+            year: 'numeric' 
+        })}:\n\n`;
+        
         items.forEach(h => text += `@${h.name}\n`);
+        text += `\n📌 Всего: ${items.length} человек(а)`;
+        
         copyText(text);
         document.getElementById('healCopyContainer').textContent = text;
     }
 
     function copyHealAll() {
-        if (!appData.heal.length) return alert('Нет записей');
+        if (!appData.heal.length) {
+            alert('Нет записей');
+            return;
+        }
+        
         let text = `💊 ЛЕЧИМ ВОК (всего ${appData.heal.length}):\n`;
         const groups = {};
-        appData.heal.forEach(h => { if (!groups[h.date]) groups[h.date] = [];
-            groups[h.date].push(h); });
+        appData.heal.forEach(h => { 
+            if (!groups[h.date]) groups[h.date] = []; 
+            groups[h.date].push(h); 
+        });
+        
         Object.keys(groups).sort().forEach(date => {
-            text += `\n📅 ${new Date(date + 'T00:00:00').toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' })}:\n`;
+            text += `\n📅 ${new Date(date + 'T00:00:00').toLocaleDateString('ru-RU', { 
+                day: 'numeric', 
+                month: 'long', 
+                year: 'numeric' 
+            })}:\n`;
             groups[date].forEach(h => text += `  @${h.name}\n`);
         });
+        
         copyText(text);
         document.getElementById('healCopyContainer').textContent = text;
     }
@@ -933,7 +1863,16 @@
     function addAntitop() {
         const mentor = document.getElementById('antitopMentor').value;
         const student = document.getElementById('antitopStudent').value.trim();
-        if (!mentor || !student) return alert('Выберите наставника и введите ведомого');
+        
+        if (!mentor || mentor === 'all') {
+            alert('Выберите наставника');
+            return;
+        }
+        if (!student) {
+            alert('Введите имя ведомого');
+            return;
+        }
+        
         appData.antitop.push({ mentor, student, notes: [] });
         saveDataAndSync();
         renderAntitop();
@@ -942,20 +1881,27 @@
 
     function renderAntitop() {
         const container = document.getElementById('antitopList');
-        if (!appData.antitop.length) { container.innerHTML = '<p style="opacity:0.6;">Нет связей</p>'; return; }
+        
+        if (!appData.antitop.length) { 
+            container.innerHTML = '<p style="opacity:0.6;margin-top:16px;">Нет связей</p>'; 
+            return; 
+        }
+        
         container.innerHTML = appData.antitop.map((a, i) => `
-            <div style="background:var(--bg);border-radius:12px;padding:10px;margin-bottom:8px;">
-                <div style="display:flex;justify-content:space-between;">
+            <div style="background:var(--bg);border-radius:12px;padding:10px;margin-bottom:8px;margin-top:12px;">
+                <div style="display:flex;justify-content:space-between;align-items:center;">
                     <span><strong>👨‍🏫 ${a.mentor}</strong> → 🧑‍🎓 ${a.student}</span>
                     <button onclick="deleteAntitop(${i})" class="btn-sm btn-danger">✖</button>
                 </div>
                 <div style="margin-top:6px;">
                     <div class="flex-row">
-                        <input type="text" id="noteInput_${i}" placeholder="Заметка" style="flex:1;margin-bottom:0;">
+                        <input type="text" id="noteInput_${i}" placeholder="Заметка о прогрессе..." style="flex:1;margin-bottom:0;">
                         <button onclick="addAntitopNote(${i})" class="btn-sm">➕</button>
                     </div>
-                    <div style="font-size:0.85rem;opacity:0.7;margin-top:4px;">
-                        ${a.notes.map(n => `📝 ${n.text} (${n.date})`).join('<br>')}
+                    <div style="font-size:0.85rem;opacity:0.8;margin-top:8px;">
+                        ${a.notes && a.notes.length ? a.notes.map(n => 
+                            `📝 ${n.text} <span style="opacity:0.6;">(${n.date})</span>`
+                        ).join('<br>') : '<span style="opacity:0.5;">Нет заметок</span>'}
                     </div>
                 </div>
             </div>
@@ -965,16 +1911,31 @@
     function addAntitopNote(i) {
         const input = document.getElementById(`noteInput_${i}`);
         const text = input.value.trim();
-        if (!text) return;
-        appData.antitop[i].notes.push({ text, date: new Date().toLocaleDateString('ru-RU') });
+        
+        if (!text) {
+            alert('Введите текст заметки');
+            return;
+        }
+        
+        if (!appData.antitop[i].notes) {
+            appData.antitop[i].notes = [];
+        }
+        
+        appData.antitop[i].notes.push({ 
+            text, 
+            date: new Date().toLocaleDateString('ru-RU') 
+        });
+        
         saveDataAndSync();
         renderAntitop();
     }
 
-    function deleteAntitop(i) { if (!confirm('Удалить связь?')) return;
-        appData.antitop.splice(i, 1);
-        saveDataAndSync();
-        renderAntitop(); }
+    function deleteAntitop(i) { 
+        if (!confirm('Удалить связь?')) return; 
+        appData.antitop.splice(i, 1); 
+        saveDataAndSync(); 
+        renderAntitop(); 
+    }
 
     // ================================================================
     // 10. АДМИНКА
@@ -982,13 +1943,17 @@
     function renderUserList() {
         const container = document.getElementById('userListAdmin');
         const users = JSON.parse(localStorage.getItem(USERS_KEY));
+        
         container.innerHTML = users.map((u, i) => `
-            <div style="display:flex;justify-content:space-between;align-items:center;padding:4px 12px;background:var(--bg);border-radius:8px;margin-bottom:4px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:var(--bg);border-radius:8px;margin-bottom:4px;">
                 <span>${u.name} ${u.role === 'admin' ? '👑' : ''}</span>
-                <div>
-                    ${u.role !== 'admin' ? `<button onclick="makeAdmin(${i})" class="btn-sm">👑</button>` : ''}
-                    ${u.role === 'admin' && u.name !== 'Наташа Заплатина' && u.name !== 'Юма Доржиева' ? `<button onclick="removeAdmin(${i})" class="btn-sm">⬇️</button>` : ''}
-                    ${u.role !== 'admin' ? `<button onclick="deleteUser(${i})" class="btn-sm btn-danger">✖</button>` : ''}
+                <div class="flex-row">
+                    ${u.role !== 'admin' ? 
+                        `<button onclick="makeAdmin(${i})" class="btn-sm">👑 Назначить админом</button>` : 
+                        (u.name !== 'Наташа Заплатина' && u.name !== 'Юма Доржиева' ? 
+                            `<button onclick="removeAdmin(${i})" class="btn-sm">⬇️ Снять админа</button>` : '')}
+                    ${u.role !== 'admin' ? 
+                        `<button onclick="deleteUser(${i})" class="btn-sm btn-danger">🗑️</button>` : ''}
                 </div>
             </div>
         `).join('');
@@ -996,66 +1961,105 @@
 
     function addUser() {
         const name = document.getElementById('newUserName').value.trim();
-        if (!name) return;
+        if (!name) {
+            alert('Введите имя');
+            return;
+        }
+        
         const users = JSON.parse(localStorage.getItem(USERS_KEY));
-        if (findUserByName(users, name)) return alert('Уже есть');
-        users.push({ name, role: 'mentor', gender: name.match(/[ая]$/i) ? 'female' : 'male' });
+        if (findUserByName(users, name)) {
+            alert('Такой пользователь уже существует');
+            return;
+        }
+        
+        // Автоопределение пола по окончанию
+        const gender = name.match(/[ая]$/i) ? 'female' : 'male';
+        
+        users.push({ name, role: 'mentor', gender });
         localStorage.setItem(USERS_KEY, JSON.stringify(users));
         document.getElementById('newUserName').value = '';
+        
         renderUserList();
         updateMentorSelects();
         saveDataAndSync();
+        
+        alert(`✅ Пользователь ${name} добавлен`);
     }
 
-    function makeAdmin(i) { if (!confirm('Назначить админом?')) return;
-        const users = JSON.parse(localStorage.getItem(USERS_KEY));
-        users[i].role = 'admin';
-        localStorage.setItem(USERS_KEY, JSON.stringify(users));
-        renderUserList();
-        updateMentorSelects();
-        saveDataAndSync(); }
-
-    function removeAdmin(i) { if (!confirm('Снять админа?')) return;
-        const users = JSON.parse(localStorage.getItem(USERS_KEY));
-        users[i].role = 'mentor';
-        localStorage.setItem(USERS_KEY, JSON.stringify(users));
-        renderUserList();
-        updateMentorSelects();
-        saveDataAndSync(); }
-
-    function deleteUser(i) { if (!confirm('Удалить пользователя?')) return;
-        const users = JSON.parse(localStorage.getItem(USERS_KEY));
-        if (users[i].name === 'Наташа Заплатина' || users[i].name === 'Юма Доржиева') return alert('Нельзя удалить главного админа');
-        users.splice(i, 1);
-        localStorage.setItem(USERS_KEY, JSON.stringify(users));
-        renderUserList();
-        updateMentorSelects();
-        saveDataAndSync(); }
+    function makeAdmin(i) { 
+        if (!confirm('Назначить администратором?')) return; 
+        const users = JSON.parse(localStorage.getItem(USERS_KEY)); 
+        users[i].role = 'admin'; 
+        localStorage.setItem(USERS_KEY, JSON.stringify(users)); 
+        renderUserList(); 
+        updateMentorSelects(); 
+        saveDataAndSync(); 
+    }
+    
+    function removeAdmin(i) { 
+        if (!confirm('Снять права администратора?')) return; 
+        const users = JSON.parse(localStorage.getItem(USERS_KEY)); 
+        users[i].role = 'mentor'; 
+        localStorage.setItem(USERS_KEY, JSON.stringify(users)); 
+        renderUserList(); 
+        updateMentorSelects(); 
+        saveDataAndSync(); 
+    }
+    
+    function deleteUser(i) { 
+        if (!confirm('Удалить пользователя?')) return; 
+        const users = JSON.parse(localStorage.getItem(USERS_KEY)); 
+        if (users[i].name === 'Наташа Заплатина' || users[i].name === 'Юма Доржиева') {
+            alert('Нельзя удалить главного администратора');
+            return;
+        }
+        if (users[i].name === currentUser.name) {
+            alert('Нельзя удалить самого себя');
+            return;
+        }
+        users.splice(i, 1); 
+        localStorage.setItem(USERS_KEY, JSON.stringify(users)); 
+        renderUserList(); 
+        updateMentorSelects(); 
+        saveDataAndSync(); 
+    }
 
     function updateMentorSelects() {
         const users = JSON.parse(localStorage.getItem(USERS_KEY));
         const names = users.filter(u => u.role === 'mentor' || u.role === 'admin').map(u => u.name);
+        
         ['antitopMentor', 'filterAssignee'].forEach(id => {
             const sel = document.getElementById(id);
             if (!sel) return;
             sel.innerHTML = '<option value="all">Все</option>';
-            names.forEach(n => { const o = document.createElement('option');
-                o.value = n;
-                o.textContent = n;
-                sel.appendChild(o); });
+            names.forEach(n => { 
+                const o = document.createElement('option'); 
+                o.value = n; 
+                o.textContent = n; 
+                sel.appendChild(o); 
+            });
         });
+        
         renderMultiSelect('taskAssigneesContainer', names, selectedAssignees);
         renderMultiSelect('eventAssigneeContainer', names, selectedEventAssignees);
     }
 
     // ================================================================
-    // 11. ВСПОМОГАТЕЛЬНЫЕ
+    // 11. ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ
     // ================================================================
-    function toggleTheme() { document.body.classList.toggle('dark'); }
+    function toggleTheme() { 
+        document.body.classList.toggle('dark');
+        localStorage.setItem(THEME_KEY, document.body.classList.contains('dark') ? 'dark' : 'light');
+    }
 
     function copyText(text) {
-        if (navigator.clipboard) navigator.clipboard.writeText(text).then(() => alert('✅ Скопировано')).catch(() => fallbackCopy(text));
-        else fallbackCopy(text);
+        if (navigator.clipboard) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert('✅ Скопировано в буфер обмена');
+            }).catch(() => fallbackCopy(text));
+        } else {
+            fallbackCopy(text);
+        }
     }
 
     function fallbackCopy(text) {
@@ -1065,9 +2069,18 @@
         ta.select();
         document.execCommand('copy');
         document.body.removeChild(ta);
-        alert('✅ Скопировано');
+        alert('✅ Скопировано в буфер обмена');
     }
 
+    // Закрытие модального окна при клике вне
+    document.addEventListener('click', function(e) {
+        const modal = document.getElementById('eventModal');
+        if (e.target === modal) {
+            closeEventModal();
+        }
+    });
+
+    // Запуск приложения
     document.addEventListener('DOMContentLoaded', init);
 </script>
 </body>

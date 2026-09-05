@@ -89,7 +89,6 @@
         
         .header-actions button:hover {
             opacity: 0.8;
-            transform: translateY(-1px);
         }
         
         .sync-btn { 
@@ -156,12 +155,6 @@
         
         .tab-content.active { 
             display: block; 
-            animation: fadeIn 0.3s;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
         }
 
         .card { 
@@ -201,7 +194,6 @@
             flex-direction: column; 
             align-items: center;
             transition: all 0.3s;
-            position: relative;
         }
         
         .calendar-day:hover {
@@ -232,30 +224,11 @@
             background: var(--task-highlight);
         }
         
-        .calendar-day .event-indicator {
-            font-size: 0.7rem;
-            margin-top: 2px;
-        }
-        
         .calendar-nav { 
             display: flex; 
             justify-content: space-between; 
             align-items: center; 
             margin-bottom: 12px; 
-        }
-        
-        .calendar-nav button {
-            background: var(--accent);
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .calendar-nav button:hover {
-            opacity: 0.8;
         }
 
         .multi-select-container { 
@@ -277,11 +250,6 @@
             background: var(--card); 
             font-size: 0.9rem;
             transition: all 0.3s;
-            user-select: none;
-        }
-        
-        .multi-select-item:hover {
-            border-color: var(--accent);
         }
         
         .multi-select-item.selected { 
@@ -302,13 +270,6 @@
             background: var(--bg); 
             color: var(--text); 
             margin-bottom: 8px; 
-            transition: all 0.3s;
-        }
-        
-        input:focus, textarea:focus, select:focus {
-            outline: none;
-            border-color: var(--accent);
-            box-shadow: 0 0 0 2px rgba(139, 107, 77, 0.2);
         }
         
         button { 
@@ -324,11 +285,6 @@
         
         button:hover { 
             opacity: 0.8; 
-            transform: translateY(-1px);
-        }
-        
-        button:active {
-            transform: translateY(0);
         }
         
         .btn-danger { 
@@ -357,11 +313,6 @@
             padding: 12px;
             margin-bottom: 10px; 
             border-left: 4px solid var(--accent);
-            transition: all 0.3s;
-        }
-        
-        .task-item:hover {
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
         
         .task-item.done { 
@@ -390,7 +341,6 @@
             display: flex; 
             justify-content: space-between; 
             align-items: center;
-            gap: 8px;
         }
         
         .task-comment .meta { 
@@ -419,12 +369,7 @@
             background: var(--bg); 
             border-radius: 8px; 
             margin-bottom: 4px;
-            transition: all 0.3s;
             border-left: 3px solid transparent;
-        }
-        
-        .vok-item:hover {
-            transform: translateX(4px);
         }
         
         .vok-item.late { 
@@ -444,11 +389,6 @@
             background: var(--bg); 
             border-radius: 8px; 
             margin-bottom: 4px;
-            transition: all 0.3s;
-        }
-        
-        .heal-item:hover {
-            transform: translateX(4px);
         }
         
         .heal-item input[type="checkbox"] { 
@@ -468,7 +408,6 @@
             justify-content: center;
             align-items: center;
             z-index: 1000;
-            animation: fadeIn 0.3s;
         }
         
         .modal-content {
@@ -480,14 +419,8 @@
             max-height: 80vh;
             overflow-y: auto;
             box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-            animation: slideUp 0.3s;
         }
         
-        @keyframes slideUp {
-            from { transform: translateY(50px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-
         .modal-header {
             display: flex;
             justify-content: space-between;
@@ -718,6 +651,7 @@
     const USERS_KEY = 'nz_users';
     const DATA_KEY = 'nz_data';
     const THEME_KEY = 'nz_theme';
+    const SESSION_KEY = 'nz_session';
 
     const defaultUsers = [
         { name: 'Наташа Заплатина', role: 'admin', gender: 'female' },
@@ -746,9 +680,11 @@
     let currentMonth = 8, currentYear = 2026;
 
     // ================================================================
-    // 2. ЗАПУСК
+    // 2. ЗАПУСК ПРИЛОЖЕНИЯ
     // ================================================================
     async function init() {
+        console.log('🚀 Инициализация приложения...');
+        
         // Загрузка темы
         const savedTheme = localStorage.getItem(THEME_KEY);
         if (savedTheme === 'dark') {
@@ -766,7 +702,6 @@
         let stored = JSON.parse(localStorage.getItem(DATA_KEY));
         if (stored) {
             appData = stored;
-            // Проверяем наличие всех полей
             if (!appData.events) appData.events = {};
             if (!appData.tasks) appData.tasks = [];
             if (!appData.vok) appData.vok = [];
@@ -779,30 +714,77 @@
 
         // Синхронизация с облаком
         if (USE_CLOUD) {
-            await loadFromCloud();
+            try {
+                await loadFromCloud();
+            } catch(e) {
+                console.warn('Не удалось загрузить из облака:', e);
+            }
         }
 
+        // Проверяем сохраненную сессию
+        const savedSession = localStorage.getItem(SESSION_KEY);
+        if (savedSession) {
+            const foundUser = findUserByName(users, savedSession);
+            if (foundUser) {
+                currentUser = foundUser;
+                console.log('✅ Автоматический вход:', currentUser.name);
+                renderApp();
+                return;
+            }
+        }
+
+        // Если нет сессии - показываем окно входа
         showLogin();
     }
 
     function findUserByName(users, input) {
-        const parts = input.toLowerCase().replace(/ё/g,'е').split(' ').filter(p=>p);
-        return users.find(u => {
-            const uparts = u.name.toLowerCase().replace(/ё/g,'е').split(' ').filter(p=>p);
-            return parts.every(p => uparts.includes(p));
+        // Нормализуем ввод: убираем ё, приводим к нижнему регистру
+        const normalizedInput = input.toLowerCase().replace(/ё/g, 'е').trim();
+        
+        // Пробуем найти точное совпадение
+        let found = users.find(u => {
+            const userName = u.name.toLowerCase().replace(/ё/g, 'е');
+            return userName === normalizedInput;
         });
+        
+        if (found) return found;
+        
+        // Пробуем найти по частям имени (в любом порядке)
+        const inputParts = normalizedInput.split(/\s+/).filter(p => p.length > 0);
+        
+        found = users.find(u => {
+            const userName = u.name.toLowerCase().replace(/ё/g, 'е');
+            const userParts = userName.split(/\s+/).filter(p => p.length > 0);
+            
+            // Проверяем, что все части ввода есть в имени пользователя
+            return inputParts.every(part => 
+                userParts.some(userPart => userPart === part || userPart.includes(part) || part.includes(userPart))
+            );
+        });
+        
+        return found;
     }
 
     function showLogin() {
+        console.log('🔐 Показываем окно входа...');
+        
         const name = prompt('Введите ваше имя (например: Алёна Бортникова или Бортникова Алёна):');
-        if (!name) { 
-            showLogin(); 
-            return; 
+        
+        if (!name) {
+            // Если пользователь нажал "Отмена" - пробуем войти как гость
+            currentUser = { name: 'Гость', role: 'mentor', gender: 'male' };
+            console.log('👤 Вход как гость');
+            renderApp();
+            return;
         }
+        
         const users = JSON.parse(localStorage.getItem(USERS_KEY));
         const found = findUserByName(users, name);
+        
         if (found) {
             currentUser = found;
+            localStorage.setItem(SESSION_KEY, found.name);
+            console.log('✅ Вход выполнен:', found.name);
             renderApp();
         } else {
             alert('❌ Пользователь не найден. Попробуйте ещё раз.');
@@ -812,6 +794,7 @@
 
     function logout() {
         currentUser = null;
+        localStorage.removeItem(SESSION_KEY);
         location.reload();
     }
 
@@ -869,7 +852,6 @@
         }
         if (data.appData) { 
             appData = data.appData; 
-            // Проверяем наличие всех полей
             if (!appData.events) appData.events = {};
             if (!appData.tasks) appData.tasks = [];
             if (!appData.vok) appData.vok = [];
@@ -888,9 +870,11 @@
     }
 
     // ================================================================
-    // 4. РЕНДЕР
+    // 4. РЕНДЕР ПРИЛОЖЕНИЯ
     // ================================================================
     function renderApp() {
+        console.log('🎨 Рендеринг приложения...');
+        
         // Приветствие
         const greeting = document.getElementById('greetingText');
         const firstName = currentUser.name.split(' ')[0] || 'Друг';
@@ -932,7 +916,6 @@
         selectedAssignees = [];
         selectedEventAssignees = [];
         renderMultiSelect('taskAssigneesContainer', mentorNames, selectedAssignees);
-        renderMultiSelect('eventAssigneeContainer', mentorNames, selectedEventAssignees);
 
         // Обновляем все компоненты
         updateDateSelects();
@@ -944,14 +927,29 @@
         renderUserList();
 
         // Настраиваем переключение вкладок
+        setupTabs();
+        
+        console.log('✅ Приложение отрендерено');
+    }
+
+    function setupTabs() {
         document.querySelectorAll('.tab-btn').forEach(btn => {
             btn.onclick = function(e) {
                 e.preventDefault();
+                console.log('🔄 Переключение на вкладку:', this.dataset.tab);
+                
+                // Убираем active у всех кнопок
                 document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                // Добавляем active к нажатой кнопке
                 this.classList.add('active');
+                
+                // Скрываем все вкладки
                 document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+                // Показываем нужную вкладку
                 const target = document.getElementById(this.dataset.tab);
-                if (target) target.classList.add('active');
+                if (target) {
+                    target.classList.add('active');
+                }
             };
         });
     }
@@ -1004,6 +1002,8 @@
     // 5. КАЛЕНДАРЬ
     // ================================================================
     function renderCalendar() {
+        console.log('📅 Рендеринг календаря...');
+        
         const grid = document.getElementById('calendarGrid');
         const label = document.getElementById('monthYearLabel');
         const months = ['Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'];
@@ -1023,7 +1023,8 @@
         });
         
         // Добавляем пустые ячейки
-        for (let i = 0; i < (first === 0 ? 6 : first - 1); i++) {
+        const offset = first === 0 ? 6 : first - 1;
+        for (let i = 0; i < offset; i++) {
             grid.appendChild(document.createElement('div'));
         }
 
@@ -1049,7 +1050,7 @@
             if (evs.length) {
                 div.classList.add('has-event');
                 const eventIndicator = document.createElement('div');
-                eventIndicator.className = 'event-indicator';
+                eventIndicator.style.fontSize = '0.7rem';
                 
                 const hasMeeting = evs.some(e => e.title.toLowerCase().includes('встреча'));
                 const hasRegular = evs.some(e => !e.title.toLowerCase().includes('встреча'));
@@ -1073,6 +1074,8 @@
             
             grid.appendChild(div);
         }
+        
+        console.log('✅ Календарь отрендерен');
     }
 
     function changeMonth(delta) {
@@ -1573,7 +1576,7 @@
                 year: 'numeric' 
             })}</div>`;
             
-            items.forEach((item, idx) => {
+            items.forEach((item) => {
                 const isLate = item.resolvedAt && new Date(item.resolvedAt) > new Date(new Date(item.date).getTime() + 24*60*60*1000);
                 const globalIdx = vok.indexOf(item);
                 
@@ -1719,7 +1722,6 @@
             csv += `"${fio}";${s.notDone};${s.late};"${s.lateIds.join('; ')}";"${s.notDoneIds.join('; ')}"\n`;
         });
         
-        // Добавляем итоги
         const totalNotDone = Object.values(stats).reduce((sum, s) => sum + s.notDone, 0);
         const totalLate = Object.values(stats).reduce((sum, s) => sum + s.late, 0);
         csv += `\n"ИТОГО";${totalNotDone};${totalLate};;\n`;
@@ -1972,7 +1974,6 @@
             return;
         }
         
-        // Автоопределение пола по окончанию
         const gender = name.match(/[ая]$/i) ? 'female' : 'male';
         
         users.push({ name, role: 'mentor', gender });

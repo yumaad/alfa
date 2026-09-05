@@ -65,7 +65,7 @@
         .btn-sm { padding: 4px 12px; font-size: 0.8rem; }
         .flex-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
         
-        .task-item { background: var(--bg); border-radius: 12px; padding: 12px; margin-bottom: 10px; border-left: 4px solid var(--accent); }
+        .task-item { background: var(--bg); border-radius: 12px; padding: 12px; margin-bottom: 10px; border-left: 4px solid var(--accent); position: relative; }
         .task-item.done { opacity: 0.5; text-decoration: line-through; }
         .task-item.my-task { border: 2px solid var(--my-task-border); background: var(--my-task-bg); }
         .task-meta { font-size: 0.85rem; opacity: 0.7; margin-top: 4px; }
@@ -73,6 +73,10 @@
         .task-comment .meta { font-size: 0.7rem; opacity: 0.6; }
         .filter-row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; }
         .filter-row select, .filter-row input { width: auto; margin-bottom: 0; min-width: 150px; }
+        
+        .task-checkbox { width: 20px; height: 20px; cursor: pointer; }
+        .bulk-actions { display: none; background: var(--accent); color: #fff; padding: 8px 12px; border-radius: 12px; margin-bottom: 10px; }
+        .bulk-actions.show { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
         
         .vok-item { display: flex; justify-content: space-between; align-items: center; padding: 6px 12px; background: var(--bg); border-radius: 8px; margin-bottom: 4px; border-left: 3px solid transparent; }
         .vok-item.late { border-left-color: #f0ad4e; background: #fdf0ed; }
@@ -146,8 +150,23 @@
                     <option value="all">Все задачи</option>
                     <option value="my">⭐ Мои задачи</option>
                 </select>
+                <select id="filterSortBy" onchange="renderTasks()">
+                    <option value="priority">Сортировать: Приоритет</option>
+                    <option value="date">Сортировать: Дата</option>
+                    <option value="title">Сортировать: Название</option>
+                </select>
                 <button onclick="clearFilters()" class="btn-sm">Сбросить</button>
             </div>
+            
+            <div class="bulk-actions" id="bulkActions">
+                <span id="selectedCount">Выбрано: 0</span>
+                <div class="flex-row">
+                    <button onclick="bulkDeleteTasks()" class="btn-danger btn-sm">🗑️ Удалить выбранные</button>
+                    <button onclick="bulkCompleteTasks()" class="btn-success btn-sm">✅ Выполнить выбранные</button>
+                    <button onclick="cancelBulkSelection()" class="btn-sm">Отмена</button>
+                </div>
+            </div>
+            
             <div class="flex-row" style="margin-bottom:8px;">
                 <input type="text" id="taskTitle" placeholder="Название задачи" style="flex:2;">
                 <select id="taskPriority" style="flex:1;">
@@ -282,6 +301,7 @@
     let appData = { events: {}, tasks: [], vok: [], heal: [], antitop: [], lastId: 0 };
     let selectedAssignees = [];
     let selectedEventAssignees = [];
+    let selectedTasksForBulk = new Set();
     let currentMonth = 8, currentYear = 2026;
 
     // ================================================================
@@ -395,7 +415,10 @@
 
     async function syncFromGoogleSheets() {
         try {
-            const response = await fetch(GOOGLE_WEB_APP_URL + '?action=load');
+            const response = await fetch(GOOGLE_WEB_APP_URL + '?action=load', {
+                method: 'GET',
+                mode: 'cors'
+            });
             if (!response.ok) throw new Error(`HTTP ${response.status}`);
             const result = await response.json();
             if (result.users) localStorage.setItem(USERS_KEY, JSON.stringify(result.users));
@@ -450,6 +473,7 @@
 
         selectedAssignees = [];
         selectedEventAssignees = [];
+        selectedTasksForBulk = new Set();
         renderMultiSelect('taskAssigneesContainer', mentorNames, selectedAssignees);
         updateDateSelects();
         renderCalendar();
@@ -797,6 +821,7 @@
         const assigneeFilter = document.getElementById('filterAssignee').value;
         const statusFilter = document.getElementById('filterStatus').value;
         const myTasksFilter = document.getElementById('filterMyTasks').value;
+        const sortBy = document.getElementById('filterSortBy').value;
 
         let tasks = appData.tasks;
         if (priorityFilter !== 'all') tasks = tasks.filter(t => t.priority === priorityFilter);
@@ -805,16 +830,37 @@
         else if (statusFilter === 'done') tasks = tasks.filter(t => t.done);
         if (myTasksFilter === 'my') tasks = tasks.filter(t => t.assignees && t.assignees.includes(currentUser.name));
 
+        // Сортировка
+        tasks.sort((a, b) => {
+            if (sortBy === 'date') {
+                return (a.deadline || '').localeCompare(b.deadline || '');
+            } else if (sortBy === 'title') {
+                return (a.title || '').localeCompare(b.title || '');
+            } else {
+                // По приоритету (по умолчанию)
+                if (a.priority === 'Срочная' && b.priority !== 'Срочная') return -1;
+                if (a.priority !== 'Срочная' && b.priority === 'Срочная') return 1;
+                return (a.deadline || '').localeCompare(b.deadline || '');
+            }
+        });
+
+        // Обновляем панель массовых действий
+        const bulkActions = document.getElementById('bulkActions');
+        const selectedCount = document.getElementById('selectedCount');
+        if (selectedTasksForBulk.size > 0) {
+            bulkActions.classList.add('show');
+            selectedCount.textContent = `Выбрано: ${selectedTasksForBulk.size}`;
+        } else {
+            bulkActions.classList.remove('show');
+        }
+
         if (!tasks.length) { container.innerHTML = '<p style="opacity:0.6;">Задач пока нет</p>'; return; }
 
-        container.innerHTML = tasks.sort((a, b) => {
-            if (a.priority === 'Срочная' && b.priority !== 'Срочная') return -1;
-            if (a.priority !== 'Срочная' && b.priority === 'Срочная') return 1;
-            return (a.deadline || '').localeCompare(b.deadline || '');
-        }).map(t => {
+        container.innerHTML = tasks.map(t => {
             const isMy = t.assignees && t.assignees.includes(currentUser.name);
             const isDone = t.done ? 'done' : '';
             const myClass = isMy && !t.done ? 'my-task' : '';
+            const isChecked = selectedTasksForBulk.has(t.id);
 
             let updatesHtml = '';
             if (t.updates && t.updates.length) {
@@ -867,11 +913,14 @@
             return `
                 <div class="task-item ${isDone} ${myClass}">
                     <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:4px;">
-                        <div>
-                            <strong>${t.title}</strong>
-                            <span style="font-size:0.75rem;background:var(--border);padding:0 10px;border-radius:12px;margin-left:8px;">${t.priority}</span>
-                            ${t.deadline ? `📅 ${formatDate(t.deadline)}` : ''}
-                            ${isMy && !t.done ? ' ⭐ Моя задача' : ''}
+                        <div style="display:flex;align-items:center;gap:8px;flex:1;">
+                            <input type="checkbox" class="task-checkbox" ${isChecked ? 'checked' : ''} onchange="toggleTaskSelection(${t.id})">
+                            <div>
+                                <strong>${t.title}</strong>
+                                <span style="font-size:0.75rem;background:var(--border);padding:0 10px;border-radius:12px;margin-left:8px;">${t.priority}</span>
+                                ${t.deadline ? `📅 ${formatDate(t.deadline)}` : ''}
+                                ${isMy && !t.done ? ' ⭐ Моя задача' : ''}
+                            </div>
                         </div>
                         <div class="flex-row">
                             <button onclick="toggleTaskDone(${t.id})" class="btn-sm btn-success">✅</button>
@@ -887,6 +936,42 @@
                 </div>
             `;
         }).join('');
+    }
+
+    function toggleTaskSelection(taskId) {
+        if (selectedTasksForBulk.has(taskId)) {
+            selectedTasksForBulk.delete(taskId);
+        } else {
+            selectedTasksForBulk.add(taskId);
+        }
+        renderTasks();
+    }
+
+    function cancelBulkSelection() {
+        selectedTasksForBulk = new Set();
+        renderTasks();
+    }
+
+    function bulkDeleteTasks() {
+        if (!selectedTasksForBulk.size) return;
+        if (!confirm(`Удалить ${selectedTasksForBulk.size} задач?`)) return;
+        appData.tasks = appData.tasks.filter(t => !selectedTasksForBulk.has(t.id));
+        selectedTasksForBulk = new Set();
+        saveDataAndSync();
+        renderTasks();
+        renderCalendar();
+    }
+
+    function bulkCompleteTasks() {
+        if (!selectedTasksForBulk.size) return;
+        if (!confirm(`Отметить ${selectedTasksForBulk.size} задач выполненными?`)) return;
+        appData.tasks.forEach(t => {
+            if (selectedTasksForBulk.has(t.id)) t.done = true;
+        });
+        selectedTasksForBulk = new Set();
+        saveDataAndSync();
+        renderTasks();
+        renderCalendar();
     }
 
     function addAssigneeToTask(taskId) {
@@ -963,6 +1048,7 @@
         document.getElementById('filterAssignee').value = 'all';
         document.getElementById('filterStatus').value = 'all';
         document.getElementById('filterMyTasks').value = 'all';
+        document.getElementById('filterSortBy').value = 'priority';
         renderTasks();
     }
 
